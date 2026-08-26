@@ -1,0 +1,163 @@
+import SwiftUI
+
+// MARK: - Settings tab
+struct SettingsView: View {
+    @StateObject var viewModel: SettingsViewModel
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                // Theme section
+                Section("Appearance") {
+                    Picker("Theme", selection: $viewModel.selectedTheme) {
+                        ForEach(AppTheme.allCases, id: \.self) { theme in
+                            Text(theme.rawValue).tag(theme)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .onChange(of: viewModel.selectedTheme) { _, new in
+                        viewModel.updateTheme(new)
+                    }
+                }
+
+                // Blur section
+                Section("Preview") {
+                    Picker("Blur Style", selection: $viewModel.blurMode) {
+                        ForEach(BlurMode.allCases, id: \.self) { mode in
+                            Text(mode.rawValue).tag(mode)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .onChange(of: viewModel.blurMode) { _, new in
+                        viewModel.updateBlurMode(new)
+                    }
+
+                    HStack {
+                        Text("Blur Intensity")
+                        Spacer()
+                        Text("\(Int(viewModel.defaultBlur * 100))%")
+                            .foregroundColor(.secondary)
+                    }
+                }
+
+                // Storage section
+                Section("Data") {
+                    Button(role: .destructive) {
+                        viewModel.clearCache()
+                    } label: {
+                        HStack {
+                            Text("Clear Image Cache")
+                            Spacer()
+                            if viewModel.cacheSize > 0 {
+                                Text(formatBytes(viewModel.cacheSize))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+
+                    NavigationLink {
+                        AboutView(viewModel: viewModel)
+                    } label: {
+                        Text("About")
+                    }
+                }
+
+                // Attribution
+                Section {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Tessera uses wallpapers from Pexels")
+                            .font(.caption)
+                        Link("Pexels License", destination: URL(string: "https://www.pexels.com/license/")!)
+                            .font(.caption)
+                        Link("Pexels API", destination: URL(string: "https://www.pexels.com/api/")!)
+                            .font(.caption)
+                    }
+                }
+            }
+            .navigationTitle("Settings")
+        }
+    }
+
+    private func formatBytes(_ bytes: Int64) -> String {
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = [.useKB, .useMB]
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: bytes)
+    }
+}
+
+// MARK: - Settings view model
+@MainActor
+final class SettingsViewModel: ObservableObject {
+    let persistence: PersistenceStore
+    let cache: FilterImageCache
+
+    @Published var selectedTheme: AppTheme
+    @Published var blurMode: BlurMode
+    @Published var defaultBlur: Double = 0.3
+    @Published var cacheSize: Int64 = 0
+
+    init(persistence: PersistenceStore, cache: FilterImageCache) {
+        self.persistence = persistence
+        self.cache = cache
+        self.selectedTheme = persistence.selectedTheme
+        self.blurMode = persistence.blurMode
+        Task { await computeCacheSize() }
+    }
+
+    func updateTheme(_ theme: AppTheme) {
+        persistence.selectedTheme = theme
+        selectedTheme = theme
+    }
+
+    func updateBlurMode(_ mode: BlurMode) {
+        persistence.blurMode = mode
+        blurMode = mode
+    }
+
+    func clearCache() {
+        cache.cache.removeAll()
+        Task { await computeCacheSize() }
+    }
+
+    private func computeCacheSize() async {
+        // Approximate cache size
+        cacheSize = Int64(cache.cache.count * 1_000_000) // rough estimate; real impl uses file size
+    }
+}
+
+// MARK: - About view
+struct AboutView: View {
+    let viewModel: SettingsViewModel
+
+    var body: some View {
+        Form {
+            Section {
+                VStack(spacing: 12) {
+                    Text("Tessera")
+                        .font(.title.bold())
+                    Text("Version 1.0.0")
+                        .foregroundColor(.secondary)
+                    Text("A wallpaper discovery app built for iOS.")
+                        .font(.callout)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 20)
+            }
+
+            Section("Open Source") {
+                Link("View on GitHub", destination: URL(string: "https://github.com/your-org/tessera")!)
+                Link("Report an Issue", destination: URL(string: "https://github.com/your-org/tessera/issues")!)
+            }
+
+            Section("Third-party") {
+                Link("Pexels API", destination: URL(string: "https://www.pexels.com/api/")!)
+                Link("Pexels License", destination: URL(string: "https://www.pexels.com/license/")!)
+            }
+        }
+        .navigationTitle("About")
+        .navigationBarTitleDisplayMode(.inline)
+    }
+}

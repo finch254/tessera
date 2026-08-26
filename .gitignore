@@ -1,0 +1,39 @@
+# Xcode
+*.xcodeproj/
+*.xcworkspace/
+DerivedData/
+.build/
+*.pbxuser
+*.mode1v3
+*.mode2v3
+*.perspectivev3
+
+# Build products
+build/
+*.app
+*.dSYM.zip
+*.dSYM
+
+# Swift Package Manager
+*.xcworkspace
+*.xcuserdata
+*.entitlements
+!Default*.entitlements
+
+# OS generated files
+.DS_Store
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Env / secrets
+.env
+*.env.local
+.env.*.local
+
+# Logs
+*.log
