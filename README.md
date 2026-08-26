@@ -139,6 +139,54 @@ Tessera/
 - **Dynamic Island awareness** — Live Activities and Dynamic Island layouts are implemented, but the Lock Screen is the primary surface. Devices without Dynamic Island still show the Lock Screen widget. Devices with Dynamic Island get compact, minimal, and expanded presentations.
 - **Adaptive layout** — `LazyVGrid` with `.flexible()` columns and adaptive spacing handles every screen size from iPhone SE to Pro Max, including 1x / 2x / 3x DPI variants.
 
+## Telegram Channel Sync
+
+Tessera can sync wallpapers directly from a Telegram channel. This is opt-in and requires two things: a Telegram bot and a Cloudflare Worker backend.
+
+### Setup
+
+1. Create a bot via [@BotFather](https://t.me/BotFather) and save the token.
+2. Create a private channel and add the bot as an admin with permission to read messages.
+3. Post wallpapers to the channel as photo messages.
+
+### Caption format
+
+Use this format for captions so Tessera can extract metadata:
+
+```
+Wallpaper Title | Photorapher Name, Category
+```
+
+If the caption is just the title, Tessera uses it as the wallpaper title and falls back to generic attribution.
+
+### Cloudflare Worker
+
+The sync logic lives in `infra/telegram-sync/worker.js`. Deploy it with:
+
+```bash
+wrangler deploy
+```
+
+Set the following secrets/vars in your Cloudflare Worker:
+
+- `BOT_TOKEN` — your Telegram bot token
+- `CHANNEL` — your channel username, e.g. `@tessera_wallpapers`
+
+The endpoint exposes `GET /sync?channel=@yourchannel&limit=30`.
+
+### App integration
+
+In Settings, enable **Sync from Telegram**. Tessera switches its network source to `TelegramSyncService`, which calls your Cloudflare Worker and injects the wallpapers into the existing browse flow.
+
+For DEBUG development without deploying the worker, run the worker locally:
+
+```bash
+cd infra/telegram-sync
+wrangler dev
+```
+
+Then launch Tessera with the `--telegram-sync` flag to point to `localhost:8787`.
+
 ## Roadmap
 
 - [ ] Real app icon variants for all iOS sizes (@1x / @2x / @3x)

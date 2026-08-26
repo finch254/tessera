@@ -61,6 +61,8 @@ final class AppState: ObservableObject {
     let discoverVM: DiscoverViewModel
     let favoritesVM: FavoritesViewModel
     let collectionsVM: CollectionsViewModel
+    let telegramSync: TelegramSyncService
+
     let settingsVM: SettingsViewModel
 
     init() {
@@ -71,12 +73,16 @@ final class AppState: ObservableObject {
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("--mock-network") {
             network = MockNetworkService()
+        } else if ProcessInfo.processInfo.arguments.contains("--telegram-sync") {
+            network = TelegramSyncService(baseURL: "http://localhost:8787")
         } else {
             network = PexelsNetworkService()
         }
         #else
         network = PexelsNetworkService()
         #endif
+
+        telegramSync = TelegramSyncService()
 
         imageLoader = KingfisherImageLoader()
 

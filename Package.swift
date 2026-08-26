@@ -23,6 +23,8 @@ let package = Package(
             path: "Tests"
         ),
     ],
+    cLanguageStandard: .c99,
+    cxxLanguageStandard: .cxx11,
     dependencies: [
         .package(url: "https://github.com/onevcat/Kingfisher.git", from: "7.10.0"),
         .package(url: "https://github.com/SnapKit/SnapKit.git", from: "5.6.0"),

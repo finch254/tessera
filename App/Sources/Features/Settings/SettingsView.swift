@@ -40,6 +40,30 @@ struct SettingsView: View {
                     }
                 }
 
+                // Telegram sync section
+                Section("Telegram Channel") {
+                    Toggle("Sync from Telegram", isOn: Binding(
+                        get: { viewModel.isTelegramSyncEnabled },
+                        set: { viewModel.setTelegramSyncEnabled($0) }
+                    ))
+                    .onChange(of: viewModel.isTelegramSyncEnabled) { _, newValue in
+                        if newValue {
+                            viewModel.showTelegramSetupInfo()
+                        }
+                    }
+
+                    if viewModel.isTelegramSyncEnabled {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Source channel: @tessera_wallpapers")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            Text("Set TESSERA_TELEGRAM_WORKER_URL in your environment or use --telegram-sync in DEBUG.")
+                                .font(.caption2)
+                                .foregroundColor(.secondary)
+                        }
+                    }
+                }
+
                 // Storage section
                 Section("Data") {
                     Button(role: .destructive) {
@@ -99,12 +123,22 @@ final class SettingsViewModel: ObservableObject {
     @Published var blurMode: BlurMode
     @Published var defaultBlur: Double = 0.3
     @Published var cacheSize: Int64 = 0
+    @Published var isTelegramSyncEnabled: Bool = false
 
     init(persistence: PersistenceStore, cache: FilterImageCache) {
         self.persistence = persistence
         self.cache = cache
         self.selectedTheme = persistence.selectedTheme
         self.blurMode = persistence.blurMode
+        isTelegramSyncEnabled = false
+    }
+
+    func setTelegramSyncEnabled(_ enabled: Bool) {
+        isTelegramSyncEnabled = enabled
+    }
+
+    func showTelegramSetupInfo() {
+        // In production, present a sheet or navigate to a setup screen
     }
 
     func updateTheme(_ theme: AppTheme) {
