@@ -154,7 +154,7 @@ Tessera can sync wallpapers directly from a Telegram channel. This is opt-in and
 Use this format for captions so Tessera can extract metadata:
 
 ```
-Wallpaper Title | Photorapher Name, Category
+Wallpaper Title | Photographer Name, Category
 ```
 
 If the caption is just the title, Tessera uses it as the wallpaper title and falls back to generic attribution.
