@@ -24,8 +24,10 @@ final class WallpaperDetailViewController: UIViewController {
     private var ciImage: CIImage?
     private var cachedBlurMode: BlurMode = .gaussian
     private let filterEngine = FilterEngine()
-    private let context = CIContext(options: [.cacheIntermediates: false,
-                                              .workingColorSpace: CIColorSpace.sRGB])
+    private lazy var ciContext: CIContext = {
+        CIContext(options: [.cacheIntermediates: false,
+                            .workingColorSpace: CIColorSpace.sRGB])
+    }()
 
     // MARK: - Init
     static func create(model: WallpaperDetailModel) -> WallpaperDetailViewController {
@@ -246,9 +248,11 @@ final class WallpaperDetailViewController: UIViewController {
     }
 
     // MARK: - Model observation
+    private var favoriteUpdateTask: Task<Void, Never>?
+
     private func observeModel() {
-        // When model updates (e.g. favorite state from another tab), refresh UI
-        Task { [weak self] in
+        // Refresh favorite button when model changes (e.g. toggled from another tab)
+        favoriteUpdateTask = Task { [weak self] in
             while !Task.isCancelled {
                 await MainActor.run {
                     self?.updateFavoriteButton()
@@ -256,6 +260,10 @@ final class WallpaperDetailViewController: UIViewController {
                 try? await Task.sleep(for: .seconds(2))
             }
         }
+    }
+
+    deinit {
+        favoriteUpdateTask?.cancel()
     }
 
     private func updateFavoriteButton() {
@@ -271,8 +279,8 @@ final class WallpaperDetailViewController: UIViewController {
 
     @objc private func saveTapped() {
         guard let ciImage = ciImage else { return }
-        let context = CIContext()
-        guard let cgImage = context.createCGImage(ciImage, from: ciImage.extent) else { return }
+        // removed unused ctx
+        guard let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent) else { return }
 
         UIImageWriteToSavedPhotosAlbum(
             UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up),
@@ -373,7 +381,7 @@ final class WallpaperDetailViewController: UIViewController {
         }
 
         // 3. Render to UIImage
-        let ciContext = CIContext()
+        let renderCtx = ciContext
         guard let outputCIImage = result.extent.length.width > 0 ? result : ciImage else { return }
         guard let cgImage = ciContext.createCGImage(outputCIImage, from: outputCIImage.extent) else { return }
 

@@ -37,7 +37,13 @@ actor PaletteExtractor {
         let data = UnsafeMutableBufferPointer<UInt8>(start: pixelData.assumingMemoryBound(to: UInt8.self), count: totalBytes)
 
         // Quantize to get dominant colors using simple median-cut style sampling
-        let sampledColors = sampleColors(from: data, width: cgImage.width, height: cgImage.height, sampleCount: min(200, width * height / 50))
+        let pixelCount = cgImage.width * cgImage.height
+        let sampledColors = sampleColors(
+            from: data,
+            width: cgImage.width,
+            height: cgImage.height,
+            sampleCount: min(200, max(1, pixelCount / 50))
+        )
 
         let quantized = quantize(sampledColors, buckets: maximumColorCount)
             .sorted { $0.count > $1.count }

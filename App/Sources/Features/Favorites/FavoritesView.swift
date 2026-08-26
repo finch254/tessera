@@ -23,9 +23,7 @@ struct FavoritesView: View {
             .task {
                 await viewModel.loadFavorites()
             }
-            .onChange(of: viewModel.favorites) { _, _ in
-                viewModel.persist()
-            }
+
         }
     }
 
@@ -149,8 +147,4 @@ final class FavoritesViewModel: ObservableObject {
         favorites = results
     }
 
-    func persist() {
-        // Favorites are persisted via toggleFavorite in the detail view;
-        // this view only reads.
-    }
 }

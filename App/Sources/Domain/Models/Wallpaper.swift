@@ -48,7 +48,7 @@ struct PexelsImageURLs: Sendable {
 }
 
 // MARK: - Category
-struct WallpaperCategory: Identifiable, Sendable {
+struct WallpaperCategory: Identifiable, Hashable, Sendable {
     let id: String
     let name: String
     let slug: String
@@ -64,7 +64,7 @@ struct WallpaperFilter: Identifiable, Sendable {
 }
 
 // MARK: - Palette color
-struct PaletteColor: Sendable {
+struct PaletteColor {
     let color: UIColor
     let population: Int
 }

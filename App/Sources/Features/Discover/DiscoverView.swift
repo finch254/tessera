@@ -56,7 +56,7 @@ struct DiscoverView: View {
     private var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
-                ForEach(viewModel.categories, id: \.self) { category in
+                ForEach(viewModel.categories, id: \.id) { category in
                     let selected = viewModel.selectedCategories.contains(category.id)
                     Text(category.name)
                         .font(.system(size: 13, weight: selected ? .semibold : .regular))
