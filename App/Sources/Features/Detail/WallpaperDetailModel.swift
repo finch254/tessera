@@ -1,4 +1,3 @@
-import Combine
 import UIKit
 
 // MARK: - Detail model
