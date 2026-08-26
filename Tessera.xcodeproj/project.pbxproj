@@ -1,0 +1,264 @@
+// !$*UTF8*$!
+{
+  archiveVersion = 1;
+  classes = {
+};
+  objectVersion = 56;
+  objects = {
+/* Begin PBXBuildFile section */
+D3EDFAF2404129DCD091A363 /* Tessera in Sources */ = {isa = PBXBuildFile; fileRef = E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */; };
+    3DF6950DF21D04BA8C154B67 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F14D50F403151273CD0F26C /* SettingsView.swift */; };
+    4B5A475C34036103FC05A117 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92EBA35BE8CF19762C95043 /* FavoritesView.swift */; };
+    5328558216E9DC159B0641D6 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA602C7F763F08942764FA3F /* DiscoverView.swift */; };
+    DACFF64003F82C7FC5503135 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7C3F8C5686DEE9F83508D6 /* DiscoverViewModel.swift */; };
+    02D17225A51609B0B8589DD2 /* WallpaperDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50162CC47A83E8DE5EF8A011 /* WallpaperDetailModel.swift */; };
+    05D9274B84148C2F1D8DCAAA /* WallpaperDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B8B745D9AD4056F3CD7DA0 /* WallpaperDetailViewController.swift */; };
+    10F39FA3568687B0D58E9A0D /* TesseraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */; };
+    6B4FCD5B51A2D93200E36E87 /* FilterEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92084A2B6B8F2FE75106A34 /* FilterEngine.swift */; };
+    26B0305062A7DA53D128B1E2 /* KingfisherImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FCE78928F35C3C424FCB32 /* KingfisherImageLoader.swift */; };
+    B49CED9771591298B85BC908 /* UserDefaultsPersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BE0C5E9524F48DD1663BB0 /* UserDefaultsPersistenceStore.swift */; };
+    C5AB3E02B71A9E5E9E575B36 /* PaletteExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D1970671F446EFB674B0F5 /* PaletteExtractor.swift */; };
+    9B5F17F5A07379A4CB45A319 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2620B324D4C2CA5EE00E32 /* MockNetworkService.swift */; };
+    2CA2201F505DDBFEB0DAC638 /* PexelsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB3C11E50B270DC5C52DC3 /* PexelsNetworkService.swift */; };
+    9AB4605B0B5A313C9EF9BCC0 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2B87B1FC0787D2976D2EE /* ServiceProtocols.swift */; };
+    BF793C29761628AC871D257A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B449A7BDF07E8E3E1D6B71 /* Wallpaper.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+        6F14D50F403151273CD0F26C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SettingsView.swift"; sourceTree = "<group>"; };
+        B92EBA35BE8CF19762C95043 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FavoritesView.swift"; sourceTree = "<group>"; };
+        AA602C7F763F08942764FA3F /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "DiscoverView.swift"; sourceTree = "<group>"; };
+        4B7C3F8C5686DEE9F83508D6 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "DiscoverViewModel.swift"; sourceTree = "<group>"; };
+        50162CC47A83E8DE5EF8A011 /* WallpaperDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WallpaperDetailModel.swift"; sourceTree = "<group>"; };
+        C2B8B745D9AD4056F3CD7DA0 /* WallpaperDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WallpaperDetailViewController.swift"; sourceTree = "<group>"; };
+        E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "TesseraApp.swift"; sourceTree = "<group>"; };
+        B92084A2B6B8F2FE75106A34 /* FilterEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FilterEngine.swift"; sourceTree = "<group>"; };
+        05FCE78928F35C3C424FCB32 /* KingfisherImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "KingfisherImageLoader.swift"; sourceTree = "<group>"; };
+        A3BE0C5E9524F48DD1663BB0 /* UserDefaultsPersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "UserDefaultsPersistenceStore.swift"; sourceTree = "<group>"; };
+        F9D1970671F446EFB674B0F5 /* PaletteExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "PaletteExtractor.swift"; sourceTree = "<group>"; };
+        BF2620B324D4C2CA5EE00E32 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "MockNetworkService.swift"; sourceTree = "<group>"; };
+        15EB3C11E50B270DC5C52DC3 /* PexelsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "PexelsNetworkService.swift"; sourceTree = "<group>"; };
+        D4E2B87B1FC0787D2976D2EE /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ServiceProtocols.swift"; sourceTree = "<group>"; };
+        95B449A7BDF07E8E3E1D6B71 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Wallpaper.swift"; sourceTree = "<group>"; };
+        FBA0A0EFA2A586D2E38507CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Info.plist"; sourceTree = "<group>"; };
+        EB86D84A1C215F33DAF11437 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = text; path = "LaunchScreen.storyboard"; sourceTree = "<group>"; };
+        B7748A77479396E2B6E0B19B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Assets.xcassets"; sourceTree = "<group>"; };
+        A45AC92181F51FE9C216955A /* Tessera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Tessera.entitlements"; sourceTree = "<group>"; };
+        6CD3F5AD1F60300B2EBDEC45 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.framework"; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+        AF52E93DAF7F07C0AD26A316 /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.framework"; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+5151B46607EBC8890D8DFCC2 /* Tessera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tessera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+814539B2AA27E00B9DA1743C /* Frameworks */ = {
+    isa = PBXFrameworksBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+        // SPM frameworks are resolved by Xcode at build time
+    );
+};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+AD2A42E246E420ADC8D14B86 /* App/Sources */ = {
+    isa = PBXGroup;
+    children = (
+                6F14D50F403151273CD0F26C /* SettingsView.swift */,
+                B92EBA35BE8CF19762C95043 /* FavoritesView.swift */,
+                AA602C7F763F08942764FA3F /* DiscoverView.swift */,
+                4B7C3F8C5686DEE9F83508D6 /* DiscoverViewModel.swift */,
+                50162CC47A83E8DE5EF8A011 /* WallpaperDetailModel.swift */,
+                C2B8B745D9AD4056F3CD7DA0 /* WallpaperDetailViewController.swift */,
+                E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */,
+                B92084A2B6B8F2FE75106A34 /* FilterEngine.swift */,
+                05FCE78928F35C3C424FCB32 /* KingfisherImageLoader.swift */,
+                A3BE0C5E9524F48DD1663BB0 /* UserDefaultsPersistenceStore.swift */,
+                F9D1970671F446EFB674B0F5 /* PaletteExtractor.swift */,
+                BF2620B324D4C2CA5EE00E32 /* MockNetworkService.swift */,
+                15EB3C11E50B270DC5C52DC3 /* PexelsNetworkService.swift */,
+                D4E2B87B1FC0787D2976D2EE /* ServiceProtocols.swift */,
+                95B449A7BDF07E8E3E1D6B71 /* Wallpaper.swift */,
+                6CD3F5AD1F60300B2EBDEC45 /* SnapKit.framework */,
+                AF52E93DAF7F07C0AD26A316 /* Kingfisher.framework */,
+    );
+    path = App/Sources;
+    sourceTree = "<group>";
+};
+F963DCC3891DECDEB0456176 /* Tessera */ = {
+    isa = PBXGroup;
+    children = (
+        5151B46607EBC8890D8DFCC2 /* Tessera.app */,
+    );
+    path = Tessera;
+    sourceTree = "<group>";
+};
+2D17C89EB2C5B87E8B0EC3B6 /* Frameworks */ = {
+    isa = PBXGroup;
+    children = (
+        // UIKit, SwiftUI, Foundation, CoreImage are implicit system frameworks
+    );
+    name = Frameworks;
+    sourceTree = "<group>";
+};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+BDA4D46133806AEAFA106DD0 /* Tessera */ = {
+    isa = PBXNativeTarget;
+    buildConfigurationList = 53BF66FD56BE907E05559CE7;
+    buildPhases = (
+        D3EDFAF2404129DCD091A363 /* Sources */,
+        814539B2AA27E00B9DA1743C /* Frameworks */,
+        831AA64878D80618FF81FF9E /* Resources */,
+    );
+    buildRules = (
+    );
+    dependencies = (
+    );
+    infoPlist = Tessera/Info.plist;
+    productName = Tessera;
+    productReference = 5151B46607EBC8890D8DFCC2 /* Tessera.app */;
+    productType = "com.apple.product-type.application";
+};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+FD23064958A92B5677201214 /* Project */ = {
+    isa = PBXProject;
+    attributes = {
+        LastSwiftUpdateCheck = 1700;
+        LastUpgradeCheck = 1700;
+        TargetAttributes = {
+            BDA4D46133806AEAFA106DD0 = {
+                CreatedOnToolsVersion = 17.0;
+                LastSwiftMigration = 1700;
+            };
+        };
+    };
+    buildConfigurationList = 53BF66FD56BE907E05559CE7;
+    compatibilityVersion = "Xcode 14.0";
+    developmentRegion = en;
+    hasScannedForEncodings = 0;
+    knownRegions = (
+        en,
+        Base,
+    );
+    mainGroup = FD23064958A92B5677201214;
+    productRefGroup = F963DCC3891DECDEB0456176;
+    projectDirPath = "";
+    projectRoot = "";
+    targets = (
+        BDA4D46133806AEAFA106DD0 /* Tessera */,
+    );
+};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+831AA64878D80618FF81FF9E /* Resources */ = {
+    isa = PBXResourcesBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+        EC8466FE68AA289A44AFFFAB /* Info.plist in Resources */,
+        DFAA047D3E3E52A191043FC6 /* LaunchScreen.storyboard in Resources */,
+        8D4362F770337886E1D4A7E4 /* Assets.xcassets in Resources */,
+        1414A1A44793523AA812136A /* Tessera.entitlements in Resources */,
+    );
+};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+D3EDFAF2404129DCD091A363 /* Sources */ = {
+    isa = PBXSourcesBuildPhase;
+    buildActionMask = 2147483647;
+    files = (
+D3EDFAF2404129DCD091A363 /* TesseraApp.swift in Sources */,
+        3DF6950DF21D04BA8C154B67 /* SettingsView.swift in Sources */,
+        4B5A475C34036103FC05A117 /* FavoritesView.swift in Sources */,
+        5328558216E9DC159B0641D6 /* DiscoverView.swift in Sources */,
+        DACFF64003F82C7FC5503135 /* DiscoverViewModel.swift in Sources */,
+        02D17225A51609B0B8589DD2 /* WallpaperDetailModel.swift in Sources */,
+        05D9274B84148C2F1D8DCAAA /* WallpaperDetailViewController.swift in Sources */,
+        10F39FA3568687B0D58E9A0D /* TesseraApp.swift in Sources */,
+        6B4FCD5B51A2D93200E36E87 /* FilterEngine.swift in Sources */,
+        26B0305062A7DA53D128B1E2 /* KingfisherImageLoader.swift in Sources */,
+        B49CED9771591298B85BC908 /* UserDefaultsPersistenceStore.swift in Sources */,
+        C5AB3E02B71A9E5E9E575B36 /* PaletteExtractor.swift in Sources */,
+        9B5F17F5A07379A4CB45A319 /* MockNetworkService.swift in Sources */,
+        2CA2201F505DDBFEB0DAC638 /* PexelsNetworkService.swift in Sources */,
+        9AB4605B0B5A313C9EF9BCC0 /* ServiceProtocols.swift in Sources */,
+        BF793C29761628AC871D257A /* Wallpaper.swift in Sources */,
+    );
+}};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+{config_uid} /* Debug */ = {{
+    isa = XCBuildConfiguration;
+    buildSettings = {{
+        ALWAYS_SEARCH_USER_PATHS = NO;
+        ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+        CODE_SIGN_ENTITLEMENTS = Tessera/Tessera.entitlements;
+        CODE_SIGN_STYLE = Automatic;
+        DEVELOPMENT_TEAM = "";
+        ENABLE_PREVIEWS = YES;
+        GENERATE_INFOPLIST_FILE = NO;
+        INFOPLIST_FILE = Tessera/Info.plist;
+        IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+        LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+        PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        SWIFT_EMIT_LOC_STRINGS = YES;
+        SWIFT_VERSION = 5.9;
+        TARGETED_DEVICE_FAMILY = "1,2";
+    }};
+    name = Debug;
+}};
+{config2_uid} /* Release */ = {{
+    isa = XCBuildConfiguration;
+    buildSettings = {{
+        ALWAYS_SEARCH_USER_PATHS = NO;
+        ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+        CODE_SIGN_ENTITLEMENTS = Tessera/Tessera.entitlements;
+        CODE_SIGN_STYLE = Automatic;
+        DEVELOPMENT_TEAM = "";
+        ENABLE_PREVIEWS = YES;
+        GENERATE_INFOPLIST_FILE = NO;
+        INFOPLIST_FILE = Tessera/Info.plist;
+        IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+        LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+        PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera;
+        PRODUCT_NAME = "$(TARGET_NAME)";
+        SWIFT_EMIT_LOC_STRINGS = YES;
+        SWIFT_VERSION = 5.9;
+        TARGETED_DEVICE_FAMILY = "1,2";
+    }};
+    name = Release;
+}};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+{config_list_uid} /* Build configuration list for PBXProject "Project" */ = {{
+    isa = XCConfigurationList;
+    buildConfigurations = (
+        {config_uid} /* Debug */,
+        {config2_uid} /* Release */,
+    );
+    defaultConfigurationIsVisible = 0;
+    defaultConfigurationName = Release;
+}};
+{uid("configlist", "target")} /* Build configuration list for PBXNativeTarget "Tessera" */ = {{
+    isa = XCConfigurationList;
+    buildConfigurations = (
+        {config_uid} /* Debug */,
+        {config2_uid} /* Release */,
+    );
+    defaultConfigurationIsVisible = 0;
+    defaultConfigurationName = Release;
+}};
+/* End XCConfigurationList section */
+  }};
+/* Begin XCVersionGroup section */
+/* End XCVersionGroup section */
+}};

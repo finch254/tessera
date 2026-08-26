@@ -1,39 +1,45 @@
 # Xcode
-*.xcodeproj/
-*.xcworkspace/
 DerivedData/
-.build/
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+*.xcworkspace/*
+!*.xcworkspace/contents.xcworkspacedata
+*.xcuserstate
+*.xcscmblueprint
 *.pbxuser
-*.mode1v3
-*.mode2v3
-*.perspectivev3
 
 # Build products
 build/
 *.app
+*.ipa
 *.dSYM.zip
-*.dSYM
+*.dSYM/
 
 # Swift Package Manager
-*.xcworkspace
-*.xcuserdata
-*.entitlements
-!Default*.entitlements
+.swiftpm/
+.build/
+.xcode-version
 
-# OS generated files
+# OS generated
 .DS_Store
-.LSOverride
-Icon
-._*
-.Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
+.idea/
+.vscode/
 
 # Env / secrets
 .env
-*.env.local
-.env.*.local
+.env.local
+*.env.*.local
 
 # Logs
 *.log
+xcuserdata/
+
+# macOS
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# iCloud
+*.icloud

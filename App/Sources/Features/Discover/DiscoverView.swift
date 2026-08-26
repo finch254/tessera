@@ -1,204 +1,226 @@
 import SwiftUI
-import Kingfisher
 
-// MARK: - Discover tab (masonry grid browse)
 struct DiscoverView: View {
-    @StateObject private var viewModel: DiscoverViewModel
-    @Environment(\.colorScheme) private var systemColorScheme
-
-    init(viewModel: DiscoverViewModel) {
-        self._viewModel = StateObject(wrappedValue: viewModel)
-    }
+    @ObservedObject var viewModel: DiscoverViewModel
+    @State private var searchText = ""
+    @State private var showingDetail = false
+    @State private var selectedWallpaper: Wallpaper?
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    // Category chips
-                    categoriesRow
+            ZStack(alignment: .center) {
+                ScrollViewReader { proxy in
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVStack(alignment: .leading, spacing: 16) {
+                            categoryChips
+                                .padding(.horizontal)
+                                .padding(.top, 8)
 
-                    // Masonry grid
-                    masonryGrid
-                }
-                .padding(.bottom, 80)
-            }
-            .navigationTitle("Explore")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink {
-                        SearchView(viewModel: viewModel)
-                    } label: {
-                        Image(systemName: "magnifyingglass")
+                            masonryGrid
+                                .padding(.horizontal)
+                        }
+                        .padding(.bottom, 24)
+                    }
+                    .onChange(of: viewModel.selectedCategories) { _, _ in
+                        viewModel.resetAndFetch()
                     }
                 }
-            }
-            .refreshable {
-                await viewModel.refresh()
-            }
-            .overlay {
+
                 if viewModel.isLoading && viewModel.wallpapers.isEmpty {
-                    ProgressView()
+                    loadingView
+                } else if let errorMessage = viewModel.errorMessage, viewModel.wallpapers.isEmpty {
+                    errorView(message: errorMessage)
                 }
             }
-            .alert("Error", isPresented: .constant(viewModel.error != nil)) {
-                Button("Retry") {
-                    Task { await viewModel.refresh() }
-                }
-                Button("Cancel", role: .cancel) { viewModel.error = nil }
-            } message: {
-                if let error = viewModel.error {
-                    Text(error.localizedDescription)
-                }
+            .navigationTitle("Explore")
+            .searchable(text: $searchText, prompt: "Search wallpapers")
+            .onChange(of: searchText) { _, newValue in
+                viewModel.searchText = newValue
+                viewModel.resetAndFetch()
+            }
+            .sheet(item: $selectedWallpaper) { wallpaper in
+                DetailHost(wallpaper: wallpaper, coordinator: viewModel.coordinator)
+            }
+            .task {
+                await viewModel.loadNextPageIfNeeded()
             }
         }
     }
 
-    // MARK: - Category row
-    private var categoriesRow: some View {
+    // MARK: - Category chips
+    private var categoryChips: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 12) {
-                ForEach(viewModel.categories) { category in
-                    CategoryChip(category: category)
+            HStack(spacing: 10) {
+                ForEach(viewModel.categories, id: \.self) { category in
+                    let selected = viewModel.selectedCategories.contains(category)
+                    Text(category)
+                        .font(.system(size: 13, weight: selected ? .semibold : .regular))
+                        .padding(.horizontal, 14)
+                        .padding(.vertical, 8)
+                        .background(selected ? Color.accentColor : Color.gray.opacity(0.2))
+                        .foregroundStyle(selected ? .white : .primary)
+                        .clipShape(Capsule())
                         .onTapGesture {
-                            Task { await viewModel.selectCategory(category) }
+                            withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
+                                viewModel.toggleCategory(category)
+                            }
                         }
                 }
             }
-            .padding(.horizontal)
-            .padding(.vertical, 8)
         }
     }
 
     // MARK: - Masonry grid
     private var masonryGrid: some View {
-        LazyVGrid(columns: masonryColumns, spacing: 2) {
-            ForEach(viewModel.wallpapers) { wallpaper in
-                WallpaperGridCell(wallpaper: wallpaper)
-                    .onTapGesture {
-                        viewModel.selectedWallpaper = wallpaper
-                    }
+        let columns = [
+            GridItem(.flexible(), spacing: 10),
+            GridItem(.flexible(), spacing: 10),
+        ]
+        let filtered = viewModel.filteredWallpapers(searchText: searchText)
+
+        return LazyVGrid(columns: columns, spacing: 10) {
+            ForEach(filtered) { wallpaper in
+                GeometryReader { geo in
+                    masonryCell(wallpaper: wallpaper, width: geo.size.width)
+                        .onAppear {
+                            let index = filtered.firstIndex(where: { $0.id == wallpaper.id }) ?? 0
+                            viewModel.onItemAppeared(at: index)
+                        }
+                        .onTapGesture {
+                            selectedWallpaper = wallpaper
+                        }
+                }
+                .frame(height: masonryHeight(for: wallpaper, width: geo.size.width))
             }
         }
-        .padding(.horizontal, 2)
     }
 
-    private var masonryColumns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 2), count: 2)
-    }
-}
+    @ViewBuilder
+    private func masonryCell(wallpaper: Wallpaper, width: CGFloat) -> some View {
+        let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
+        let height = width / max(aspectRatio, 0.5)
 
-// MARK: - Category chip
-struct CategoryChip: View {
-    let category: WallpaperCategory
-    var isSelected: Bool = false
-
-    var body: some View {
-        Text(category.name)
-            .font(.subheadline.weight(.medium))
-            .padding(.horizontal, 14)
-            .padding(.vertical, 6)
-            .background(isSelected ? Color.accentColor : Color.secondary.opacity(0.15))
-            .foregroundColor(isSelected ? .white : .primary)
-            .clipShape(Capsule())
-            .overlay {
-                if isSelected {
-                    Capsule().stroke(Color.accentColor, lineWidth: 1)
-                }
+        ZStack(alignment: .bottomLeading) {
+            if let urlString = wallpaper.thumbnailURL,
+               let url = URL(string: urlString) {
+                KFImage(url)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: width, height: height)
+                    .clipped()
+                    .overlay(
+                        LinearGradient(
+                            gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+            } else {
+                placeholderRect(width: width, height: height)
             }
-    }
-}
 
-// MARK: - Wallpaper grid cell
-struct WallpaperGridCell: View {
-    let wallpaper: Wallpaper
-
-    var body: some View {
-        ZStack(alignment: .bottom) {
-            KFImage(wallpaper.src.medium)
-                .placeholder {
-                    Color.gray.opacity(0.3)
-                        .overlay(ProgressView())
-                }
-                .onSuccess { response in
-                    // Prefetch larger versions
-                    let urls = [wallpaper.src.large, wallpaper.src.large2x].compactMap { $0 }
-                    KingfisherManager.shared.retrieveImageStream(with: urls, options: [.cacheOriginalImage])
-                }
-                .resizable()
-                .scaledToFill()
-                .frame(height: 220)
-                .clipped()
-
-            // Gradient overlay for text legibility
-            LinearGradient(
-                gradient: Gradient(colors: [.clear, .black.opacity(0.6)]),
-                startPoint: .top,
-                endPoint: .bottom
-            )
-            .frame(height: 220)
-
-            // Photographer attribution
             VStack(alignment: .leading, spacing: 2) {
                 Text(wallpaper.photographer)
-                    .font(.caption.weight(.medium))
-                    .foregroundColor(.white)
-                Text("\(wallpaper.width) × \(wallpaper.height)")
-                    .font(.caption2)
-                    .foregroundColor(.white.opacity(0.7))
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.white)
+                    .lineLimit(1)
+                if viewModel.isFavorite(wallpaper) {
+                    Image(systemName: "heart.fill")
+                        .font(.caption2)
+                        .foregroundStyle(.red)
+                }
             }
-            .padding(8)
-            .background(Color.black.opacity(0.4).clipShape(RoundedRectangle(cornerRadius: 6)))
+            .padding(.horizontal, 10)
+            .padding(.bottom, 10)
         }
-        .aspectRatio(16/9, contentComparison: .priority)
+        .cornerRadius(12)
+        .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+    }
+
+    @ViewBuilder
+    private func placeholderRect(width: CGFloat, height: CGFloat) -> some View {
+        Rectangle()
+            .fill(Color.gray.opacity(0.2))
+            .frame(width: width, height: height)
+            .overlay(
+                Image(systemName: "photo")
+                    .font(.largeTitle)
+                    .foregroundStyle(.gray.opacity(0.4))
+            )
+    }
+
+    private func masonryHeight(for wallpaper: Wallpaper, width: CGFloat) -> CGFloat {
+        let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
+        return width / max(aspectRatio, 0.5)
+    }
+
+    // MARK: - States
+    private var loadingView: some View {
+        VStack(spacing: 12) {
+            ProgressView()
+                .progressViewStyle(.circular)
+                .scaleEffect(1.2)
+            Text("Loading wallpapers…")
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func errorView(message: String) -> some View {
+        VStack(spacing: 12) {
+            Image(systemName: "wifi.exclamationmark")
+                .font(.system(size: 40))
+                .foregroundStyle(.orange)
+            Text(message)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+            Button("Retry") {
+                Task {
+                    viewModel.errorMessage = nil
+                    await viewModel.loadNextPageIfNeeded()
+                }
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
     }
 }
 
-// MARK: - Search view
-struct SearchView: View {
-    @ObservedObject var viewModel: DiscoverViewModel
-    @State private var query = ""
-    @FocusState private var focused: Bool
+// MARK: - Detail host bridge (SwiftUI wraps UIKit detail VC)
+struct DetailHost: UIViewControllerRepresentable {
+    let wallpaper: Wallpaper
+    let coordinator: WallpaperDetailCoordinator?
 
-    var body: some View {
-        VStack(spacing: 0) {
-            HStack {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(.secondary)
-                TextField("Search wallpapers", text: $query)
-                    .focused($focused)
-                    .textFieldStyle(.plain)
-                    .submitLabel(.search)
-                    .onSubmit {
-                        Task { await viewModel.search(query: query) }
-                    }
-                if !query.isEmpty {
-                    Button {
-                        query = ""
-                        Task { await viewModel.reset() }
-                    } label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.secondary)
-                    }
-                }
-            }
-            .padding()
-            .background(Color.secondary.opacity(0.1))
-            .clipShape(RoundedRectangle(cornerRadius: 10))
+    func makeUIViewController(context: Context) -> UIViewController {
+        let vc = UIViewController()
+        return vc
+    }
 
-            ScrollView {
-                LazyVGrid(columns: masonryColumns, spacing: 2) {
-                    ForEach(viewModel.searchResults) { wallpaper in
-                        WallpaperGridCell(wallpaper: wallpaper)
-                    }
-                }
-                .padding(.horizontal, 2)
-            }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        // Present the detail VC on top
+        guard let coordinator = coordinator, uiViewController.presentedViewController == nil else { return }
+        let model = WallpaperDetailModel(wallpaper: wallpaper)
+        let detailVC = WallpaperDetailViewController.create(model: model)
+        detailVC.modalPresentationStyle = .fullScreen
+        uiViewController.present(detailVC, animated: true)
+    }
+
+    static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Context) {
+        // Dismiss if presented
+        if let presented = uiViewController.presentedViewController {
+            presented.dismiss(animated: false)
         }
-        .navigationTitle("Search")
-        .navigationBarTitleDisplayMode(.inline)
     }
+}
 
-    private var masonryColumns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 2), count: 2)
-    }
+#Preview {
+    let persistence = UserDefaultsPersistenceStore()
+    let viewModel = DiscoverViewModel(
+        network: MockNetworkService(),
+        imageLoader: KingfisherImageLoader(),
+        persistence: persistence
+    )
+    return DiscoverView(viewModel: viewModel)
 }
