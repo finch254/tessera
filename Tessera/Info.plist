@@ -22,20 +22,18 @@
     <dict>
         <key>UILaunchScreenStoryboardName</key>
         <string>LaunchScreen</string>
-    	<key>NSSupportsLiveActivities</key>
-	<true/>
-	<key>NSSupportsLiveActivitiesFrequentUpdates</key>
-	<false/>
-</dict>
+    </dict>
+    <key>NSSupportsLiveActivities</key>
+    <true/>
+    <key>NSSupportsLiveActivitiesFrequentUpdates</key>
+    <false/>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>UIApplicationSceneManifest</key>
     <dict>
         <key>UIApplicationSupportsMultipleScenes</key>
         <false/>
-	<true/>
-	<false/>
-</dict>
+
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
@@ -60,13 +58,9 @@
             <array>
                 <string>tessera</string>
             </array>
-	<true/>
-	<false/>
-</dict>
+
     </array>
     <key>UIAppFonts</key>
     <array/>
-	<true/>
-	<false/>
-</dict>
+
 </plist>

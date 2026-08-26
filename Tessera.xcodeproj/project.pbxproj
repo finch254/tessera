@@ -6,6 +6,19 @@
   objectVersion = 56;
   objects = {
 /* Begin PBXBuildFile section */
+		D2D9599E643F4CDE930E3B05 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2E61E9512245D8B1E1F845 /* Empty.swift */; };
+		EA4C29BDFBB849FA9CBB0D83 /* WallpaperDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA858670DFC45A489C0D079 /* WallpaperDetailCoordinator.swift */; };
+		F647D1C70B5C4672BC24B6EA /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771B68BB7D4F41D28198F49B /* Collections.swift */; };
+		C41F0B27095B452CA428DB22 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01578F138CE248449CFB8089 /* Empty.swift */; };
+		51E7C1AB482D4BEA88332C6E /* CollectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C292AE39149CB9D990C69 /* CollectionsView.swift */; };
+		6259420A3C1C426EB58EF872 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7CB097D6E43FFB1E296C3 /* CollectionsViewModel.swift */; };
+		60C0220A12524414B436DCBE /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8145724203B4A1F838BDB59 /* Empty.swift */; };
+		0F80563912704B0AA6E5F970 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CCB22081E4CEAAC29D222 /* Empty.swift */; };
+		6401559F896040BAB4CF091B /* DailyWallpaperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443B71A779A248369D59F6E4 /* DailyWallpaperWidget.swift */; };
+		6F9A02E339184F96B1D6A149 /* DailyWallpaperActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4530FA9D68E44201A09483CF /* DailyWallpaperActivityManager.swift */; };
+		DFC82407CEE5408F942F7080 /* DailyWallpaperActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92261D5A058B4EEE97574A41 /* DailyWallpaperActivityWidget.swift */; };
+		FF267DF2B8DF4030A08C50BD /* ShareExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A45F489F2448708F71967B /* ShareExportService.swift */; };
+		D87CBFF4ECD04BE098E0189D /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC72F8D44B14B569FFABB31 /* TelegramSyncService.swift */; };
 D3EDFAF2404129DCD091A363 /* Tessera in Sources */ = {isa = PBXBuildFile; fileRef = E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */; };
     3DF6950DF21D04BA8C154B67 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F14D50F403151273CD0F26C /* SettingsView.swift */; };
     4B5A475C34036103FC05A117 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92EBA35BE8CF19762C95043 /* FavoritesView.swift */; };
@@ -59,7 +72,21 @@ D3EDFAF2404129DCD091A363 /* Tessera in Sources */ = {isa = PBXBuildFile; fileRef
 };
 /* End PBXFrameworksBuildPhase section */
 
-/* Begin PBXGroup section */
+		5C2E61E9512245D8B1E1F845 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/App/Extensions/Empty.swift"; sourceTree = "<group>"; };
+		3AA858670DFC45A489C0D079 /* WallpaperDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WallpaperDetailCoordinator.swift"; sourceTree = "<group>"; };
+		771B68BB7D4F41D28198F49B /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections.swift"; sourceTree = "<group>"; };
+		01578F138CE248449CFB8089 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Domain/UseCases/Empty.swift"; sourceTree = "<group>"; };
+		146C292AE39149CB9D990C69 /* CollectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionsView.swift"; sourceTree = "<group>"; };
+		0FC7CB097D6E43FFB1E296C3 /* CollectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionsViewModel.swift"; sourceTree = "<group>"; };
+		F8145724203B4A1F838BDB59 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Collections/Empty.swift"; sourceTree = "<group>"; };
+		068CCB22081E4CEAAC29D222 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Common/Empty.swift"; sourceTree = "<group>"; };
+		443B71A779A248369D59F6E4 /* DailyWallpaperWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyWallpaperWidget.swift"; sourceTree = "<group>"; };
+		4530FA9D68E44201A09483CF /* DailyWallpaperActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyWallpaperActivityManager.swift"; sourceTree = "<group>"; };
+		92261D5A058B4EEE97574A41 /* DailyWallpaperActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyWallpaperActivityWidget.swift"; sourceTree = "<group>"; };
+		36A45F489F2448708F71967B /* ShareExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShareExportService.swift"; sourceTree = "<group>"; };
+		CCC72F8D44B14B569FFABB31 /* TelegramSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TelegramSyncService.swift"; sourceTree = "<group>"; };
+
+	/* Begin PBXGroup section */
 AD2A42E246E420ADC8D14B86 /* App/Sources */ = {
     isa = PBXGroup;
     children = (
@@ -171,7 +198,20 @@ D3EDFAF2404129DCD091A363 /* Sources */ = {
     isa = PBXSourcesBuildPhase;
     buildActionMask = 2147483647;
     files = (
-D3EDFAF2404129DCD091A363 /* TesseraApp.swift in Sources */,
+		D2D9599E643F4CDE930E3B05 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2E61E9512245D8B1E1F845 /* Empty.swift */; };
+		EA4C29BDFBB849FA9CBB0D83 /* WallpaperDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA858670DFC45A489C0D079 /* WallpaperDetailCoordinator.swift */; };
+		F647D1C70B5C4672BC24B6EA /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771B68BB7D4F41D28198F49B /* Collections.swift */; };
+		C41F0B27095B452CA428DB22 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01578F138CE248449CFB8089 /* Empty.swift */; };
+		51E7C1AB482D4BEA88332C6E /* CollectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C292AE39149CB9D990C69 /* CollectionsView.swift */; };
+		6259420A3C1C426EB58EF872 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7CB097D6E43FFB1E296C3 /* CollectionsViewModel.swift */; };
+		60C0220A12524414B436DCBE /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8145724203B4A1F838BDB59 /* Empty.swift */; };
+		0F80563912704B0AA6E5F970 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CCB22081E4CEAAC29D222 /* Empty.swift */; };
+		6401559F896040BAB4CF091B /* DailyWallpaperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443B71A779A248369D59F6E4 /* DailyWallpaperWidget.swift */; };
+		6F9A02E339184F96B1D6A149 /* DailyWallpaperActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4530FA9D68E44201A09483CF /* DailyWallpaperActivityManager.swift */; };
+		DFC82407CEE5408F942F7080 /* DailyWallpaperActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92261D5A058B4EEE97574A41 /* DailyWallpaperActivityWidget.swift */; };
+		FF267DF2B8DF4030A08C50BD /* ShareExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A45F489F2448708F71967B /* ShareExportService.swift */; };
+		D87CBFF4ECD04BE098E0189D /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC72F8D44B14B569FFABB31 /* TelegramSyncService.swift */; };
+			D3EDFAF2404129DCD091A363 /* TesseraApp.swift in Sources */,
         3DF6950DF21D04BA8C154B67 /* SettingsView.swift in Sources */,
         4B5A475C34036103FC05A117 /* FavoritesView.swift in Sources */,
         5328558216E9DC159B0641D6 /* DiscoverView.swift in Sources */,
