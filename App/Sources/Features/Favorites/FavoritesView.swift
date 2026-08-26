@@ -4,17 +4,32 @@ import SwiftUI
 struct FavoritesView: View {
     @ObservedObject var viewModel: FavoritesViewModel
 
+    @State private var selectedWallpaper: Wallpaper?
+    @State private var coordinator = WallpaperDetailCoordinator()
+
     var body: some View {
         NavigationStack {
-            if viewModel.favorites.isEmpty {
-                emptyState
-            } else {
-                masonryGrid
+            Group {
+                if viewModel.favorites.isEmpty {
+                    emptyState
+                } else {
+                    masonryGrid
+                }
+            }
+            .navigationTitle("Favorites")
+            .sheet(item: $selectedWallpaper) { wallpaper in
+                DetailHost(wallpaper: wallpaper, coordinator: coordinator)
+            }
+            .task {
+                await viewModel.loadFavorites()
+            }
+            .onChange(of: viewModel.favorites) { _, _ in
+                viewModel.persist()
             }
         }
-        .navigationTitle("Favorites")
     }
 
+    // MARK: - Empty state
     private var emptyState: some View {
         ContentUnavailableView(
             "No Favorites Yet",
@@ -23,13 +38,14 @@ struct FavoritesView: View {
         )
     }
 
+    // MARK: - Masonry grid
     private var masonryGrid: some View {
         ScrollView {
             LazyVGrid(columns: masonryColumns, spacing: 2) {
                 ForEach(viewModel.favorites) { wallpaper in
-                    FavoriteWallpaperCell(wallpaper: wallpaper)
+                    favoriteCell(wallpaper: wallpaper)
                         .onTapGesture {
-                            viewModel.selectedWallpaper = wallpaper
+                            selectedWallpaper = wallpaper
                         }
                 }
             }
@@ -43,30 +59,32 @@ struct FavoritesView: View {
         }
     }
 
-    private var masonryColumns: [GridItem] {
-        Array(repeating: GridItem(.flexible(), spacing: 2), count: 2)
-    }
-}
+    @ViewBuilder
+    private func favoriteCell(wallpaper: Wallpaper) -> some View {
+        let width: CGFloat = 180
+        let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
+        let height = width / max(aspectRatio, 0.5)
 
-// MARK: - Favorite cell
-struct FavoriteWallpaperCell: View {
-    let wallpaper: Wallpaper
-
-    var body: some View {
         ZStack(alignment: .bottom) {
-            KFImage(wallpaper.src.medium)
-                .placeholder { Color.gray.opacity(0.3) }
-                .resizable()
-                .scaledToFill()
-                .frame(height: 200)
-                .clipped()
+            if let url = wallpaper.src.medium {
+                KFImage(url)
+                    .placeholder { Color.gray.opacity(0.3) }
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: width, height: height)
+                    .clipped()
+            } else {
+                Rectangle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: width, height: height)
+            }
 
             LinearGradient(
                 gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
                 startPoint: .top,
                 endPoint: .bottom
             )
-            .frame(height: 200)
+            .frame(width: width, height: height)
 
             HStack {
                 Text(wallpaper.photographer)
@@ -74,13 +92,17 @@ struct FavoriteWallpaperCell: View {
                     .foregroundColor(.white)
                 Spacer()
                 Image(systemName: "heart.fill")
-                    .foregroundColor(.systemRed)
+                    .foregroundColor(.red)
                     .font(.caption.weight(.bold))
             }
             .padding(8)
             .background(Color.black.opacity(0.4).clipShape(RoundedRectangle(cornerRadius: 6)))
         }
         .aspectRatio(16/9, contentComparison: .priority)
+    }
+
+    private var masonryColumns: [GridItem] {
+        Array(repeating: GridItem(.flexible(), spacing: 2), count: 2)
     }
 }
 
@@ -100,7 +122,6 @@ final class FavoritesViewModel: ObservableObject {
         self.persistence = persistence
         self.imageLoader = imageLoader
         self.network = network
-        Task { await loadFavorites() }
     }
 
     func loadFavorites() async {
@@ -110,7 +131,6 @@ final class FavoritesViewModel: ObservableObject {
             return
         }
 
-        // Fetch the actual wallpaper data from network
         var results: [Wallpaper] = []
         var page = 1
         repeat {
@@ -127,5 +147,10 @@ final class FavoritesViewModel: ObservableObject {
         } while results.count < favoriteIDs.count
 
         favorites = results
+    }
+
+    func persist() {
+        // Favorites are persisted via toggleFavorite in the detail view;
+        // this view only reads.
     }
 }

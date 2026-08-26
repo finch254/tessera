@@ -7,33 +7,61 @@ final class DiscoverViewModel: ObservableObject {
     let network: WallpaperNetworkService
     let imageLoader: ImageLoadingService
     let persistence: PersistenceStore
+    let coordinator: WallpaperDetailCoordinator
 
     @Published var wallpapers: [Wallpaper] = []
     @Published var categories: [WallpaperCategory] = []
     @Published var selectedCategory: WallpaperCategory?
+    @Published var selectedCategories: Set<String> = []
     @Published var isLoading = false
     @Published var error: Error?
-    @Published var selectedWallpaper: Wallpaper?
+    @Published var searchText: String = ""
     @Published var searchResults: [Wallpaper] = []
 
     private var currentPage = 1
     private var hasNext = true
     private var searchQuery: String?
     private var isSearching = false
+    private var currentTask: Task<Void, Never>?
 
     init(network: WallpaperNetworkService,
          imageLoader: ImageLoadingService,
-         persistence: PersistenceStore) {
+         persistence: PersistenceStore,
+         coordinator: WallpaperDetailCoordinator = WallpaperDetailCoordinator()) {
         self.network = network
         self.imageLoader = imageLoader
         self.persistence = persistence
+        self.coordinator = coordinator
         Task { await loadCategories() }
-        Task { await refresh() }
+        Task { await resetAndFetch() }
+    }
+
+    // MARK: - Computed
+    var errorMessage: String? {
+        error?.localizedDescription
+    }
+
+    var displayedWallpapers: [Wallpaper] {
+        if searchText.isEmpty {
+            return wallpapers
+        } else {
+            return searchResults
+        }
+    }
+
+    func filteredWallpapers(searchText: String) -> [Wallpaper] {
+        if searchText.isEmpty {
+            return wallpapers
+        }
+        return searchResults
+    }
+
+    func isFavorite(_ wallpaper: Wallpaper) -> Bool {
+        persistence.hasFavorited(wallpaper.id)
     }
 
     // MARK: - Categories
     func loadCategories() async {
-        // Static curated categories with fallback image URLs from Pexels
         let defaultCategories: [WallpaperCategory] = [
             .init(id: "nature", name: "Nature", slug: "nature",
                   imageUrl: URL(string: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg")),
@@ -56,10 +84,21 @@ final class DiscoverViewModel: ObservableObject {
     }
 
     // MARK: - Browse
-    func refresh() async {
+    func toggleCategory(_ category: String) {
+        if selectedCategories.contains(category) {
+            selectedCategories.remove(category)
+        } else {
+            selectedCategories.insert(category)
+        }
+    }
+
+    func resetAndFetch() async {
         currentPage = 1
         hasNext = true
         searchQuery = nil
+        searchResults = []
+        wallpapers = []
+        error = nil
         await fetchPage(reset: true)
     }
 
@@ -69,11 +108,25 @@ final class DiscoverViewModel: ObservableObject {
         await fetchPage(reset: false)
     }
 
+    func loadNextPageIfNeeded() async {
+        await loadNextPage()
+    }
+
+    func onItemAppeared(at index: Int) {
+        let threshold = displayedWallpapers.count - 5
+        if index >= threshold && hasNext && !isLoading {
+            Task { await loadNextPage() }
+        }
+    }
+
     func selectCategory(_ category: WallpaperCategory) async {
         selectedCategory = category
         searchQuery = category.slug
+        searchText = ""
         currentPage = 1
         hasNext = true
+        searchResults = []
+        wallpapers = []
         await fetchPage(reset: true)
     }
 
@@ -99,16 +152,22 @@ final class DiscoverViewModel: ObservableObject {
     func reset() async {
         searchResults = []
         searchQuery = nil
+        searchText = ""
         currentPage = 1
         await refresh()
     }
 
     private func fetchPage(reset: Bool) async {
+        guard currentTask == nil || currentTask?.isCancelled == true else { return }
         isLoading = true
+        defer { isLoading = false }
+
         do {
             let response: PaginatedResponse<Wallpaper>
             if let cat = selectedCategory {
                 response = try await network.fetchCategory(slug: cat.slug, page: currentPage, perPage: 40)
+            } else if let q = searchQuery, !q.isEmpty {
+                response = try await network.fetchSearch(query: q, page: currentPage, perPage: 40)
             } else {
                 response = try await network.fetchPopular(page: currentPage, perPage: 40)
             }
@@ -120,9 +179,13 @@ final class DiscoverViewModel: ObservableObject {
             }
             hasNext = response.hasNext
             currentPage = response.page
+            error = nil
         } catch {
             self.error = error
         }
-        isLoading = false
+    }
+
+    func refresh() async {
+        await fetchPage(reset: true)
     }
 }

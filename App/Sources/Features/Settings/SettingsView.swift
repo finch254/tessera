@@ -56,7 +56,7 @@ struct SettingsView: View {
                     }
 
                     NavigationLink {
-                        AboutView(viewModel: viewModel)
+                        AboutView()
                     } label: {
                         Text("About")
                     }
@@ -75,6 +75,9 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
+        }
+        .task {
+            await viewModel.computeCacheSize()
         }
     }
 
@@ -102,7 +105,6 @@ final class SettingsViewModel: ObservableObject {
         self.cache = cache
         self.selectedTheme = persistence.selectedTheme
         self.blurMode = persistence.blurMode
-        Task { await computeCacheSize() }
     }
 
     func updateTheme(_ theme: AppTheme) {
@@ -120,16 +122,13 @@ final class SettingsViewModel: ObservableObject {
         Task { await computeCacheSize() }
     }
 
-    private func computeCacheSize() async {
-        // Approximate cache size
-        cacheSize = Int64(cache.cache.count * 1_000_000) // rough estimate; real impl uses file size
+    func computeCacheSize() async {
+        cacheSize = Int64(cache.cache.count * 1_000_000)
     }
 }
 
 // MARK: - About view
 struct AboutView: View {
-    let viewModel: SettingsViewModel
-
     var body: some View {
         Form {
             Section {
@@ -148,8 +147,8 @@ struct AboutView: View {
             }
 
             Section("Open Source") {
-                Link("View on GitHub", destination: URL(string: "https://github.com/your-org/tessera")!)
-                Link("Report an Issue", destination: URL(string: "https://github.com/your-org/tessera/issues")!)
+                Link("View on GitHub", destination: URL(string: "https://github.com/finch254/tessera")!)
+                Link("Report an Issue", destination: URL(string: "https://github.com/finch254/tessera/issues")!)
             }
 
             Section("Third-party") {

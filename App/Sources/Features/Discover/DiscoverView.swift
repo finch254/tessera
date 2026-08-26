@@ -2,9 +2,8 @@ import SwiftUI
 
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
+
     @State private var searchText = ""
-    @State private var showingDetail = false
-    @State private var selectedWallpaper: Wallpaper?
 
     var body: some View {
         NavigationStack {
@@ -22,27 +21,33 @@ struct DiscoverView: View {
                         .padding(.bottom, 24)
                     }
                     .onChange(of: viewModel.selectedCategories) { _, _ in
-                        viewModel.resetAndFetch()
+                        Task { await viewModel.resetAndFetch() }
                     }
                 }
 
-                if viewModel.isLoading && viewModel.wallpapers.isEmpty {
+                if viewModel.isLoading && viewModel.wallpapers.isEmpty && viewModel.searchResults.isEmpty {
                     loadingView
-                } else if let errorMessage = viewModel.errorMessage, viewModel.wallpapers.isEmpty {
-                    errorView(message: errorMessage)
+                } else if let message = viewModel.errorMessage,
+                          viewModel.wallpapers.isEmpty && viewModel.searchResults.isEmpty {
+                    errorView(message: message)
                 }
             }
             .navigationTitle("Explore")
             .searchable(text: $searchText, prompt: "Search wallpapers")
             .onChange(of: searchText) { _, newValue in
                 viewModel.searchText = newValue
-                viewModel.resetAndFetch()
+                Task { await viewModel.search(query: newValue) }
             }
-            .sheet(item: $selectedWallpaper) { wallpaper in
-                DetailHost(wallpaper: wallpaper, coordinator: viewModel.coordinator)
-            }
-            .task {
-                await viewModel.loadNextPageIfNeeded()
+            .sheet(item: Binding<Wallpaper?>(
+                get: { nil },
+                set: { wallpaper in
+                    if let w = wallpaper {
+                        viewModel.coordinator.rootViewController = getRoot()
+                        viewModel.coordinator.showDetail(for: w)
+                    }
+                }
+            )) { _ in
+                EmptyView()
             }
         }
     }
@@ -52,8 +57,8 @@ struct DiscoverView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 10) {
                 ForEach(viewModel.categories, id: \.self) { category in
-                    let selected = viewModel.selectedCategories.contains(category)
-                    Text(category)
+                    let selected = viewModel.selectedCategories.contains(category.id)
+                    Text(category.name)
                         .font(.system(size: 13, weight: selected ? .semibold : .regular))
                         .padding(.horizontal, 14)
                         .padding(.vertical, 8)
@@ -62,7 +67,7 @@ struct DiscoverView: View {
                         .clipShape(Capsule())
                         .onTapGesture {
                             withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
-                                viewModel.toggleCategory(category)
+                                viewModel.toggleCategory(category.id)
                             }
                         }
                 }
@@ -76,33 +81,27 @@ struct DiscoverView: View {
             GridItem(.flexible(), spacing: 10),
             GridItem(.flexible(), spacing: 10),
         ]
-        let filtered = viewModel.filteredWallpapers(searchText: searchText)
+        let items = viewModel.displayedWallpapers
 
         return LazyVGrid(columns: columns, spacing: 10) {
-            ForEach(filtered) { wallpaper in
-                GeometryReader { geo in
-                    masonryCell(wallpaper: wallpaper, width: geo.size.width)
-                        .onAppear {
-                            let index = filtered.firstIndex(where: { $0.id == wallpaper.id }) ?? 0
-                            viewModel.onItemAppeared(at: index)
-                        }
-                        .onTapGesture {
-                            selectedWallpaper = wallpaper
-                        }
-                }
-                .frame(height: masonryHeight(for: wallpaper, width: geo.size.width))
+            ForEach(items) { wallpaper in
+                masonryCell(wallpaper: wallpaper)
+                    .onAppear {
+                        let index = items.firstIndex(where: { $0.id == wallpaper.id }) ?? 0
+                        viewModel.onItemAppeared(at: index)
+                    }
             }
         }
     }
 
     @ViewBuilder
-    private func masonryCell(wallpaper: Wallpaper, width: CGFloat) -> some View {
+    private func masonryCell(wallpaper: Wallpaper) -> some View {
         let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
+        let width: CGFloat = 180
         let height = width / max(aspectRatio, 0.5)
 
         ZStack(alignment: .bottomLeading) {
-            if let urlString = wallpaper.thumbnailURL,
-               let url = URL(string: urlString) {
+            if let url = wallpaper.src.medium {
                 KFImage(url)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
@@ -116,7 +115,14 @@ struct DiscoverView: View {
                         )
                     )
             } else {
-                placeholderRect(width: width, height: height)
+                Rectangle()
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: width, height: height)
+                    .overlay(
+                        Image(systemName: "photo")
+                            .font(.largeTitle)
+                            .foregroundStyle(.gray.opacity(0.4))
+                    )
             }
 
             VStack(alignment: .leading, spacing: 2) {
@@ -136,23 +142,6 @@ struct DiscoverView: View {
         }
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
-    }
-
-    @ViewBuilder
-    private func placeholderRect(width: CGFloat, height: CGFloat) -> some View {
-        Rectangle()
-            .fill(Color.gray.opacity(0.2))
-            .frame(width: width, height: height)
-            .overlay(
-                Image(systemName: "photo")
-                    .font(.largeTitle)
-                    .foregroundStyle(.gray.opacity(0.4))
-            )
-    }
-
-    private func masonryHeight(for wallpaper: Wallpaper, width: CGFloat) -> CGFloat {
-        let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
-        return width / max(aspectRatio, 0.5)
     }
 
     // MARK: - States
@@ -177,50 +166,52 @@ struct DiscoverView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
             Button("Retry") {
-                Task {
-                    viewModel.errorMessage = nil
-                    await viewModel.loadNextPageIfNeeded()
-                }
+                Task { await viewModel.resetAndFetch() }
             }
             .buttonStyle(.borderedProminent)
         }
         .padding()
     }
+
+    // MARK: - Helpers
+    private func getRoot() -> UIViewController? {
+        guard let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let root = scene.windows.first?.rootViewController else {
+            return nil
+        }
+        return root.topMostViewController()
+    }
 }
 
-// MARK: - Detail host bridge (SwiftUI wraps UIKit detail VC)
+// MARK: - Detail host bridge
 struct DetailHost: UIViewControllerRepresentable {
     let wallpaper: Wallpaper
     let coordinator: WallpaperDetailCoordinator?
 
     func makeUIViewController(context: Context) -> UIViewController {
-        let vc = UIViewController()
-        return vc
+        UIViewController()
     }
 
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // Present the detail VC on top
-        guard let coordinator = coordinator, uiViewController.presentedViewController == nil else { return }
-        let model = WallpaperDetailModel(wallpaper: wallpaper)
-        let detailVC = WallpaperDetailViewController.create(model: model)
-        detailVC.modalPresentationStyle = .fullScreen
-        uiViewController.present(detailVC, animated: true)
+        guard let coordinator = coordinator,
+              uiViewController.presentedViewController == nil else { return }
+        coordinator.rootViewController = uiViewController
+        coordinator.showDetail(for: wallpaper)
     }
 
     static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Context) {
-        // Dismiss if presented
-        if let presented = uiViewController.presentedViewController {
-            presented.dismiss(animated: false)
-        }
+        uiViewController.presentedViewController?.dismiss(animated: false)
     }
 }
 
 #Preview {
     let persistence = UserDefaultsPersistenceStore()
+    let coordinator = WallpaperDetailCoordinator()
     let viewModel = DiscoverViewModel(
         network: MockNetworkService(),
         imageLoader: KingfisherImageLoader(),
-        persistence: persistence
+        persistence: persistence,
+        coordinator: coordinator
     )
     return DiscoverView(viewModel: viewModel)
 }

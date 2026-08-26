@@ -1,6 +1,5 @@
 import Foundation
 import UIKit
-import CoreImage
 
 // MARK: - UserDefaults-backed persistence
 final class UserDefaultsPersistenceStore: PersistenceStore {
@@ -13,6 +12,7 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
         self.defaults = defaults
     }
 
+    // MARK: - Favorites
     var favorites: Set<String> {
         get async {
             guard let raw = defaults.stringArray(forKey: favoritesKey) else { return [] }
@@ -23,8 +23,10 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
         }
     }
 
-    func hasFavorited(_ id: String) -> Bool {
-        (defaults.stringArray(forKey: favoritesKey) ?? []).contains(id)
+    var hasFavorited: (_ id: String) -> Bool {
+        { id in
+            (defaults.stringArray(forKey: self.favoritesKey) ?? []).contains(id)
+        }
     }
 
     func toggleFavorite(_ id: String) {
@@ -37,28 +39,30 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
         defaults.set(current, forKey: favoritesKey)
     }
 
+    // MARK: - Theme
     var selectedTheme: AppTheme {
-        get async {
+        get {
             guard let raw = defaults.string(forKey: themeKey),
                   let theme = AppTheme(rawValue: raw) else {
                 return .system
             }
             return theme
         }
-        set async {
+        set {
             defaults.set(newValue.rawValue, forKey: themeKey)
         }
     }
 
+    // MARK: - Blur
     var blurMode: BlurMode {
-        get async {
+        get {
             guard let raw = defaults.string(forKey: blurKey),
                   let mode = BlurMode(rawValue: raw) else {
                 return .gaussian
             }
             return mode
         }
-        set async {
+        set {
             defaults.set(newValue.rawValue, forKey: blurKey)
         }
     }
