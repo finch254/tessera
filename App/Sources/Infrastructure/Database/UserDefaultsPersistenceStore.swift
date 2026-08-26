@@ -58,7 +58,7 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
         get {
             guard let raw = defaults.string(forKey: blurKey),
                   let mode = BlurMode(rawValue: raw) else {
-                return .gaussian
+                return .off
             }
             return mode
         }

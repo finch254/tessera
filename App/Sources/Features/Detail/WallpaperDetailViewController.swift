@@ -22,7 +22,7 @@ final class WallpaperDetailViewController: UIViewController {
     private var model: WallpaperDetailModel!
     private var currentFilterIndex = 0
     private var ciImage: CIImage?
-    private var cachedBlurMode: BlurMode = .gaussian
+    private var cachedBlurMode: BlurMode = .off
     private let filterEngine = FilterEngine()
     private lazy var ciContext: CIContext = {
         CIContext(options: [.cacheIntermediates: false,
@@ -364,20 +364,41 @@ final class WallpaperDetailViewController: UIViewController {
         let filters = FilterEngine.makeFilters()
         var result = filters[currentFilterIndex].apply(ciImage)
 
-        // 2. Apply blur
-        let blurRadius = blurSlider.value * 25.0
+        // 2. Apply blur based on selected mode
+        let blurRadius = blurSlider.value * 10.0
         if blurRadius > 0.5 {
-            let blurFilterName: String
             switch cachedBlurMode {
-            case .gaussian: blurFilterName = "CIGaussianBlur"
-            case .box: blurFilterName = "CIBoxBlur"
-            case .median: blurFilterName = "CIMedianFilter"
+            case .light:
+                if let gaussian = CIFilter(name: "CIGaussianBlur", parameters: [
+                    kCIInputImageKey: result, kCIInputRadiusKey: blurRadius
+                ]) {
+                    result = gaussian.outputImage?.cropped(to: result.extent) ?? result
+                }
+            case .dark:
+                if let dark = CIFilter(name: "CIColorControls", parameters: [
+                    kCIInputImageKey: result,
+                    kCIInputBrightnessKey: -0.05,
+                    kCIInputContrastKey: 1.1
+                ]) {
+                    result = dark.outputImage?.cropped(to: result.extent) ?? result
+                }
+            case .vibrant:
+                if let vibrant = CIFilter(name: "CIExposureAdjust", parameters: [
+                    kCIInputImageKey: result, kCIInputEVKey: 0.3
+                ]) {
+                    result = vibrant.outputImage?.cropped(to: result.extent) ?? result
+                }
+            case .tinted:
+                if let tint = CIFilter(name: "CIColorMonochrome", parameters: [
+                    kCIInputImageKey: result,
+                    kCIInputColorKey: CIColor(red: 0.9, green: 0.9, blue: 0.95),
+                    kCIInputIntensityKey: 0.25
+                ]) {
+                    result = tint.outputImage?.cropped(to: result.extent) ?? result
+                }
+            case .off:
+                break
             }
-            let blur = CIFilter(name: blurFilterName, parameters: [
-                kCIInputImageKey: result,
-                kCIInputRadiusKey: blurRadius
-            ])!
-            result = blur.outputImage?.cropped(to: result.extent) ?? result
         }
 
         // 3. Render to UIImage

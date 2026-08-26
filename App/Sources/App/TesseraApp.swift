@@ -35,6 +35,11 @@ struct RootView: View {
                     Label("Favorites", systemImage: "heart")
                 }
 
+            CollectionsView(viewModel: appState.collectionsVM)
+                .tabItem {
+                    Label("Featured", systemImage: "star.fill")
+                }
+
             SettingsView(viewModel: appState.settingsVM)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
@@ -55,6 +60,7 @@ final class AppState: ObservableObject {
 
     let discoverVM: DiscoverViewModel
     let favoritesVM: FavoritesViewModel
+    let collectionsVM: CollectionsViewModel
     let settingsVM: SettingsViewModel
 
     init() {
@@ -76,6 +82,7 @@ final class AppState: ObservableObject {
 
         discoverVM = DiscoverViewModel(network: network, imageLoader: imageLoader, persistence: persistence)
         favoritesVM = FavoritesViewModel(persistence: persistence, imageLoader: imageLoader, network: network)
+        collectionsVM = CollectionsViewModel(network: network, persistence: persistence)
         settingsVM = SettingsViewModel(persistence: persistence, cache: filterCache)
 
         // Wire coordinator to the top-most UIViewController

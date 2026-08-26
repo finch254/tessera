@@ -43,16 +43,3 @@ enum AppTheme: String, CaseIterable, Sendable {
 }
 
 // MARK: - Blur mode
-enum BlurMode: String, CaseIterable, Sendable {
-    case gaussian = "Gaussian"
-    case box = "Box"
-    case median = "Median"
-
-    var filterName: String {
-        switch self {
-        case .gaussian: return "CIGaussianBlur"
-        case .box: return "CIBoxBlur"
-        case .median: return "CIMedianFilter"
-        }
-    }
-}
