@@ -33,13 +33,5 @@ protocol PersistenceStore {
 }
 
 // MARK: - Theme
-enum AppTheme: String, CaseIterable, Sendable {
-    case system = "System"
-    case light = "Light"
-    case dark = "Dark"
-    case amoled = "AMOLED"
-
-    var colorScheme: ColorScheme? { self == .system ? nil : (self == .dark || self == .amoled ? .dark : .light) }
-}
 
 // MARK: - Blur mode

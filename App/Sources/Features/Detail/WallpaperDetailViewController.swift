@@ -402,8 +402,7 @@ final class WallpaperDetailViewController: UIViewController {
         }
 
         // 3. Render to UIImage
-        let renderCtx = ciContext
-        guard let outputCIImage = result.extent.length.width > 0 ? result : ciImage else { return }
+guard let outputCIImage = result.extent.length.width > 0 ? result : ciImage else { return }
         guard let cgImage = ciContext.createCGImage(outputCIImage, from: outputCIImage.extent) else { return }
 
         let uiImage = UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up)

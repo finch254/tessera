@@ -53,6 +53,22 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
         }
     }
 
+    // MARK: - Auto-set
+    var autoSetEnabled: Bool {
+        get { defaults.bool(forKey: "tessera_auto_set") }
+        set { defaults.set(newValue, forKey: "tessera_auto_set") }
+    }
+
+    var autoSetHour: Int {
+        get { defaults.integer(forKey: "tessera_auto_set_hour") }
+        set { defaults.set(newValue, forKey: "tessera_auto_set_hour") }
+    }
+
+    var lastDailyWallpaperID: String? {
+        get { defaults.string(forKey: "tessera_last_daily_id") }
+        set { defaults.setValue(newValue, forKey: "tessera_last_daily_id") }
+    }
+
     // MARK: - Blur
     var blurMode: BlurMode {
         get {

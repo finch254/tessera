@@ -112,7 +112,7 @@ final class FavoritesViewModel: ObservableObject {
     let network: WallpaperNetworkService
 
     @Published var favorites: [Wallpaper] = []
-    @Published var selectedWallpaper: Wallpaper?
+
 
     init(persistence: PersistenceStore,
          imageLoader: ImageLoadingService,
