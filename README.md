@@ -29,6 +29,10 @@ The app is privacy-first: no analytics, no auth, no cloud sync, and no ads. Favo
 | Live Activities | Lock Screen widget for daily wallpaper and in-progress actions |
 | Pexels API | Free, high-quality photos via Pexels (sign up for a free key) |
 | Offline fallback | Mock network mode for development without an API key |
+| WidgetKit widget | Home-screen widget showing today's daily wallpaper |
+| Share / export | Share filtered wallpaper as image via system share sheet |
+| CHANGELOG | Version history kept in CHANGELOG.md |
+| CI | GitHub Actions workflow for build + test on macOS |
 
 ## Screenshots (concept)
 
@@ -120,6 +124,10 @@ Tessera/
     └── Networking/
         ├── PexelsNetworkService.swift
         └── MockNetworkService.swift
+    └── HomeWidget/
+    │   └── DailyWallpaperWidget.swift              # WidgetKit home-screen widget
+    └── Sharing/
+        └── ShareExportService.swift                # UIActivityViewController share
 ```
 
 ## Project status
@@ -128,6 +136,8 @@ Tessera/
 - **App icon** — a 1024px placeholder is included; all iOS size variants still need to be generated in Xcode's asset catalog.
 - **Build status** — project scaffolding, Package.swift, and Xcode project file are in place. Full compile verification requires macOS + Xcode.
 - **Tests** — unit test stubs included for DiscoverViewModel, FilterEngine, and PaletteExtractor.
+- **CI** — GitHub Actions workflow for build + test on macOS.
+- **Changelog** — version history in CHANGELOG.md.
 
 ## Design decisions
 

@@ -194,3 +194,10 @@ struct AboutView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 }
+
+#Preview {
+    let persistence = UserDefaultsPersistenceStore()
+    let cache = FilterImageCache()
+    let vm = SettingsViewModel(persistence: persistence, cache: cache)
+    return SettingsView(viewModel: vm)
+}

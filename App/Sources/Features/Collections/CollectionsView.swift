@@ -167,3 +167,9 @@ struct AsyncImageView: View {
         .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
     }
 }
+
+#Preview {
+    let persistence = UserDefaultsPersistenceStore()
+    let vm = CollectionsViewModel(network: MockNetworkService(), persistence: persistence)
+    return CollectionsView(viewModel: vm)
+}

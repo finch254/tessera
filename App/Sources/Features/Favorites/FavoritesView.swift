@@ -148,3 +148,12 @@ final class FavoritesViewModel: ObservableObject {
     }
 
 }
+
+#Preview {
+    let persistence = UserDefaultsPersistenceStore()
+    let vm = FavoritesViewModel(persistence: persistence, imageLoader: MockImageLoader(), network: MockNetworkService())
+    vm.favorites = [
+        Wallpaper(id: "1", photographer: "Dennis", photographerId: "1", width: 1080, height: 1920, avgColor: nil, src: PexelsImageURLs(from: ["medium": "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg"]), alt: nil, liked: true)
+    ]
+    return FavoritesView(viewModel: vm)
+}
