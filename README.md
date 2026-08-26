@@ -89,7 +89,6 @@ Tessera/
 │   ├── Models/
 │   │   ├── Wallpaper.swift                       # Data model, Pexels URL struct
 │   │   ├── Collections.swift                     # Collection, DailyWallpaper, AppTheme, BlurMode
-│   │   └── PaletteColor.swift                    # Dominant color + population
 │   └── Protocols/
 │       └── ServiceProtocols.swift                # Network + image loading + persistence protocols
 ├── Features/
@@ -122,6 +121,13 @@ Tessera/
         ├── PexelsNetworkService.swift
         └── MockNetworkService.swift
 ```
+
+## Project status
+
+- **25 Swift source files** across SwiftUI views, UIKit detail controller, domain models, protocols, and infrastructure.
+- **App icon** — a 1024px placeholder is included; all iOS size variants still need to be generated in Xcode's asset catalog.
+- **Build status** — project scaffolding, Package.swift, and Xcode project file are in place. Full compile verification requires macOS + Xcode.
+- **Tests** — unit test stubs included for DiscoverViewModel, FilterEngine, and PaletteExtractor.
 
 ## Design decisions
 
