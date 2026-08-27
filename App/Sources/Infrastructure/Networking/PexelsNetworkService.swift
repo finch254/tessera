@@ -19,12 +19,15 @@ final class PexelsNetworkService: WallpaperNetworkService {
         return URLSession(configuration: config)
     }()
 
-    // MARK: - Public (editor's choice / featured)
     func fetchPopular(page: Int = 1, perPage: Int = 40) async throws -> PaginatedResponse<Wallpaper> {
-        try await fetchSearch(query: nil, page: page, perPage: perPage)
+        var urlComponents = URLComponents(string: "https://api.pexels.com/v1/curated")!
+        urlComponents.queryItems = [
+            URLQueryItem(name: "page", value: String(page)),
+            URLQueryItem(name: "per_page", value: String(perPage)),
+        ]
+        return try await fetch(urlComponents: urlComponents)
     }
 
-    // MARK: - Search
     func fetchSearch(query: String?, page: Int = 1, perPage: Int = 40) async throws -> PaginatedResponse<Wallpaper> {
         var urlComponents = URLComponents(string: "https://api.pexels.com/v1/search")!
         urlComponents.queryItems = [
@@ -33,20 +36,31 @@ final class PexelsNetworkService: WallpaperNetworkService {
             URLQueryItem(name: "orientation", value: "landscape"),
             URLQueryItem(name: "size", value: "large"),
         ]
-        if let query = query, !query.isEmpty {
+        if let query, !query.isEmpty {
             urlComponents.queryItems?.append(URLQueryItem(name: "query", value: query))
-        } else {
-            // Editor's choice when no query
-            urlComponents.queryItems?.append(URLQueryItem(name: "editor", value: "true"))
         }
+        return try await fetch(urlComponents: urlComponents)
+    }
 
+    func fetchCategory(slug: String, page: Int = 1, perPage: Int = 40) async throws -> PaginatedResponse<Wallpaper> {
+        var urlComponents = URLComponents(string: "https://api.pexels.com/v1/search")!
+        urlComponents.queryItems = [
+            URLQueryItem(name: "page", value: String(page)),
+            URLQueryItem(name: "per_page", value: String(perPage)),
+            URLQueryItem(name: "orientation", value: "landscape"),
+            URLQueryItem(name: "size", value: "large"),
+            URLQueryItem(name: "query", value: slug),
+        ]
+        return try await fetch(urlComponents: urlComponents)
+    }
+
+    private func fetch(urlComponents: URLComponents) async throws -> PaginatedResponse<Wallpaper> {
         guard let url = urlComponents.url else {
             throw NetworkError.badURL
         }
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.setValue("Authorization", forHTTPHeaderField: "Authorization")
         request.setValue(Self.apiKey, forHTTPHeaderField: "Authorization")
 
         let (data, response) = try await session.data(for: request)
@@ -60,13 +74,6 @@ final class PexelsNetworkService: WallpaperNetworkService {
 
         let decoded = try JSONDecoder().decode(PexelsSearchResponse.self, from: data)
         return decoded.toPaginated()
-    }
-
-    // MARK: - Category by slug (Pexels doesn't have a category endpoint directly;
-    // we use search with the category as query. For categories with curated images,
-    // you'd add a curated JSON list. This uses Pexels search.)
-    func fetchCategory(slug: String, page: Int = 1, perPage: Int = 40) async throws -> PaginatedResponse<Wallpaper> {
-        try await fetchSearch(query: slug, page: page, perPage: perPage)
     }
 }
 
