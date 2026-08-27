@@ -25,7 +25,7 @@ final class KingfisherImageLoader: ImageLoadingService {
 
     func prefetch(urls: [URL]) {
         let prefetcher = ImagePrefetcher(urls: urls)
-        prefetcher.prefetch()
+        prefetcher.start()
     }
 }
 

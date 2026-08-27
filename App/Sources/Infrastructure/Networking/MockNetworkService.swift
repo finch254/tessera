@@ -105,8 +105,7 @@ final class MockNetworkService: WallpaperNetworkService {
             totalResults: mockWallpapers.count,
             page: page,
             perPage: perPage,
-            results: results,
-            hasNext: end < mockWallpapers.count
+            results: results
         )
     }
 

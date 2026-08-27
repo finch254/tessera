@@ -1,7 +1,9 @@
 import ActivityKit
 import SwiftUI
+import WidgetKit
 
 // MARK: - Daily Wallpaper Live Activity Widget
+@available(iOS 16.2, *)
 struct DailyWallpaperActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: DailyWallpaperAttributes.self) { context in

@@ -39,7 +39,7 @@ enum DailyWallpaperActivityManager {
         let state = DailyWallpaperAttributes.ContentState(
             wallpaperID: wallpaper.id,
             photographer: wallpaper.photographer,
-            imageURL: wallpaper.src.medium?.absoluteString ?? "",
+            imageURL: wallpaper.src.medium.absoluteString,
             updatedAt: Date()
         )
 
@@ -71,7 +71,7 @@ enum DailyWallpaperActivityManager {
         let state = DailyWallpaperAttributes.ContentState(
             wallpaperID: wallpaper.id,
             photographer: wallpaper.photographer,
-            imageURL: wallpaper.src.medium?.absoluteString ?? "",
+            imageURL: wallpaper.src.medium.absoluteString,
             updatedAt: Date()
         )
 
