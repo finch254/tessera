@@ -33,7 +33,7 @@
     <dict>
         <key>UIApplicationSupportsMultipleScenes</key>
         <false/>
-
+    </dict>
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
@@ -58,9 +58,9 @@
             <array>
                 <string>tessera</string>
             </array>
-
+        </dict>
     </array>
     <key>UIAppFonts</key>
     <array/>
-
+</dict>
 </plist>
