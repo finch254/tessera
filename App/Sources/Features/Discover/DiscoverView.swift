@@ -224,3 +224,15 @@ struct DetailHost: UIViewControllerRepresentable {
     )
     return DiscoverView(viewModel: viewModel)
 }
+
+// MARK: - Detail host preview
+#Preview("Detail Host") {
+    let coordinator = WallpaperDetailCoordinator()
+    let wallpaper = Wallpaper(
+        id: "1", photographer: "Test", photographerId: "1",
+        width: 1080, height: 1920, avgColor: nil,
+        src: PexelsImageURLs(from: ["medium": "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg"]),
+        alt: nil, liked: false
+    )
+    return DetailHost(wallpaper: wallpaper, coordinator: coordinator)
+}

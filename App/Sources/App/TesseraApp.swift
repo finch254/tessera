@@ -62,6 +62,13 @@ struct RootView: View {
     }
 }
 
+// MARK: - Root view preview
+#Preview {
+    let appState = AppState()
+    return RootView()
+        .environmentObject(appState)
+}
+
 // MARK: - App state (DI container)
 @MainActor
 final class AppState: ObservableObject {

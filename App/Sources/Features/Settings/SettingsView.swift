@@ -214,3 +214,8 @@ struct AboutView: View {
     let vm = SettingsViewModel(persistence: persistence, cache: cache)
     return SettingsView(viewModel: vm)
 }
+
+// MARK: - About view preview
+#Preview("About") {
+    AboutView()
+}

@@ -135,6 +135,12 @@ struct CollectionsView: View {
     }
 }
 
+// MARK: - AsyncImage preview
+#Preview {
+    AsyncImageView(url: URL(string: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg"), cornerRadius: 16)
+        .frame(width: 200, height: 140)
+}
+
 // MARK: - Async Image Loader (SFW)
 struct AsyncImageView: View {
     let url: URL?
