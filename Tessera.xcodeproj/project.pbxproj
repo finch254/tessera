@@ -1,304 +1,550 @@
 // !$*UTF8*$!
 {
-  archiveVersion = 1;
-  classes = {
-};
-  objectVersion = 56;
-  objects = {
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
 /* Begin PBXBuildFile section */
-		D2D9599E643F4CDE930E3B05 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2E61E9512245D8B1E1F845 /* Empty.swift */; };
-		EA4C29BDFBB849FA9CBB0D83 /* WallpaperDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA858670DFC45A489C0D079 /* WallpaperDetailCoordinator.swift */; };
-		F647D1C70B5C4672BC24B6EA /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771B68BB7D4F41D28198F49B /* Collections.swift */; };
-		C41F0B27095B452CA428DB22 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01578F138CE248449CFB8089 /* Empty.swift */; };
-		51E7C1AB482D4BEA88332C6E /* CollectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C292AE39149CB9D990C69 /* CollectionsView.swift */; };
-		6259420A3C1C426EB58EF872 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7CB097D6E43FFB1E296C3 /* CollectionsViewModel.swift */; };
-		60C0220A12524414B436DCBE /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8145724203B4A1F838BDB59 /* Empty.swift */; };
-		0F80563912704B0AA6E5F970 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CCB22081E4CEAAC29D222 /* Empty.swift */; };
-		6401559F896040BAB4CF091B /* DailyWallpaperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443B71A779A248369D59F6E4 /* DailyWallpaperWidget.swift */; };
-		6F9A02E339184F96B1D6A149 /* DailyWallpaperActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4530FA9D68E44201A09483CF /* DailyWallpaperActivityManager.swift */; };
-		DFC82407CEE5408F942F7080 /* DailyWallpaperActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92261D5A058B4EEE97574A41 /* DailyWallpaperActivityWidget.swift */; };
-		FF267DF2B8DF4030A08C50BD /* ShareExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A45F489F2448708F71967B /* ShareExportService.swift */; };
-		D87CBFF4ECD04BE098E0189D /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC72F8D44B14B569FFABB31 /* TelegramSyncService.swift */; };
-D3EDFAF2404129DCD091A363 /* Tessera in Sources */ = {isa = PBXBuildFile; fileRef = E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */; };
-    3DF6950DF21D04BA8C154B67 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F14D50F403151273CD0F26C /* SettingsView.swift */; };
-    4B5A475C34036103FC05A117 /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92EBA35BE8CF19762C95043 /* FavoritesView.swift */; };
-    5328558216E9DC159B0641D6 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA602C7F763F08942764FA3F /* DiscoverView.swift */; };
-    DACFF64003F82C7FC5503135 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B7C3F8C5686DEE9F83508D6 /* DiscoverViewModel.swift */; };
-    02D17225A51609B0B8589DD2 /* WallpaperDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50162CC47A83E8DE5EF8A011 /* WallpaperDetailModel.swift */; };
-    05D9274B84148C2F1D8DCAAA /* WallpaperDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2B8B745D9AD4056F3CD7DA0 /* WallpaperDetailViewController.swift */; };
-    10F39FA3568687B0D58E9A0D /* TesseraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */; };
-    6B4FCD5B51A2D93200E36E87 /* FilterEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = B92084A2B6B8F2FE75106A34 /* FilterEngine.swift */; };
-    26B0305062A7DA53D128B1E2 /* KingfisherImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FCE78928F35C3C424FCB32 /* KingfisherImageLoader.swift */; };
-    B49CED9771591298B85BC908 /* UserDefaultsPersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3BE0C5E9524F48DD1663BB0 /* UserDefaultsPersistenceStore.swift */; };
-    C5AB3E02B71A9E5E9E575B36 /* PaletteExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D1970671F446EFB674B0F5 /* PaletteExtractor.swift */; };
-    9B5F17F5A07379A4CB45A319 /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF2620B324D4C2CA5EE00E32 /* MockNetworkService.swift */; };
-    2CA2201F505DDBFEB0DAC638 /* PexelsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15EB3C11E50B270DC5C52DC3 /* PexelsNetworkService.swift */; };
-    9AB4605B0B5A313C9EF9BCC0 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E2B87B1FC0787D2976D2EE /* ServiceProtocols.swift */; };
-    BF793C29761628AC871D257A /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95B449A7BDF07E8E3E1D6B71 /* Wallpaper.swift */; };
+		D6DF672AC6AC422EB08E1388 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F98A0D4BBBB481C879EC8F2 /* Empty.swift */; };
+		1BFAA86567534A3FB89681FD /* WallpaperDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255ECBB341E4407CA1D61CE1 /* WallpaperDetailCoordinator.swift */; };
+		09814DB2B90B42B9955BB3BA /* TesseraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971B8A4D490E42F6BBD23942 /* TesseraApp.swift */; };
+		8435118D5D804D27BBDAF8EB /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6BCB1AD16241C088D248DE /* Collections.swift */; };
+		0AC09A81678B462ABF456E79 /* Wallpaper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A955D98DA4E4D7FBD82E766 /* Wallpaper.swift */; };
+		BB70BE8DD3884D728E4910E7 /* ServiceProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485D8E311C99454485432326 /* ServiceProtocols.swift */; };
+		B962C69211AF4B98B70A994F /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 592B728B17E74D4BB2CA77D9 /* Empty.swift */; };
+		0C948D10605E41C5BE5BCE34 /* CollectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCDBA4C8F2A54CF59232B901 /* CollectionsView.swift */; };
+		E50CE0E82D21462986AFBCDD /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F75508DDE92438085E7E2BB /* CollectionsViewModel.swift */; };
+		BE2F0A9B81D1413AA97EC965 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = A65A2CB9A5BE494EBA610C9B /* Empty.swift */; };
+		65F699820772461FAE63C4C5 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5C47199229F4446A5235764 /* Empty.swift */; };
+		9BD3B8637EBC47EEB2704543 /* WallpaperDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5B67347742A4C0285F46628 /* WallpaperDetailModel.swift */; };
+		698A56E30CEB48D7880D8B7F /* WallpaperDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA1939B275541C9B395896A /* WallpaperDetailViewController.swift */; };
+		71923A29564644E98548F832 /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5E5ED8F087C467C9216F1BF /* DiscoverView.swift */; };
+		D6DAC375AD094F7B8F984125 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 356F2F487B894FB5BFC71BC7 /* DiscoverViewModel.swift */; };
+		09BBA3DA104B40D0B45322CF /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9054068E8C684FB6986C9E30 /* FavoritesView.swift */; };
+		6FF8F5D49B414FC8A44F215B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5DEF7DE3FBA4CF7BE16607E /* SettingsView.swift */; };
+		8AEE5AEF013F40918FB3EFA9 /* PaletteExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B774F209CE648748E63C8CE /* PaletteExtractor.swift */; };
+		4C088D97C6BA40499FF28082 /* UserDefaultsPersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5D2B03C6BA4B09AB8053CD /* UserDefaultsPersistenceStore.swift */; };
+		BFAA56F664CF4F0C8A83EE55 /* FilterEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D218E29014C441DBB876833 /* FilterEngine.swift */; };
+		C8A0D3749E9545328A65BF0E /* DailyWallpaperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 692C84AFDBE146748C661CC7 /* DailyWallpaperWidget.swift */; };
+		74BE8454AEA5475E9F8421B0 /* KingfisherImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CF3437DBFE44E6EBB0BBBD0 /* KingfisherImageLoader.swift */; };
+		F8372358344748F39130A29A /* DailyWallpaperActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B21E6722C634FD98C01E74A /* DailyWallpaperActivityManager.swift */; };
+		7F5A0C1802D34A58B7F2C4BC /* DailyWallpaperActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 091322DABCCB4B3796668F31 /* DailyWallpaperActivityWidget.swift */; };
+		477655B9F9684D1E9EC228AF /* MockNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9414E7D1571741EA8088020B /* MockNetworkService.swift */; };
+		6E5D1BDF294C4A609BB05739 /* PexelsNetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09791077094E4C07BB6DCB3C /* PexelsNetworkService.swift */; };
+		894E78C41360431CB5925A84 /* ShareExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA7F198BFCD14E83A5E12386 /* ShareExportService.swift */; };
+		CB11FFC3DAD048E5B9AD2E10 /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7503FE63D014B248AE9C26A /* TelegramSyncService.swift */; };
+		8E829430ECEA4FDE9D2B8711 /* DiscoverViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA0DB0708FCB4B9F86ACBD7A /* DiscoverViewModelTests.swift */; };
+		3D1C417648EF468FA497AD78 /* FilterEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CD46DBB424038B7787509 /* FilterEngineTests.swift */; };
+		A1533897595245048CC13B81 /* PaletteExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1B2BD3024F4667B45BCDB4 /* PaletteExtractorTests.swift */; };
+		C34F97D036B3453E825DADBB /* TesseraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A3CF05C7FDC4600BC8E3BE1 /* TesseraTests.swift */; };
+		593306CBE40F48C0A5DB7B66 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0BFB27853EFC426B97F3FF20 /* LaunchScreen.storyboard */; };
+		E03240968D0646808001FB10 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADD4683ACB004B45B973C6C6 /* Assets.xcassets */; };
+		7EAC54E295AC4FF095956FA2 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 826CDBE3D72D479E985907AA /* Kingfisher */; };
+		C3406406AA8B4AC99890A6CD /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 06D362E12C504BAEA0B73C95 /* SnapKit */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3EB32A2EDCAD46C19299B4A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B75591976F14E79986F5BA0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2606D288E254C05AC6270D6;
+			remoteInfo = Tessera;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
-        6F14D50F403151273CD0F26C /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "SettingsView.swift"; sourceTree = "<group>"; };
-        B92EBA35BE8CF19762C95043 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FavoritesView.swift"; sourceTree = "<group>"; };
-        AA602C7F763F08942764FA3F /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "DiscoverView.swift"; sourceTree = "<group>"; };
-        4B7C3F8C5686DEE9F83508D6 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "DiscoverViewModel.swift"; sourceTree = "<group>"; };
-        50162CC47A83E8DE5EF8A011 /* WallpaperDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WallpaperDetailModel.swift"; sourceTree = "<group>"; };
-        C2B8B745D9AD4056F3CD7DA0 /* WallpaperDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "WallpaperDetailViewController.swift"; sourceTree = "<group>"; };
-        E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "TesseraApp.swift"; sourceTree = "<group>"; };
-        B92084A2B6B8F2FE75106A34 /* FilterEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "FilterEngine.swift"; sourceTree = "<group>"; };
-        05FCE78928F35C3C424FCB32 /* KingfisherImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "KingfisherImageLoader.swift"; sourceTree = "<group>"; };
-        A3BE0C5E9524F48DD1663BB0 /* UserDefaultsPersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "UserDefaultsPersistenceStore.swift"; sourceTree = "<group>"; };
-        F9D1970671F446EFB674B0F5 /* PaletteExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "PaletteExtractor.swift"; sourceTree = "<group>"; };
-        BF2620B324D4C2CA5EE00E32 /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "MockNetworkService.swift"; sourceTree = "<group>"; };
-        15EB3C11E50B270DC5C52DC3 /* PexelsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "PexelsNetworkService.swift"; sourceTree = "<group>"; };
-        D4E2B87B1FC0787D2976D2EE /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "ServiceProtocols.swift"; sourceTree = "<group>"; };
-        95B449A7BDF07E8E3E1D6B71 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Wallpaper.swift"; sourceTree = "<group>"; };
-        FBA0A0EFA2A586D2E38507CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Info.plist"; sourceTree = "<group>"; };
-        EB86D84A1C215F33DAF11437 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = text; path = "LaunchScreen.storyboard"; sourceTree = "<group>"; };
-        B7748A77479396E2B6E0B19B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Assets.xcassets"; sourceTree = "<group>"; };
-        A45AC92181F51FE9C216955A /* Tessera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Tessera.entitlements"; sourceTree = "<group>"; };
-        6CD3F5AD1F60300B2EBDEC45 /* SnapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.framework"; path = SnapKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-        AF52E93DAF7F07C0AD26A316 /* Kingfisher.framework */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.framework"; path = Kingfisher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-5151B46607EBC8890D8DFCC2 /* Tessera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tessera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F98A0D4BBBB481C879EC8F2 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/App/Extensions/Empty.swift"; sourceTree = "<group>"; };
+		255ECBB341E4407CA1D61CE1 /* WallpaperDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/App/Extensions/WallpaperDetailCoordinator.swift"; sourceTree = "<group>"; };
+		971B8A4D490E42F6BBD23942 /* TesseraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/App/TesseraApp.swift"; sourceTree = "<group>"; };
+		4B6BCB1AD16241C088D248DE /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Domain/Models/Collections.swift"; sourceTree = "<group>"; };
+		4A955D98DA4E4D7FBD82E766 /* Wallpaper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Domain/Models/Wallpaper.swift"; sourceTree = "<group>"; };
+		485D8E311C99454485432326 /* ServiceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Domain/Protocols/ServiceProtocols.swift"; sourceTree = "<group>"; };
+		592B728B17E74D4BB2CA77D9 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Domain/UseCases/Empty.swift"; sourceTree = "<group>"; };
+		CCDBA4C8F2A54CF59232B901 /* CollectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Collections/CollectionsView.swift"; sourceTree = "<group>"; };
+		5F75508DDE92438085E7E2BB /* CollectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Collections/CollectionsViewModel.swift"; sourceTree = "<group>"; };
+		A65A2CB9A5BE494EBA610C9B /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Collections/Empty.swift"; sourceTree = "<group>"; };
+		F5C47199229F4446A5235764 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Common/Empty.swift"; sourceTree = "<group>"; };
+		E5B67347742A4C0285F46628 /* WallpaperDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Detail/WallpaperDetailModel.swift"; sourceTree = "<group>"; };
+		CFA1939B275541C9B395896A /* WallpaperDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Detail/WallpaperDetailViewController.swift"; sourceTree = "<group>"; };
+		B5E5ED8F087C467C9216F1BF /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Discover/DiscoverView.swift"; sourceTree = "<group>"; };
+		356F2F487B894FB5BFC71BC7 /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Discover/DiscoverViewModel.swift"; sourceTree = "<group>"; };
+		9054068E8C684FB6986C9E30 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Favorites/FavoritesView.swift"; sourceTree = "<group>"; };
+		A5DEF7DE3FBA4CF7BE16607E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Settings/SettingsView.swift"; sourceTree = "<group>"; };
+		2B774F209CE648748E63C8CE /* PaletteExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/ColorExtraction/PaletteExtractor.swift"; sourceTree = "<group>"; };
+		6E5D2B03C6BA4B09AB8053CD /* UserDefaultsPersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Database/UserDefaultsPersistenceStore.swift"; sourceTree = "<group>"; };
+		4D218E29014C441DBB876833 /* FilterEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Filtering/FilterEngine.swift"; sourceTree = "<group>"; };
+		692C84AFDBE146748C661CC7 /* DailyWallpaperWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/HomeWidget/DailyWallpaperWidget.swift"; sourceTree = "<group>"; };
+		1CF3437DBFE44E6EBB0BBBD0 /* KingfisherImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/ImageLoading/KingfisherImageLoader.swift"; sourceTree = "<group>"; };
+		5B21E6722C634FD98C01E74A /* DailyWallpaperActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/LiveActivity/DailyWallpaperActivityManager.swift"; sourceTree = "<group>"; };
+		091322DABCCB4B3796668F31 /* DailyWallpaperActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/LiveActivity/DailyWallpaperActivityWidget.swift"; sourceTree = "<group>"; };
+		9414E7D1571741EA8088020B /* MockNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Networking/MockNetworkService.swift"; sourceTree = "<group>"; };
+		09791077094E4C07BB6DCB3C /* PexelsNetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Networking/PexelsNetworkService.swift"; sourceTree = "<group>"; };
+		BA7F198BFCD14E83A5E12386 /* ShareExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Sharing/ShareExportService.swift"; sourceTree = "<group>"; };
+		B7503FE63D014B248AE9C26A /* TelegramSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/TelegramSync/TelegramSyncService.swift"; sourceTree = "<group>"; };
+		FA0DB0708FCB4B9F86ACBD7A /* DiscoverViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/DiscoverViewModelTests.swift"; sourceTree = "<group>"; };
+		068CD46DBB424038B7787509 /* FilterEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/FilterEngineTests.swift"; sourceTree = "<group>"; };
+		5C1B2BD3024F4667B45BCDB4 /* PaletteExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/PaletteExtractorTests.swift"; sourceTree = "<group>"; };
+		2A3CF05C7FDC4600BC8E3BE1 /* TesseraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/TesseraTests.swift"; sourceTree = "<group>"; };
+		96A0D46BC7D7461FA1C1AD2B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tessera/Info.plist"; sourceTree = "<group>"; };
+		0BFB27853EFC426B97F3FF20 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Tessera/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		ADD4683ACB004B45B973C6C6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Tessera/Assets.xcassets"; sourceTree = "<group>"; };
+		42549684004E45028B186749 /* Tessera.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tessera/Tessera.entitlements"; sourceTree = "<group>"; };
+		59C73A53B1804FD4865002B2 /* Tessera.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tessera.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FBCA492DF194298A3CB6616 /* TesseraTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesseraTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-814539B2AA27E00B9DA1743C /* Frameworks */ = {
-    isa = PBXFrameworksBuildPhase;
-    buildActionMask = 2147483647;
-    files = (
-        // SPM frameworks are resolved by Xcode at build time
-    );
-};
+		8D5911B99AD646988F4978EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7EAC54E295AC4FF095956FA2 /* Kingfisher in Frameworks */,
+				C3406406AA8B4AC99890A6CD /* SnapKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6DDCADF0CC364651880C7CE7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
-		5C2E61E9512245D8B1E1F845 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/App/Extensions/Empty.swift"; sourceTree = "<group>"; };
-		3AA858670DFC45A489C0D079 /* WallpaperDetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WallpaperDetailCoordinator.swift"; sourceTree = "<group>"; };
-		771B68BB7D4F41D28198F49B /* Collections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collections.swift"; sourceTree = "<group>"; };
-		01578F138CE248449CFB8089 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Domain/UseCases/Empty.swift"; sourceTree = "<group>"; };
-		146C292AE39149CB9D990C69 /* CollectionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionsView.swift"; sourceTree = "<group>"; };
-		0FC7CB097D6E43FFB1E296C3 /* CollectionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionsViewModel.swift"; sourceTree = "<group>"; };
-		F8145724203B4A1F838BDB59 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Collections/Empty.swift"; sourceTree = "<group>"; };
-		068CCB22081E4CEAAC29D222 /* Empty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Common/Empty.swift"; sourceTree = "<group>"; };
-		443B71A779A248369D59F6E4 /* DailyWallpaperWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyWallpaperWidget.swift"; sourceTree = "<group>"; };
-		4530FA9D68E44201A09483CF /* DailyWallpaperActivityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyWallpaperActivityManager.swift"; sourceTree = "<group>"; };
-		92261D5A058B4EEE97574A41 /* DailyWallpaperActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DailyWallpaperActivityWidget.swift"; sourceTree = "<group>"; };
-		36A45F489F2448708F71967B /* ShareExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShareExportService.swift"; sourceTree = "<group>"; };
-		CCC72F8D44B14B569FFABB31 /* TelegramSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TelegramSyncService.swift"; sourceTree = "<group>"; };
-
-	/* Begin PBXGroup section */
-AD2A42E246E420ADC8D14B86 /* App/Sources */ = {
-    isa = PBXGroup;
-    children = (
-                6F14D50F403151273CD0F26C /* SettingsView.swift */,
-                B92EBA35BE8CF19762C95043 /* FavoritesView.swift */,
-                AA602C7F763F08942764FA3F /* DiscoverView.swift */,
-                4B7C3F8C5686DEE9F83508D6 /* DiscoverViewModel.swift */,
-                50162CC47A83E8DE5EF8A011 /* WallpaperDetailModel.swift */,
-                C2B8B745D9AD4056F3CD7DA0 /* WallpaperDetailViewController.swift */,
-                E25E7CAF4B7328ADB08372F7 /* TesseraApp.swift */,
-                B92084A2B6B8F2FE75106A34 /* FilterEngine.swift */,
-                05FCE78928F35C3C424FCB32 /* KingfisherImageLoader.swift */,
-                A3BE0C5E9524F48DD1663BB0 /* UserDefaultsPersistenceStore.swift */,
-                F9D1970671F446EFB674B0F5 /* PaletteExtractor.swift */,
-                BF2620B324D4C2CA5EE00E32 /* MockNetworkService.swift */,
-                15EB3C11E50B270DC5C52DC3 /* PexelsNetworkService.swift */,
-                D4E2B87B1FC0787D2976D2EE /* ServiceProtocols.swift */,
-                95B449A7BDF07E8E3E1D6B71 /* Wallpaper.swift */,
-                6CD3F5AD1F60300B2EBDEC45 /* SnapKit.framework */,
-                AF52E93DAF7F07C0AD26A316 /* Kingfisher.framework */,
-    );
-    path = App/Sources;
-    sourceTree = "<group>";
-};
-F963DCC3891DECDEB0456176 /* Tessera */ = {
-    isa = PBXGroup;
-    children = (
-        5151B46607EBC8890D8DFCC2 /* Tessera.app */,
-    );
-    path = Tessera;
-    sourceTree = "<group>";
-};
-2D17C89EB2C5B87E8B0EC3B6 /* Frameworks */ = {
-    isa = PBXGroup;
-    children = (
-        // UIKit, SwiftUI, Foundation, CoreImage are implicit system frameworks
-    );
-    name = Frameworks;
-    sourceTree = "<group>";
-};
+/* Begin PBXGroup section */
+		A6CD0B0426084992AB330106 = {
+			isa = PBXGroup;
+			children = (
+				F138041E0BFE48B6A4694964 /* App Sources */,
+				5CDE227DE3CD4D4F8D54CB5A /* Tessera Resources */,
+				F8E6867076D84C97AB22BE44 /* Tests */,
+				665C069256504FDBBCAAD250 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F138041E0BFE48B6A4694964 /* App Sources */ = {
+			isa = PBXGroup;
+			children = (
+				0F98A0D4BBBB481C879EC8F2 /* Empty.swift */,
+				255ECBB341E4407CA1D61CE1 /* WallpaperDetailCoordinator.swift */,
+				971B8A4D490E42F6BBD23942 /* TesseraApp.swift */,
+				4B6BCB1AD16241C088D248DE /* Collections.swift */,
+				4A955D98DA4E4D7FBD82E766 /* Wallpaper.swift */,
+				485D8E311C99454485432326 /* ServiceProtocols.swift */,
+				592B728B17E74D4BB2CA77D9 /* Empty.swift */,
+				CCDBA4C8F2A54CF59232B901 /* CollectionsView.swift */,
+				5F75508DDE92438085E7E2BB /* CollectionsViewModel.swift */,
+				A65A2CB9A5BE494EBA610C9B /* Empty.swift */,
+				F5C47199229F4446A5235764 /* Empty.swift */,
+				E5B67347742A4C0285F46628 /* WallpaperDetailModel.swift */,
+				CFA1939B275541C9B395896A /* WallpaperDetailViewController.swift */,
+				B5E5ED8F087C467C9216F1BF /* DiscoverView.swift */,
+				356F2F487B894FB5BFC71BC7 /* DiscoverViewModel.swift */,
+				9054068E8C684FB6986C9E30 /* FavoritesView.swift */,
+				A5DEF7DE3FBA4CF7BE16607E /* SettingsView.swift */,
+				2B774F209CE648748E63C8CE /* PaletteExtractor.swift */,
+				6E5D2B03C6BA4B09AB8053CD /* UserDefaultsPersistenceStore.swift */,
+				4D218E29014C441DBB876833 /* FilterEngine.swift */,
+				692C84AFDBE146748C661CC7 /* DailyWallpaperWidget.swift */,
+				1CF3437DBFE44E6EBB0BBBD0 /* KingfisherImageLoader.swift */,
+				5B21E6722C634FD98C01E74A /* DailyWallpaperActivityManager.swift */,
+				091322DABCCB4B3796668F31 /* DailyWallpaperActivityWidget.swift */,
+				9414E7D1571741EA8088020B /* MockNetworkService.swift */,
+				09791077094E4C07BB6DCB3C /* PexelsNetworkService.swift */,
+				BA7F198BFCD14E83A5E12386 /* ShareExportService.swift */,
+				B7503FE63D014B248AE9C26A /* TelegramSyncService.swift */,
+			);
+			name = "App Sources";
+			sourceTree = "<group>";
+		};
+		5CDE227DE3CD4D4F8D54CB5A /* Tessera Resources */ = {
+			isa = PBXGroup;
+			children = (
+				96A0D46BC7D7461FA1C1AD2B /* Info.plist */,
+				42549684004E45028B186749 /* Tessera.entitlements */,
+				0BFB27853EFC426B97F3FF20 /* LaunchScreen.storyboard */,
+				ADD4683ACB004B45B973C6C6 /* Assets.xcassets */,
+			);
+			name = "Tessera Resources";
+			sourceTree = "<group>";
+		};
+		F8E6867076D84C97AB22BE44 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				FA0DB0708FCB4B9F86ACBD7A /* DiscoverViewModelTests.swift */,
+				068CD46DBB424038B7787509 /* FilterEngineTests.swift */,
+				5C1B2BD3024F4667B45BCDB4 /* PaletteExtractorTests.swift */,
+				2A3CF05C7FDC4600BC8E3BE1 /* TesseraTests.swift */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
+		665C069256504FDBBCAAD250 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				59C73A53B1804FD4865002B2 /* Tessera.app */,
+				9FBCA492DF194298A3CB6616 /* TesseraTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-BDA4D46133806AEAFA106DD0 /* Tessera */ = {
-    isa = PBXNativeTarget;
-    buildConfigurationList = 53BF66FD56BE907E05559CE7;
-    buildPhases = (
-        D3EDFAF2404129DCD091A363 /* Sources */,
-        814539B2AA27E00B9DA1743C /* Frameworks */,
-        831AA64878D80618FF81FF9E /* Resources */,
-    );
-    buildRules = (
-    );
-    dependencies = (
-    );
-    infoPlist = Tessera/Info.plist;
-    productName = Tessera;
-    productReference = 5151B46607EBC8890D8DFCC2 /* Tessera.app */;
-    productType = "com.apple.product-type.application";
-};
+		F2606D288E254C05AC6270D6 /* Tessera */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA16CA3B5FBA4797AAF4CCDB /* Build configuration list for PBXNativeTarget "Tessera" */;
+			buildPhases = (
+				ADBCB43B0E5F475DBF3174A7 /* Sources */,
+				8D5911B99AD646988F4978EC /* Frameworks */,
+				5F0302328432472AA6CA4D29 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tessera;
+			packageProductDependencies = (
+				826CDBE3D72D479E985907AA /* Kingfisher */,
+				06D362E12C504BAEA0B73C95 /* SnapKit */,
+			);
+			productName = Tessera;
+			productReference = 59C73A53B1804FD4865002B2 /* Tessera.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A93E673858E944DDA6216EE6 /* TesseraTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A96A1B85E46C4FE9B653DF66 /* Build configuration list for PBXNativeTarget "TesseraTests" */;
+			buildPhases = (
+				E5FFC3D2B9FA4D61A8FD2E61 /* Sources */,
+				6DDCADF0CC364651880C7CE7 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B79E64430D494B28A1B6DD68 /* PBXTargetDependency */,
+			);
+			name = TesseraTests;
+			productName = TesseraTests;
+			productReference = 9FBCA492DF194298A3CB6616 /* TesseraTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-FD23064958A92B5677201214 /* Project */ = {
-    isa = PBXProject;
-    attributes = {
-        LastSwiftUpdateCheck = 1700;
-        LastUpgradeCheck = 1700;
-        TargetAttributes = {
-            BDA4D46133806AEAFA106DD0 = {
-                CreatedOnToolsVersion = 17.0;
-                LastSwiftMigration = 1700;
-            };
-        };
-    };
-    buildConfigurationList = 53BF66FD56BE907E05559CE7;
-    compatibilityVersion = "Xcode 14.0";
-    developmentRegion = en;
-    hasScannedForEncodings = 0;
-    knownRegions = (
-        en,
-        Base,
-    );
-    mainGroup = FD23064958A92B5677201214;
-    productRefGroup = F963DCC3891DECDEB0456176;
-    projectDirPath = "";
-    projectRoot = "";
-    targets = (
-        BDA4D46133806AEAFA106DD0 /* Tessera */,
-    );
-};
+		6B75591976F14E79986F5BA0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					F2606D288E254C05AC6270D6 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					A93E673858E944DDA6216EE6 = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = F2606D288E254C05AC6270D6;
+					};
+				};
+			};
+			buildConfigurationList = 323295FE85F444AA8E1DB2A8 /* Build configuration list for PBXProject "Tessera" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A6CD0B0426084992AB330106;
+			packageReferences = (
+				DDB1FD36947145BF85706A3C /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				9E7AD0D85475450AA910ECD5 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
+			productRefGroup = 665C069256504FDBBCAAD250 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F2606D288E254C05AC6270D6 /* Tessera */,
+				A93E673858E944DDA6216EE6 /* TesseraTests */,
+			);
+		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-831AA64878D80618FF81FF9E /* Resources */ = {
-    isa = PBXResourcesBuildPhase;
-    buildActionMask = 2147483647;
-    files = (
-        EC8466FE68AA289A44AFFFAB /* Info.plist in Resources */,
-        DFAA047D3E3E52A191043FC6 /* LaunchScreen.storyboard in Resources */,
-        8D4362F770337886E1D4A7E4 /* Assets.xcassets in Resources */,
-        1414A1A44793523AA812136A /* Tessera.entitlements in Resources */,
-    );
-};
+		5F0302328432472AA6CA4D29 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				593306CBE40F48C0A5DB7B66 /* LaunchScreen.storyboard in Resources */,
+				E03240968D0646808001FB10 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-D3EDFAF2404129DCD091A363 /* Sources */ = {
-    isa = PBXSourcesBuildPhase;
-    buildActionMask = 2147483647;
-    files = (
-		D2D9599E643F4CDE930E3B05 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2E61E9512245D8B1E1F845 /* Empty.swift */; };
-		EA4C29BDFBB849FA9CBB0D83 /* WallpaperDetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3AA858670DFC45A489C0D079 /* WallpaperDetailCoordinator.swift */; };
-		F647D1C70B5C4672BC24B6EA /* Collections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 771B68BB7D4F41D28198F49B /* Collections.swift */; };
-		C41F0B27095B452CA428DB22 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01578F138CE248449CFB8089 /* Empty.swift */; };
-		51E7C1AB482D4BEA88332C6E /* CollectionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 146C292AE39149CB9D990C69 /* CollectionsView.swift */; };
-		6259420A3C1C426EB58EF872 /* CollectionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FC7CB097D6E43FFB1E296C3 /* CollectionsViewModel.swift */; };
-		60C0220A12524414B436DCBE /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8145724203B4A1F838BDB59 /* Empty.swift */; };
-		0F80563912704B0AA6E5F970 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068CCB22081E4CEAAC29D222 /* Empty.swift */; };
-		6401559F896040BAB4CF091B /* DailyWallpaperWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443B71A779A248369D59F6E4 /* DailyWallpaperWidget.swift */; };
-		6F9A02E339184F96B1D6A149 /* DailyWallpaperActivityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4530FA9D68E44201A09483CF /* DailyWallpaperActivityManager.swift */; };
-		DFC82407CEE5408F942F7080 /* DailyWallpaperActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92261D5A058B4EEE97574A41 /* DailyWallpaperActivityWidget.swift */; };
-		FF267DF2B8DF4030A08C50BD /* ShareExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A45F489F2448708F71967B /* ShareExportService.swift */; };
-		D87CBFF4ECD04BE098E0189D /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCC72F8D44B14B569FFABB31 /* TelegramSyncService.swift */; };
-			D3EDFAF2404129DCD091A363 /* TesseraApp.swift in Sources */,
-        3DF6950DF21D04BA8C154B67 /* SettingsView.swift in Sources */,
-        4B5A475C34036103FC05A117 /* FavoritesView.swift in Sources */,
-        5328558216E9DC159B0641D6 /* DiscoverView.swift in Sources */,
-        DACFF64003F82C7FC5503135 /* DiscoverViewModel.swift in Sources */,
-        02D17225A51609B0B8589DD2 /* WallpaperDetailModel.swift in Sources */,
-        05D9274B84148C2F1D8DCAAA /* WallpaperDetailViewController.swift in Sources */,
-        10F39FA3568687B0D58E9A0D /* TesseraApp.swift in Sources */,
-        6B4FCD5B51A2D93200E36E87 /* FilterEngine.swift in Sources */,
-        26B0305062A7DA53D128B1E2 /* KingfisherImageLoader.swift in Sources */,
-        B49CED9771591298B85BC908 /* UserDefaultsPersistenceStore.swift in Sources */,
-        C5AB3E02B71A9E5E9E575B36 /* PaletteExtractor.swift in Sources */,
-        9B5F17F5A07379A4CB45A319 /* MockNetworkService.swift in Sources */,
-        2CA2201F505DDBFEB0DAC638 /* PexelsNetworkService.swift in Sources */,
-        9AB4605B0B5A313C9EF9BCC0 /* ServiceProtocols.swift in Sources */,
-        BF793C29761628AC871D257A /* Wallpaper.swift in Sources */,
-    );
-}};
+		ADBCB43B0E5F475DBF3174A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6DF672AC6AC422EB08E1388 /* Empty.swift in Sources */,
+				1BFAA86567534A3FB89681FD /* WallpaperDetailCoordinator.swift in Sources */,
+				09814DB2B90B42B9955BB3BA /* TesseraApp.swift in Sources */,
+				8435118D5D804D27BBDAF8EB /* Collections.swift in Sources */,
+				0AC09A81678B462ABF456E79 /* Wallpaper.swift in Sources */,
+				BB70BE8DD3884D728E4910E7 /* ServiceProtocols.swift in Sources */,
+				B962C69211AF4B98B70A994F /* Empty.swift in Sources */,
+				0C948D10605E41C5BE5BCE34 /* CollectionsView.swift in Sources */,
+				E50CE0E82D21462986AFBCDD /* CollectionsViewModel.swift in Sources */,
+				BE2F0A9B81D1413AA97EC965 /* Empty.swift in Sources */,
+				65F699820772461FAE63C4C5 /* Empty.swift in Sources */,
+				9BD3B8637EBC47EEB2704543 /* WallpaperDetailModel.swift in Sources */,
+				698A56E30CEB48D7880D8B7F /* WallpaperDetailViewController.swift in Sources */,
+				71923A29564644E98548F832 /* DiscoverView.swift in Sources */,
+				D6DAC375AD094F7B8F984125 /* DiscoverViewModel.swift in Sources */,
+				09BBA3DA104B40D0B45322CF /* FavoritesView.swift in Sources */,
+				6FF8F5D49B414FC8A44F215B /* SettingsView.swift in Sources */,
+				8AEE5AEF013F40918FB3EFA9 /* PaletteExtractor.swift in Sources */,
+				4C088D97C6BA40499FF28082 /* UserDefaultsPersistenceStore.swift in Sources */,
+				BFAA56F664CF4F0C8A83EE55 /* FilterEngine.swift in Sources */,
+				C8A0D3749E9545328A65BF0E /* DailyWallpaperWidget.swift in Sources */,
+				74BE8454AEA5475E9F8421B0 /* KingfisherImageLoader.swift in Sources */,
+				F8372358344748F39130A29A /* DailyWallpaperActivityManager.swift in Sources */,
+				7F5A0C1802D34A58B7F2C4BC /* DailyWallpaperActivityWidget.swift in Sources */,
+				477655B9F9684D1E9EC228AF /* MockNetworkService.swift in Sources */,
+				6E5D1BDF294C4A609BB05739 /* PexelsNetworkService.swift in Sources */,
+				894E78C41360431CB5925A84 /* ShareExportService.swift in Sources */,
+				CB11FFC3DAD048E5B9AD2E10 /* TelegramSyncService.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E5FFC3D2B9FA4D61A8FD2E61 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8E829430ECEA4FDE9D2B8711 /* DiscoverViewModelTests.swift in Sources */,
+				3D1C417648EF468FA497AD78 /* FilterEngineTests.swift in Sources */,
+				A1533897595245048CC13B81 /* PaletteExtractorTests.swift in Sources */,
+				C34F97D036B3453E825DADBB /* TesseraTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		B79E64430D494B28A1B6DD68 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2606D288E254C05AC6270D6 /* Tessera */;
+			targetProxy = 3EB32A2EDCAD46C19299B4A6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
-{config_uid} /* Debug */ = {{
-    isa = XCBuildConfiguration;
-    buildSettings = {{
-        ALWAYS_SEARCH_USER_PATHS = NO;
-        ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-        CODE_SIGN_ENTITLEMENTS = Tessera/Tessera.entitlements;
-        CODE_SIGN_STYLE = Automatic;
-        DEVELOPMENT_TEAM = "";
-        ENABLE_PREVIEWS = YES;
-        GENERATE_INFOPLIST_FILE = NO;
-        INFOPLIST_FILE = Tessera/Info.plist;
-        IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-        LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-        PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera;
-        PRODUCT_NAME = "$(TARGET_NAME)";
-        SWIFT_EMIT_LOC_STRINGS = YES;
-        SWIFT_VERSION = 5.9;
-        TARGETED_DEVICE_FAMILY = "1,2";
-    }};
-    name = Debug;
-}};
-{config2_uid} /* Release */ = {{
-    isa = XCBuildConfiguration;
-    buildSettings = {{
-        ALWAYS_SEARCH_USER_PATHS = NO;
-        ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-        CODE_SIGN_ENTITLEMENTS = Tessera/Tessera.entitlements;
-        CODE_SIGN_STYLE = Automatic;
-        DEVELOPMENT_TEAM = "";
-        ENABLE_PREVIEWS = YES;
-        GENERATE_INFOPLIST_FILE = NO;
-        INFOPLIST_FILE = Tessera/Info.plist;
-        IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-        LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-        PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera;
-        PRODUCT_NAME = "$(TARGET_NAME)";
-        SWIFT_EMIT_LOC_STRINGS = YES;
-        SWIFT_VERSION = 5.9;
-        TARGETED_DEVICE_FAMILY = "1,2";
-    }};
-    name = Release;
-}};
+		EF1F101C69A743D9ABE4DF05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				SDKROOT = iphoneos;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		C14D79DFE43242CCBE6DA284 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				SDKROOT = iphoneos;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		E0763A5BCC7F456885916448 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tessera/Tessera.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Tessera/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		4EEE7F594B08421F9AEB101A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Tessera/Tessera.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Tessera/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		2671B65BED664861A8355209 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tessera.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tessera";
+			};
+			name = Debug;
+		};
+		1F961D8D7A874FBD986A6223 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.finch254.tessera.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Tessera.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Tessera";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-{config_list_uid} /* Build configuration list for PBXProject "Project" */ = {{
-    isa = XCConfigurationList;
-    buildConfigurations = (
-        {config_uid} /* Debug */,
-        {config2_uid} /* Release */,
-    );
-    defaultConfigurationIsVisible = 0;
-    defaultConfigurationName = Release;
-}};
-{uid("configlist", "target")} /* Build configuration list for PBXNativeTarget "Tessera" */ = {{
-    isa = XCConfigurationList;
-    buildConfigurations = (
-        {config_uid} /* Debug */,
-        {config2_uid} /* Release */,
-    );
-    defaultConfigurationIsVisible = 0;
-    defaultConfigurationName = Release;
-}};
+		323295FE85F444AA8E1DB2A8 /* Build configuration list for PBXProject "Tessera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF1F101C69A743D9ABE4DF05 /* Debug */,
+				C14D79DFE43242CCBE6DA284 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA16CA3B5FBA4797AAF4CCDB /* Build configuration list for PBXNativeTarget "Tessera" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E0763A5BCC7F456885916448 /* Debug */,
+				4EEE7F594B08421F9AEB101A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A96A1B85E46C4FE9B653DF66 /* Build configuration list for PBXNativeTarget "TesseraTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2671B65BED664861A8355209 /* Debug */,
+				1F961D8D7A874FBD986A6223 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
-  }};
-/* Begin XCVersionGroup section */
-/* End XCVersionGroup section */
-}};
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DDB1FD36947145BF85706A3C /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.10.0;
+			};
+		};
+		9E7AD0D85475450AA910ECD5 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		826CDBE3D72D479E985907AA /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DDB1FD36947145BF85706A3C /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		06D362E12C504BAEA0B73C95 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E7AD0D85475450AA910ECD5 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6B75591976F14E79986F5BA0 /* Project object */;
+}
