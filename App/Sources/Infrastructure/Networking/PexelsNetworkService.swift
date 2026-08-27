@@ -110,7 +110,7 @@ struct PexelsPhoto: Decodable {
     let avgColor: String?
     let alt: String?
     let liked: Bool?
-    let src: [String: Any]
+    let src: [String: String]
 
     enum CodingKeys: String, CodingKey {
         case id
