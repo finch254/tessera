@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import UIKit
 
 // MARK: - Image loading protocol
 protocol ImageLoadingService {
@@ -10,7 +11,7 @@ protocol ImageLoadingService {
 // MARK: - Network service protocol
 protocol WallpaperNetworkService {
     func fetchPopular(page: Int, perPage: Int) async throws -> PaginatedResponse<Wallpaper>
-    func fetchSearch(query: String, page: Int, perPage: Int) async throws -> PaginatedResponse<Wallpaper>
+    func fetchSearch(query: String?, page: Int, perPage: Int) async throws -> PaginatedResponse<Wallpaper>
     func fetchCategory(slug: String, page: Int, perPage: Int) async throws -> PaginatedResponse<Wallpaper>
 }
 

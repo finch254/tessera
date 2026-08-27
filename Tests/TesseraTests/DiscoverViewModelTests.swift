@@ -10,7 +10,8 @@ final class DiscoverViewModelTests: XCTestCase {
         let persistence = UserDefaultsPersistenceStore()
         let imageLoader = KingfisherImageLoader()
         let network = MockNetworkService()
-        viewModel = DiscoverViewModel(network: network, imageLoader: imageLoader, persistence: persistence)
+        let coordinator = WallpaperDetailCoordinator(persistence: persistence, imageLoader: imageLoader)
+        viewModel = DiscoverViewModel(network: network, imageLoader: imageLoader, persistence: persistence, coordinator: coordinator)
     }
 
     override func tearDown() async throws {

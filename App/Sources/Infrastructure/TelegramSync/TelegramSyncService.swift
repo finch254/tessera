@@ -24,7 +24,7 @@ final class TelegramSyncService: WallpaperNetworkService {
         try await fetchTelegramWallpapers(page: page, perPage: perPage)
     }
 
-    func fetchSearch(query: String, page: Int = 1, perPage: Int = 40) async throws -> PaginatedResponse<Wallpaper> {
+    func fetchSearch(query: String?, page: Int = 1, perPage: Int = 40) async throws -> PaginatedResponse<Wallpaper> {
         try await fetchTelegramWallpapers(page: page, perPage: perPage)
     }
 

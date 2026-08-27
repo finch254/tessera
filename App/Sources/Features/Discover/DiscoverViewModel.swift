@@ -27,7 +27,7 @@ final class DiscoverViewModel: ObservableObject {
     init(network: WallpaperNetworkService,
          imageLoader: ImageLoadingService,
          persistence: PersistenceStore,
-         coordinator: WallpaperDetailCoordinator = WallpaperDetailCoordinator()) {
+         coordinator: WallpaperDetailCoordinator) {
         self.network = network
         self.imageLoader = imageLoader
         self.persistence = persistence

@@ -6,8 +6,29 @@ struct DailyWallpaperActivityWidget: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: DailyWallpaperAttributes.self) { context in
             // MARK: Lock Screen Presentation (primary surface)
-            lockScreenView(context: context)
-                .padding()
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Label("Daily Wallpaper", systemImage: "sun.max.fill")
+                        .font(.caption.bold())
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                    if context.isStale {
+                        Text("Updating...")
+                            .font(.caption2)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+
+                Text(context.state.photographer)
+                    .font(.headline)
+                    .lineLimit(1)
+
+                Text("Tap Tessera to view today's wallpaper")
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(1)
+            }
+            .padding()
         } dynamicIsland: { context in
             // MARK: Dynamic Island (only visible on iPhone 14 Pro+)
             DynamicIsland {
@@ -40,33 +61,6 @@ struct DailyWallpaperActivityWidget: Widget {
                     .foregroundStyle(.yellow)
             }
             .keylineTint(.accentColor)
-        }
-    }
-
-    // MARK: - Lock Screen View
-    @ViewBuilder
-    private func lockScreenView(context: ActivityViewContext<DailyWallpaperAttributes>) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Label("Daily Wallpaper", systemImage: "sun.max.fill")
-                    .font(.caption.bold())
-                    .foregroundStyle(.secondary)
-                Spacer()
-                if context.isStale {
-                    Text("Updating...")
-                        .font(.caption2)
-                        .foregroundStyle(.secondary)
-                }
-            }
-
-            Text(context.state.photographer)
-                .font(.headline)
-                .lineLimit(1)
-
-            Text("Tap Tessera to view today's wallpaper")
-                .font(.caption2)
-                .foregroundStyle(.secondary)
-                .lineLimit(1)
         }
     }
 }

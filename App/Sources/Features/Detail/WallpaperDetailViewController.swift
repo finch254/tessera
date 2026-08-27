@@ -1,4 +1,5 @@
 import UIKit
+import CoreImage
 import SnapKit
 
 // MARK: - Detail view controller (port from wallpaper-ios, modern Swift)

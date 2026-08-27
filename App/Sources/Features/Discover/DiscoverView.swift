@@ -199,7 +199,7 @@ struct DetailHost: UIViewControllerRepresentable {
         coordinator.showDetail(for: wallpaper)
     }
 
-    static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Context) {
+    static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Void) {
         uiViewController.presentedViewController?.dismiss(animated: false)
     }
 }
