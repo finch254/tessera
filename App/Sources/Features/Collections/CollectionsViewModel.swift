@@ -1,5 +1,6 @@
 import SwiftUI
 import Combine
+import ActivityKit
 
 @MainActor
 final class CollectionsViewModel: ObservableObject {
@@ -115,6 +116,12 @@ final class CollectionsViewModel: ObservableObject {
                 await MainActor.run {
                     self?.daily = dailyRecord
                     self?.persistence.lastDailyWallpaperID = ISO8601DateFormatter().string(from: Date())
+                }
+
+                // Start Live Activity for daily wallpaper
+                let started = await DailyWallpaperActivityManager.startActivity(wallpaper: wallpaper)
+                if !started {
+                    print("Live Activity not started — check Settings > Tessera > Live Activities")
                 }
             } catch {
                 await MainActor.run {

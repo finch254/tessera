@@ -21,11 +21,13 @@ enum DailyWallpaperActivityManager {
 
     /// Request a Live Activity for the daily wallpaper.
     /// Falls back gracefully on devices without Dynamic Island.
-    static func startActivity(wallpaper: Wallpaper) async {
+    /// Returns true if the activity was started successfully.
+    @discardableResult
+    static func startActivity(wallpaper: Wallpaper) async -> Bool {
         // Check authorization first
         guard ActivityAuthorizationInfo().areActivitiesEnabled else {
-            print("Live Activities not enabled for this app")
-            return
+            print("Live Activities not enabled for this app. User must enable in Settings.")
+            return false
         }
 
         // End previous activity if it exists
@@ -55,8 +57,10 @@ enum DailyWallpaperActivityManager {
             )
             currentActivity = activity
             print("Live Activity started: \(activity.id)")
+            return true
         } catch {
             print("Failed to start Live Activity: \(error)")
+            return false
         }
     }
 
