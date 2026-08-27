@@ -84,6 +84,13 @@ struct PexelsSearchResponse: Decodable {
     let perPage: Int
     let photos: [PexelsPhoto]
 
+    enum CodingKeys: String, CodingKey {
+        case totalResults = "total_results"
+        case page
+        case perPage = "per_page"
+        case photos
+    }
+
     func toPaginated() -> PaginatedResponse<Wallpaper> {
         PaginatedResponse(
             totalResults: totalResults,
@@ -103,7 +110,19 @@ struct PexelsPhoto: Decodable {
     let avgColor: String?
     let alt: String?
     let liked: Bool?
-    let src: [String: String]
+    let src: [String: Any]
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case photographer
+        case photographerId = "photographer_id"
+        case width
+        case height
+        case avgColor = "avg_color"
+        case alt
+        case liked
+        case src
+    }
 
     func toWallpaper() -> Wallpaper {
         Wallpaper(
