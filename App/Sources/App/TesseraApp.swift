@@ -9,7 +9,7 @@ struct TesseraApp: App {
     var body: some Scene {
         WindowGroup {
             Group {
-                if appState.persistence.onboardingCompleted {
+                if appState.onboardingCompleted {
                     RootView()
                         .environmentObject(appState)
                         .onOpenURL { url in
@@ -17,6 +17,7 @@ struct TesseraApp: App {
                         }
                 } else {
                     OnboardingView {
+                        appState.onboardingCompleted = true
                         appState.persistence.onboardingCompleted = true
                     }
                     .environmentObject(appState)
@@ -85,10 +86,14 @@ final class AppState: ObservableObject {
 
     let settingsVM: SettingsViewModel
 
+    @Published var onboardingCompleted: Bool
+
     init() {
         filterCache = FilterImageCache()
         persistence = UserDefaultsPersistenceStore()
         detailCoordinator = WallpaperDetailCoordinator()
+
+        onboardingCompleted = persistence.onboardingCompleted
 
         #if DEBUG
         if ProcessInfo.processInfo.arguments.contains("--mock-network") {

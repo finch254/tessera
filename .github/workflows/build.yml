@@ -94,9 +94,8 @@ jobs:
           retention-days: 7
 
       # --- Unsigned path (when DEVELOPMENT_TEAM is NOT set) ---
-      # Builds a .app, wraps it in a Payload folder, and zips as .ipa
-      # so Sideloadly can sign it with your Apple ID.
-      - name: Build unsigned app
+      # Uses archive to ensure asset catalogs are compiled into Assets.car
+      - name: Archive unsigned app
         if: ${{ env.DEVELOPMENT_TEAM == '' }}
         run: |
           mkdir -p build/unsigned
@@ -107,13 +106,15 @@ jobs:
             -destination 'generic/platform=iOS' \
             -derivedDataPath build/unsigned/DerivedData \
             CODE_SIGNING_ALLOWED=NO \
-            build
+            archive \
+            -archivePath $PWD/build/unsigned/Tessera.xcarchive
 
       - name: Package unsigned IPA
         if: ${{ env.DEVELOPMENT_TEAM == '' }}
         run: |
-          APP_PATH=$(find build/unsigned/DerivedData -name "Tessera.app" -type d | head -1)
+          APP_PATH="build/unsigned/Tessera.xcarchive/Products/Applications/Tessera.app"
           echo "Found app at: $APP_PATH"
+          ls -la "$APP_PATH"
           mkdir -p build/unsigned/Payload
           cp -r "$APP_PATH" build/unsigned/Payload/Tessera.app
           cd build/unsigned
