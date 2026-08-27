@@ -18,13 +18,13 @@ export default {
       const botToken = env.BOT_TOKEN;
       if (!botToken) {
         return new Response(
-          JSON.stringify({ error: "BOT_TOKEN not configured on worker" }),
+          JSON.stringify({ error: "BOT_TOKEN not configured" }),
           { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
         );
       }
 
+      // Get updates from Telegram
       const tgUrl = `https://api.telegram.org/bot${botToken}/getUpdates?limit=${limit}&allowed_updates=message`;
-
       const tgResponse = await fetch(tgUrl, {
         headers: { "User-Agent": "Tessera-Sync/1.0" },
       });
@@ -57,12 +57,13 @@ export default {
 
         const bestPhoto = photos[photos.length - 1];
         const fileId = bestPhoto.file_id;
-
         const caption = message.caption || message.text || "";
+
         let title = "Telegram Wallpaper";
         let photographer = "Telegram";
         let category = "Telegram";
 
+        // Parse caption: "Title | Photographer, Category"
         const pipeIndex = caption.indexOf("|");
         if (pipeIndex >= 0) {
           title = caption.slice(0, pipeIndex).trim();
@@ -74,6 +75,9 @@ export default {
           title = caption.trim();
         }
 
+        // Get file URL
+        const fileUrl = `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`;
+
         wallpapers.push({
           id: "telegram_" + fileId,
           title: title,
@@ -82,7 +86,7 @@ export default {
           width: bestPhoto.width,
           height: bestPhoto.height,
           file_id: fileId,
-          url: `https://api.telegram.org/bot${botToken}/getFile?file_id=${fileId}`,
+          url: fileUrl,
           date: new Date((message.date || 0) * 1000).toISOString(),
         });
       }
@@ -96,7 +100,6 @@ export default {
         }),
         { headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
-
     } catch (error) {
       return new Response(
         JSON.stringify({ error: error.message }),
