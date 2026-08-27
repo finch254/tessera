@@ -1,7 +1,7 @@
 import XCTest
-@MainActor
 @testable import Tessera
 
+@MainActor
 final class DiscoverViewModelTests: XCTestCase {
     private var viewModel: DiscoverViewModel!
 
