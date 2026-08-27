@@ -572,7 +572,7 @@ final class PaletteSwatchesView: UIView {
 
 // MARK: - Device icons image (port from wallpaper-ios UIDevice+Model)
 extension UIDevice {
-    var type: DeviceType { /* classify by model — simplified */ }
+    var type: DeviceType { .iPhone }
     var iconsImage: UIImage {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 390, height: 844), format: .preferred())
         return renderer.image { ctx in
