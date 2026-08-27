@@ -26,12 +26,58 @@ struct DailyWallpaperProvider: TimelineProvider {
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<DailyWallpaperEntry>) -> Void) {
-        // Refresh every 6 hours
-        let entries: [DailyWallpaperEntry] = (0..<4).map { i in
-            let date = Calendar.current.date(byAdding: .hour, value: i * 6, to: Date()) ?? Date()
-            return DailyWallpaperEntry(date: date, imageURL: nil, title: "Daily Wallpaper")
+        // Fetch real daily wallpaper from Pexels
+        Task {
+            let entry = await fetchDailyWallpaper()
+            // Refresh every 6 hours
+            let entries: [DailyWallpaperEntry] = (0..<4).map { i in
+                let date = Calendar.current.date(byAdding: .hour, value: i * 6, to: Date()) ?? Date()
+                return DailyWallpaperEntry(date: date, imageURL: entry.imageURL, title: entry.title)
+            }
+            completion(Timeline(entries: entries, policy: .atEnd))
         }
-        completion(Timeline(entries: entries, policy: .atEnd))
+    }
+
+    private func fetchDailyWallpaper() async -> DailyWallpaperEntry {
+        // Fetch a curated/editor's choice wallpaper from Pexels
+        guard let url = URL(string: "https://api.pexels.com/v1/curated?per_page=1&orientation=landscape") else {
+            return DailyWallpaperEntry(date: Date(), imageURL: nil, title: "Daily Wallpaper")
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        // Read API key from shared UserDefaults (App Group) or environment
+        let apiKey = UserDefaults.standard.string(forKey: "pexels_api_key") 
+            ?? ProcessInfo.processInfo.environment["PEXELS_API_KEY"] 
+            ?? ""
+        
+        if !apiKey.isEmpty {
+            request.setValue(apiKey, forHTTPHeaderField: "Authorization")
+        }
+
+        do {
+            let (data, response) = try await URLSession.shared.data(for: request)
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                return DailyWallpaperEntry(date: Date(), imageURL: nil, title: "Daily Wallpaper")
+            }
+
+            // Parse the response
+            if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let photos = json["photos"] as? [[String: Any]],
+               let first = photos.first,
+               let src = first["src"] as? [String: Any],
+               let mediumURL = src["medium"] as? String,
+               let imageURL = URL(string: mediumURL) {
+                let photographer = first["photographer"] as? String ?? "Tessera"
+                return DailyWallpaperEntry(date: Date(), imageURL: imageURL, title: photographer)
+            }
+        } catch {
+            print("Widget fetch error: \(error)")
+        }
+
+        return DailyWallpaperEntry(date: Date(), imageURL: nil, title: "Daily Wallpaper")
     }
 }
 
