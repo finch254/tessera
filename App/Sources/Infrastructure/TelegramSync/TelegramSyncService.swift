@@ -10,7 +10,7 @@ final class TelegramSyncService: WallpaperNetworkService {
             #if DEBUG
             self.baseURL = "http://localhost:8787"
             #else
-            self.baseURL = "https://your-worker.workers.dev"
+            self.baseURL = "https://tessera-telegram-sync.finchlord.workers.dev"
             #endif
         } else {
             self.baseURL = baseURL
@@ -35,7 +35,7 @@ final class TelegramSyncService: WallpaperNetworkService {
     // MARK: - Private
 
     private func fetchTelegramWallpapers(page: Int, perPage: Int) async throws -> PaginatedResponse<Wallpaper> {
-        guard var components = URLComponents(string: baseURL + "/sync") else {
+        guard var components = URLComponents(string: baseURL) else {
             throw NetworkError.badURL
         }
         components.queryItems = [
