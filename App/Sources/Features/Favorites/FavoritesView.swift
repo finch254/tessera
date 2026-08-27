@@ -80,18 +80,12 @@ struct FavoritesView: View {
         let height = width / max(aspectRatio, 0.5)
 
         ZStack(alignment: .bottom) {
-            if let url = wallpaper.src.medium {
-                KFImage(url)
-                    .placeholder { Color.gray.opacity(0.3) }
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: width, height: height)
-                    .clipped()
-            } else {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: width, height: height)
-            }
+            KFImage(wallpaper.src.medium)
+                .placeholder { Color.gray.opacity(0.3) }
+                .resizable()
+                .scaledToFill()
+                .frame(width: width, height: height)
+                .clipped()
 
             LinearGradient(
                 gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
