@@ -38,21 +38,25 @@ struct RootView: View {
                 .tabItem {
                     Label("Explore", systemImage: "photo.on.rectangle.angled")
                 }
+                .accessibilityLabel("Explore tab")
 
             FavoritesView(viewModel: appState.favoritesVM)
                 .tabItem {
                     Label("Favorites", systemImage: "heart")
                 }
+                .accessibilityLabel("Favorites tab")
 
             CollectionsView(viewModel: appState.collectionsVM)
                 .tabItem {
                     Label("Featured", systemImage: "star.fill")
                 }
+                .accessibilityLabel("Featured tab")
 
             SettingsView(viewModel: appState.settingsVM)
                 .tabItem {
                     Label("Settings", systemImage: "gear")
                 }
+                .accessibilityLabel("Settings tab")
         }
         .tint(.accentColor)
     }

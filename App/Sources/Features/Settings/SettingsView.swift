@@ -15,6 +15,8 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.menu)
+                    .accessibilityLabel("App theme")
+                    .accessibilityHint("Select light, dark, or system appearance")
                     .onChange(of: viewModel.selectedTheme) { _, new in
                         viewModel.updateTheme(new)
                     }
@@ -28,6 +30,8 @@ struct SettingsView: View {
                         }
                     }
                     .pickerStyle(.menu)
+                    .accessibilityLabel("Blur style")
+                    .accessibilityHint("Select blur effect for wallpaper preview")
                     .onChange(of: viewModel.blurMode) { _, new in
                         viewModel.updateBlurMode(new)
                     }
@@ -38,6 +42,8 @@ struct SettingsView: View {
                         Text("\(Int(viewModel.defaultBlur * 100))%")
                             .foregroundColor(.secondary)
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("Blur intensity \(Int(viewModel.defaultBlur * 100)) percent")
                 }
 
                 // Telegram sync section
@@ -46,6 +52,8 @@ struct SettingsView: View {
                         get: { viewModel.isTelegramSyncEnabled },
                         set: { viewModel.setTelegramSyncEnabled($0) }
                     ))
+                    .accessibilityLabel("Sync wallpapers from Telegram")
+                    .accessibilityHint("When enabled, fetches wallpapers from a Telegram channel")
                     .onChange(of: viewModel.isTelegramSyncEnabled) { _, newValue in
                         if newValue {
                             viewModel.showTelegramSetupInfo()
@@ -61,6 +69,8 @@ struct SettingsView: View {
                                 .font(.caption2)
                                 .foregroundColor(.secondary)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Source channel @tessera_wallpapers")
                     }
                 }
 
@@ -78,12 +88,15 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    .accessibilityLabel("Clear image cache")
+                    .accessibilityHint("Frees up space by removing cached images")
 
                     NavigationLink {
                         AboutView()
                     } label: {
                         Text("About")
                     }
+                    .accessibilityLabel("About Tessera")
                 }
 
                 // Attribution

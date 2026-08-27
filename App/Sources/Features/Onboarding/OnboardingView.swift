@@ -91,6 +91,8 @@ struct OnboardingView: View {
                                 .background(Color.accentColor)
                                 .clipShape(RoundedRectangle(cornerRadius: 14))
                         }
+                        .accessibilityLabel("Get started with Tessera")
+                        .accessibilityHint("Tap to begin browsing wallpapers")
                         .padding(.horizontal, 24)
                     } else {
                         Button(action: {
@@ -106,6 +108,8 @@ struct OnboardingView: View {
                                 .background(Color.accentColor)
                                 .clipShape(RoundedRectangle(cornerRadius: 14))
                         }
+                        .accessibilityLabel("Next page")
+                        .accessibilityHint("Swipe to the next introduction page")
                         .padding(.horizontal, 24)
                     }
 

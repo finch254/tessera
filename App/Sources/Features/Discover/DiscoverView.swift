@@ -65,6 +65,8 @@ struct DiscoverView: View {
                         .background(selected ? Color.accentColor : Color.gray.opacity(0.2))
                         .foregroundStyle(selected ? .white : .primary)
                         .clipShape(Capsule())
+                        .accessibilityLabel("\(category.name) category")
+                        .accessibilityHint(selected ? "Active, tap to remove" : "Tap to filter by \(category.name)")
                         .onTapGesture {
                             withAnimation(.spring(response: 0.2, dampingFraction: 0.7)) {
                                 viewModel.toggleCategory(category.id)
@@ -72,6 +74,7 @@ struct DiscoverView: View {
                         }
                 }
             }
+            .accessibilityElement(children: .contain)
         }
     }
 
@@ -142,6 +145,10 @@ struct DiscoverView: View {
         }
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Wallpaper by \(wallpaper.photographer)")
+        .accessibilityHint("Tap to view and customize")
+        .accessibilityAddTraits(.isButton)
     }
 
     // MARK: - States
@@ -161,6 +168,7 @@ struct DiscoverView: View {
             Image(systemName: "wifi.exclamationmark")
                 .font(.system(size: 40))
                 .foregroundStyle(.orange)
+                .accessibilityHidden(true)
             Text(message)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
@@ -169,6 +177,7 @@ struct DiscoverView: View {
                 Task { await viewModel.resetAndFetch() }
             }
             .buttonStyle(.borderedProminent)
+            .accessibilityLabel("Retry loading wallpapers")
         }
         .padding()
     }

@@ -92,11 +92,16 @@ struct FavoritesView: View {
                 Image(systemName: "heart.fill")
                     .foregroundColor(.red)
                     .font(.caption.weight(.bold))
+                    .accessibilityHidden(true)
             }
             .padding(8)
             .background(Color.black.opacity(0.4).clipShape(RoundedRectangle(cornerRadius: 6)))
         }
         .aspectRatio(16/9, contentComparison: .priority)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("Favorite wallpaper by \(wallpaper.photographer)")
+        .accessibilityHint("Tap to view and customize")
+        .accessibilityAddTraits(.isButton)
     }
 
     private var masonryColumns: [GridItem] {

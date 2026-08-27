@@ -51,9 +51,16 @@ final class WallpaperDetailViewController: UIViewController {
     // MARK: - Navigation
     private func setupNavigation() {
         closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeTapped))
+        closeButton.accessibilityLabel = "Close wallpaper detail"
+
         saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveTapped))
+        saveButton.accessibilityLabel = "Save wallpaper to Photos"
+
         favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favoriteTapped))
+        favoriteButton.accessibilityLabel = "Add wallpaper to favorites"
+
         applyButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(applyTapped))
+        applyButton.accessibilityLabel = "Save wallpaper"
 
         navigationItem.leftBarButtonItem = closeButton
         navigationItem.rightBarButtonItems = [applyButton, favoriteButton, saveButton]
@@ -81,6 +88,8 @@ final class WallpaperDetailViewController: UIViewController {
         blurSlider.minimumTrackTintColor = .white
         blurSlider.maximumTrackTintColor = .white.withAlphaComponent(0.5)
         blurSlider.thumbTintColor = .white
+        blurSlider.accessibilityLabel = "Blur intensity"
+        blurSlider.accessibilityHint = "Adjust blur amount on wallpaper"
         blurSlider.addTarget(self, action: #selector(blurChanged(_:)), for: .valueChanged)
         blurSlider.addTarget(self, action: #selector(blurChanged(_:)), for: [.touchUpInside, .touchUpOutside])
         view.addSubview(blurSlider)
@@ -91,6 +100,8 @@ final class WallpaperDetailViewController: UIViewController {
         iconsButton.tintColor = .black
         iconsButton.setImage(UIImage(systemName: "square.grid.2x2"), for: .normal)
         iconsButton.layer.cornerRadius = 25
+        iconsButton.accessibilityLabel = "Toggle app icon overlay"
+        iconsButton.accessibilityHint = "Shows or hides springboard icons on wallpaper preview"
         iconsButton.addTarget(self, action: #selector(iconsTapped), for: .touchUpInside)
         view.addSubview(iconsButton)
 
@@ -224,6 +235,8 @@ final class WallpaperDetailViewController: UIViewController {
             btn.layer.cornerRadius = 14
             btn.contentEdgeInsets = UIEdgeInsets(top: 4, left: 10, bottom: 4, right: 10)
             btn.tag = index
+            btn.accessibilityLabel = "\(filter.name) filter"
+            btn.accessibilityHint = "Tap to apply \(filter.name) filter to wallpaper"
             btn.addTarget(self, action: #selector(filterTapped(_:)), for: .touchUpInside)
             btn.snp.makeConstraints { make in
                 make.height.equalTo(28)

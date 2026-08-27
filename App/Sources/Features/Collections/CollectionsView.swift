@@ -58,12 +58,14 @@ struct CollectionsView: View {
                 Image(systemName: "sun.max.fill")
                     .font(.title2)
                     .foregroundStyle(.yellow)
+                    .accessibilityHidden(true)
             }
 
             // Preview image
             AsyncImageView(url: daily.wallpaper.src.medium, cornerRadius: 16)
                 .frame(height: 200)
                 .clipped()
+                .accessibilityLabel("Daily wallpaper preview")
 
             Button {
                 // Will be handled by coordinator in production
@@ -74,6 +76,7 @@ struct CollectionsView: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(.accentColor)
+            .accessibilityLabel("Set daily wallpaper as lock screen background")
         }
         .padding()
         .background(.ultraThinMaterial)
@@ -104,6 +107,7 @@ struct CollectionsView: View {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.clear, lineWidth: 0)
                 )
+                .accessibilityLabel("\(collection.title) collection cover")
 
             VStack(alignment: .leading, spacing: 2) {
                 HStack {
@@ -113,6 +117,7 @@ struct CollectionsView: View {
                         Image(systemName: "crown.fill")
                             .font(.caption2)
                             .foregroundStyle(.yellow)
+                            .accessibilityLabel("Premium collection")
                     }
                 }
                 Text(collection.subtitle)
@@ -124,6 +129,9 @@ struct CollectionsView: View {
         .background(.ultraThinMaterial)
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.08), radius: 4, x: 0, y: 2)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(collection.title) collection. \(collection.subtitle)")
+        .accessibilityHint("Tap to view collection")
     }
 }
 
