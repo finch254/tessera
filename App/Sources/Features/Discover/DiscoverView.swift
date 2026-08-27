@@ -105,29 +105,18 @@ struct DiscoverView: View {
         let height = width / max(aspectRatio, 0.5)
 
         ZStack(alignment: .bottomLeading) {
-            if let url = wallpaper.src.medium {
-                KFImage(url)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: width, height: height)
-                    .clipped()
-                    .overlay(
-                        LinearGradient(
-                            gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
-                            startPoint: .top,
-                            endPoint: .bottom
-                        )
+            KFImage(wallpaper.src.medium)
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: width, height: height)
+                .clipped()
+                .overlay(
+                    LinearGradient(
+                        gradient: Gradient(colors: [.clear, .black.opacity(0.7)]),
+                        startPoint: .top,
+                        endPoint: .bottom
                     )
-            } else {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: width, height: height)
-                    .overlay(
-                        Image(systemName: "photo")
-                            .font(.largeTitle)
-                            .foregroundStyle(.gray.opacity(0.4))
-                    )
-            }
+                )
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(wallpaper.photographer)

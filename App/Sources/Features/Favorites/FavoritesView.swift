@@ -113,7 +113,7 @@ struct FavoritesView: View {
             .padding(8)
             .background(Color.black.opacity(0.4).clipShape(RoundedRectangle(cornerRadius: 6)))
         }
-        .aspectRatio(16/9, contentComparison: .priority)
+        .aspectRatio(16/9, contentMode: .fit)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Favorite wallpaper by \(wallpaper.photographer)")
         .accessibilityHint("Tap to view and customize")
