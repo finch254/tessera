@@ -50,7 +50,7 @@ struct DailyWallpaperProvider: TimelineProvider {
         // Read API key from shared UserDefaults (App Group) or environment
         let apiKey = UserDefaults.standard.string(forKey: "pexels_api_key") 
             ?? ProcessInfo.processInfo.environment["PEXELS_API_KEY"] 
-            ?? ""
+            ?? "MJC9rZdQt8kfrOEzbKCvk0ODBqovZLkgxWxPuXmne332mImCiWbWOPdN"
         
         if !apiKey.isEmpty {
             request.setValue(apiKey, forHTTPHeaderField: "Authorization")

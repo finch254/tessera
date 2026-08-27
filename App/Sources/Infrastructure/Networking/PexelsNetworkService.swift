@@ -10,7 +10,7 @@ final class PexelsNetworkService: WallpaperNetworkService {
             return key
         }
         // Fallback: anonymous public access (less reliable). Replace with your key for production.
-        return ""
+        return "MJC9rZdQt8kfrOEzbKCvk0ODBqovZLkgxWxPuXmne332mImCiWbWOPdN"
     }()
 
     private let session: URLSession = {
