@@ -22,8 +22,9 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
     }
 
     var hasFavorited: (_ id: String) -> Bool {
-        { id in
-            (defaults.stringArray(forKey: self.favoritesKey) ?? []).contains(id)
+        { [weak self] id in
+            guard let self = self else { return false }
+            return (self.defaults.stringArray(forKey: self.favoritesKey) ?? []).contains(id)
         }
     }
 

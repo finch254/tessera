@@ -8,9 +8,9 @@ final class FilterEngine {
 
     init() {
         // Use GPU when available, fallback to CPU
-        context = CIContext(options: [.workingColorSpace: CIColorSpace.sRGB,
+        context = CIContext(options: [.workingColorSpace: CGColorSpace(name: CGColorSpace.sRGB)!,
                                       .cacheIntermediates: false,
-                                      .OutputColorSpace: CGColorSpaceCreateDeviceRGB()])
+                                      .outputColorSpace: CGColorSpaceCreateDeviceRGB()])
     }
 
     func apply(filter: CIFilter, to image: CIImage) -> CIImage {
@@ -110,8 +110,8 @@ final class FilterEngine {
         { image in
             let shadowReduce = CIFilter(name: "CIShadowHighlight", parameters: [
                 kCIInputImageKey: image,
-                kCIInputShadowAmountKey: 0.1,
-                kCIInputHighlightAmountKey: 0.1
+                "inputShadowAmount": 0.1,
+                "inputHighlightAmount": 0.1
             ])!
             var result = shadowReduce.outputImage ?? image
             let sat = CIFilter(name: "CISaturate", parameters: [kCIInputImageKey: result, kCIInputSaturationKey: 1.15])!

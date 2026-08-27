@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
@@ -20,7 +21,7 @@ struct DiscoverView: View {
                         }
                         .padding(.bottom, 24)
                     }
-                    .onChange(of: viewModel.selectedCategories) { _, _ in
+                    .onChange(of: viewModel.selectedCategories) { _ in
                         Task { await viewModel.resetAndFetch() }
                     }
                 }
@@ -34,7 +35,7 @@ struct DiscoverView: View {
             }
             .navigationTitle("Explore")
             .searchable(text: $searchText, prompt: "Search wallpapers")
-            .onChange(of: searchText) { _, newValue in
+            .onChange(of: searchText) { newValue in
                 viewModel.searchText = newValue
                 Task { await viewModel.search(query: newValue) }
             }
@@ -99,7 +100,7 @@ struct DiscoverView: View {
 
     @ViewBuilder
     private func masonryCell(wallpaper: Wallpaper) -> some View {
-        let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
+        let aspectRatio = CGFloat(wallpaper.height) / max(CGFloat(wallpaper.width), 1)
         let width: CGFloat = 180
         let height = width / max(aspectRatio, 0.5)
 

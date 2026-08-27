@@ -44,4 +44,14 @@ final class FilterImageCache {
         lock.lock(); defer { lock.unlock() }
         cache[url.absoluteString] = image
     }
+
+    func removeAll() {
+        lock.lock(); defer { lock.unlock() }
+        cache.removeAll()
+    }
+
+    var count: Int {
+        lock.lock(); defer { lock.unlock() }
+        return cache.count
+    }
 }

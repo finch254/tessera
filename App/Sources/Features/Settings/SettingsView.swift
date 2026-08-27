@@ -17,7 +17,7 @@ struct SettingsView: View {
                     .pickerStyle(.menu)
                     .accessibilityLabel("App theme")
                     .accessibilityHint("Select light, dark, or system appearance")
-                    .onChange(of: viewModel.selectedTheme) { _, new in
+                    .onChange(of: viewModel.selectedTheme) { new in
                         viewModel.updateTheme(new)
                     }
                 }
@@ -32,7 +32,7 @@ struct SettingsView: View {
                     .pickerStyle(.menu)
                     .accessibilityLabel("Blur style")
                     .accessibilityHint("Select blur effect for wallpaper preview")
-                    .onChange(of: viewModel.blurMode) { _, new in
+                    .onChange(of: viewModel.blurMode) { new in
                         viewModel.updateBlurMode(new)
                     }
 
@@ -54,7 +54,7 @@ struct SettingsView: View {
                     ))
                     .accessibilityLabel("Sync wallpapers from Telegram")
                     .accessibilityHint("When enabled, fetches wallpapers from a Telegram channel")
-                    .onChange(of: viewModel.isTelegramSyncEnabled) { _, newValue in
+                    .onChange(of: viewModel.isTelegramSyncEnabled) { newValue in
                         if newValue {
                             viewModel.showTelegramSetupInfo()
                         }
@@ -165,12 +165,12 @@ final class SettingsViewModel: ObservableObject {
     }
 
     func clearCache() {
-        cache.cache.removeAll()
+        cache.removeAll()
         Task { await computeCacheSize() }
     }
 
     func computeCacheSize() async {
-        cacheSize = Int64(cache.cache.count * 1_000_000)
+        cacheSize = Int64(cache.count * 1_000_000)
     }
 }
 

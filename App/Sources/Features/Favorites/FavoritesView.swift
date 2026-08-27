@@ -1,4 +1,5 @@
 import SwiftUI
+import Kingfisher
 
 // MARK: - Favorites tab
 struct FavoritesView: View {
@@ -28,12 +29,27 @@ struct FavoritesView: View {
     }
 
     // MARK: - Empty state
+    @ViewBuilder
     private var emptyState: some View {
-        ContentUnavailableView(
-            "No Favorites Yet",
-            systemImage: "heart.slash",
-            description: Text("Tap the heart on any wallpaper to save it here.")
-        )
+        if #available(iOS 17.0, *) {
+            ContentUnavailableView(
+                "No Favorites Yet",
+                systemImage: "heart.slash",
+                description: Text("Tap the heart on any wallpaper to save it here.")
+            )
+        } else {
+            VStack(spacing: 12) {
+                Image(systemName: "heart.slash")
+                    .font(.largeTitle)
+                    .foregroundStyle(.secondary)
+                Text("No Favorites Yet")
+                    .font(.headline)
+                    .foregroundStyle(.secondary)
+                Text("Tap the heart on any wallpaper to save it here.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+        }
     }
 
     // MARK: - Masonry grid
@@ -60,7 +76,7 @@ struct FavoritesView: View {
     @ViewBuilder
     private func favoriteCell(wallpaper: Wallpaper) -> some View {
         let width: CGFloat = 180
-        let aspectRatio = (wallpaper.height as CGFloat) / max(wallpaper.width as CGFloat, 1)
+        let aspectRatio = CGFloat(wallpaper.height) / max(CGFloat(wallpaper.width), 1)
         let height = width / max(aspectRatio, 0.5)
 
         ZStack(alignment: .bottom) {
