@@ -17,6 +17,7 @@ final class WallpaperDetailViewController: UIViewController {
     private var closeButton: UIBarButtonItem!
     private var favoriteButton: UIBarButtonItem!
     private var applyButton: UIBarButtonItem!
+    private var shareButton: UIBarButtonItem!
     private var attributionView: UITextView!
 
     // MARK: - State
@@ -53,6 +54,9 @@ final class WallpaperDetailViewController: UIViewController {
         closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeTapped))
         closeButton.accessibilityLabel = "Close wallpaper detail"
 
+        shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareTapped))
+        shareButton.accessibilityLabel = "Share wallpaper"
+
         saveButton = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(saveTapped))
         saveButton.accessibilityLabel = "Save wallpaper to Photos"
 
@@ -63,7 +67,7 @@ final class WallpaperDetailViewController: UIViewController {
         applyButton.accessibilityLabel = "Save wallpaper"
 
         navigationItem.leftBarButtonItem = closeButton
-        navigationItem.rightBarButtonItems = [applyButton, favoriteButton, saveButton]
+        navigationItem.rightBarButtonItems = [shareButton, applyButton, favoriteButton, saveButton]
         navigationItem.rightBarButtonItems?.forEach { $0.tintColor = .white }
     }
 
@@ -331,6 +335,35 @@ final class WallpaperDetailViewController: UIViewController {
         // Best approach on public App Store: save to Photos and provide a system
         // Settings deep link / guide. For enterprise/MDM you have more options.
         saveTapped()
+    }
+
+    @objc private func shareTapped() {
+        // Render the final filtered image
+        guard let ciImage = ciImage else { return }
+        guard let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent) else { return }
+        let baseImage = UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up)
+
+        // If icon overlay is visible, composite it on top
+        let finalImage: UIImage
+        if iconsOverlay.alpha > 0, let iconsImage = iconsOverlay.image {
+            finalImage = compositeIconsOnImage(baseImage, icons: iconsImage)
+        } else {
+            finalImage = baseImage
+        }
+
+        // Present share sheet
+        let activityVC = UIActivityViewController(activityItems: [finalImage], applicationActivities: nil)
+        activityVC.popoverPresentationController?.barButtonItem = shareButton
+        present(activityVC, animated: true)
+    }
+
+    private func compositeIconsOnImage(_ base: UIImage, icons: UIImage) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: base.size)
+        return renderer.image { context in
+            base.draw(in: CGRect(origin: .zero, size: base.size))
+            // Scale icons image to match base image size
+            icons.draw(in: CGRect(origin: .zero, size: base.size), blendMode: .normal, alpha: 0.85)
+        }
     }
 
     @objc private func iconsTapped() {
