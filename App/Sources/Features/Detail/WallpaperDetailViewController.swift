@@ -27,7 +27,7 @@ final class WallpaperDetailViewController: UIViewController {
     private let filterEngine = FilterEngine()
     private lazy var ciContext: CIContext = {
         CIContext(options: [.cacheIntermediates: false,
-                            .workingColorSpace: CIColorSpace(name: CGColorSpace.sRGB)!])
+                            .workingColorSpace: CGColorSpace(name: CGColorSpace.sRGB)!])
     }()
 
     // MARK: - Init
