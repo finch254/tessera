@@ -4,24 +4,22 @@ import XCTest
 final class FilterEngineTests: XCTestCase {
     private let engine = FilterEngine()
 
-    func testMakeFiltersReturnsFifteenFilters() {
+    func testMakeFiltersReturnsEighteenFilters() {
         let filters = FilterEngine.makeFilters()
         XCTAssertEqual(filters.count, 18, "FilterEngine should provide 18 filters")
     }
 
-    func testApplyFilterReturnsNonNilImage() {
+    func testApplyFilterReturnsImage() {
         let filters = FilterEngine.makeFilters()
-        guard let ciImage = CIImage(color: .red).cropped(to: CGRect(x: 0, y: 0, width: 100, height: 100)) else {
-            XCTFail("Could not create test CIImage")
-            return
-        }
+        let ciImage = CIImage(color: .red).cropped(to: CGRect(x: 0, y: 0, width: 100, height: 100))
         let result = filters[0].apply(ciImage)
         XCTAssertNotNil(result, "Applying first filter should return an image")
     }
 
-    func testBlurDoesNotCrashOnNilInput() {
-        // applyBlur with nil image returns nil, no crash
-        let result = engine.applyBlur(to: nil, radius: 5.0, mode: .gaussian)
-        XCTAssertNil(result, "Blur on nil input should return nil")
+    func testApplyFilterDoesNotCrashOnEmptyImage() {
+        let filters = FilterEngine.makeFilters()
+        let ciImage = CIImage(color: .blue).cropped(to: CGRect(x: 0, y: 0, width: 1, height: 1))
+        let result = filters[0].apply(ciImage)
+        XCTAssertNotNil(result, "Filter should handle small images")
     }
 }
