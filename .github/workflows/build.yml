@@ -46,6 +46,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             build
 
+      # --- Signed path (when DEVELOPMENT_TEAM is set) ---
       - name: Archive (signed)
         if: ${{ env.DEVELOPMENT_TEAM != '' }}
         run: |
@@ -60,7 +61,7 @@ jobs:
             archive \
             -archivePath $PWD/build/Tessera.xcarchive
 
-      - name: Export IPA
+      - name: Export IPA (signed)
         if: ${{ env.DEVELOPMENT_TEAM != '' }}
         run: |
           mkdir -p $PWD/build/export
@@ -84,10 +85,45 @@ jobs:
             -exportPath $PWD/build/export \
             -exportOptionsPlist $PWD/build/export/ExportOptions.plist
 
-      - name: Upload IPA artifact
+      - name: Upload IPA (signed)
         if: ${{ env.DEVELOPMENT_TEAM != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: Tessera-Debug
           path: build/export/*.ipa
+          retention-days: 7
+
+      # --- Unsigned path (when DEVELOPMENT_TEAM is NOT set) ---
+      # Builds a .app, wraps it in a Payload folder, and zips as .ipa
+      # so Sideloadly can sign it with your Apple ID.
+      - name: Build unsigned app
+        if: ${{ env.DEVELOPMENT_TEAM == '' }}
+        run: |
+          mkdir -p build/unsigned
+          xcodebuild \
+            -project Tessera.xcodeproj \
+            -scheme Tessera \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/unsigned/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      - name: Package unsigned IPA
+        if: ${{ env.DEVELOPMENT_TEAM == '' }}
+        run: |
+          APP_PATH=$(find build/unsigned/DerivedData -name "Tessera.app" -type d | head -1)
+          echo "Found app at: $APP_PATH"
+          mkdir -p build/unsigned/Payload
+          cp -r "$APP_PATH" build/unsigned/Payload/Tessera.app
+          cd build/unsigned
+          zip -r Tessera-Debug.ipa Payload
+          ls -la Tessera-Debug.ipa
+
+      - name: Upload unsigned IPA
+        if: ${{ env.DEVELOPMENT_TEAM == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tessera-Debug
+          path: build/unsigned/Tessera-Debug.ipa
           retention-days: 7
