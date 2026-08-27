@@ -4,7 +4,7 @@ import PackageDescription
 let package = Package(
     name: "Tessera",
     platforms: [
-        .iOS(.v16)
+        .iOS("16.2")
     ],
     products: [
         .library(name: "Tessera", targets: ["Tessera"]),

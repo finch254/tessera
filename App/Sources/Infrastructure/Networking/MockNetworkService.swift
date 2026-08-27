@@ -1,4 +1,21 @@
 import Foundation
+import UIKit
+
+// MARK: - Mock image loader for previews and development
+final class MockImageLoader: ImageLoadingService {
+    func load(url: URL) async throws -> UIImage {
+        // Return a 1x1 placeholder image
+        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1))
+        return renderer.image { ctx in
+            UIColor.gray.setFill()
+            ctx.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+        }
+    }
+
+    func prefetch(urls: [URL]) {
+        // no-op in mock
+    }
+}
 
 // MARK: - Mock network service for development without API key
 final class MockNetworkService: WallpaperNetworkService {

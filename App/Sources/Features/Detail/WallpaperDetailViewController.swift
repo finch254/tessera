@@ -285,7 +285,7 @@ final class WallpaperDetailViewController: UIViewController {
         UIImageWriteToSavedPhotosAlbum(
             UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up),
             self,
-            #selector(savedImage(_::error:contextInfo:)),
+            #selector(savedImage(_:error:contextInfo:)),
             nil
         )
     }

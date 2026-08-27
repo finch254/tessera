@@ -18,9 +18,6 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
             guard let raw = defaults.stringArray(forKey: favoritesKey) else { return [] }
             return Set(raw)
         }
-        set async {
-            defaults.set(Array(newValue), forKey: favoritesKey)
-        }
     }
 
     var hasFavorited: (_ id: String) -> Bool {

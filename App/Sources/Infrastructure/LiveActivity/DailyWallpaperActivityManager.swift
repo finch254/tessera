@@ -48,7 +48,6 @@ enum DailyWallpaperActivityManager {
         )
 
         do {
-            #available(iOS 16.2, *)
             let activity = try Activity.request(
                 attributes: attributes,
                 content: content,
@@ -79,7 +78,6 @@ enum DailyWallpaperActivityManager {
         )
 
         do {
-            #available(iOS 16.2, *)
             try await activity.update(content)
         } catch {
             print("Failed to update Live Activity: \(error)")
@@ -105,7 +103,6 @@ enum DailyWallpaperActivityManager {
         )
 
         do {
-            #available(iOS 16.2, *)
             try await target.end(finalContent, dismissalPolicy: .default)
             if target.id == currentActivity?.id {
                 currentActivity = nil
