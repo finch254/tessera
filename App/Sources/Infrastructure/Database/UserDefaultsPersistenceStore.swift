@@ -7,6 +7,7 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
     private let favoritesKey = "tessera_favorites"
     private let themeKey = "tessera_theme"
     private let blurKey = "tessera_blur_mode"
+    private let onboardingKey = "tessera_onboarding_completed"
 
     init(defaults: UserDefaults = .standard) {
         self.defaults = defaults
@@ -78,5 +79,11 @@ final class UserDefaultsPersistenceStore: PersistenceStore {
         set {
             defaults.set(newValue.rawValue, forKey: blurKey)
         }
+    }
+
+    // MARK: - Onboarding
+    var onboardingCompleted: Bool {
+        get { defaults.bool(forKey: onboardingKey) }
+        set { defaults.set(newValue, forKey: onboardingKey) }
     }
 }

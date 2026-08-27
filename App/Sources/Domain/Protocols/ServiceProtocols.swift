@@ -32,6 +32,7 @@ protocol PersistenceStore: AnyObject {
     var selectedTheme: AppTheme { get set }
     var blurMode: BlurMode { get set }
     var lastDailyWallpaperID: String? { get set }
+    var onboardingCompleted: Bool { get set }
 }
 
 // MARK: - Theme

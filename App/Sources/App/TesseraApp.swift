@@ -8,13 +8,22 @@ struct TesseraApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .environmentObject(appState)
-                .environment(\.colorScheme, appState.effectiveColorScheme)
-                .preferredColorScheme(appState.preferredColorScheme)
-                .onOpenURL { url in
-                    appState.handleDeepLink(url)
+            Group {
+                if appState.persistence.onboardingCompleted {
+                    RootView()
+                        .environmentObject(appState)
+                        .onOpenURL { url in
+                            appState.handleDeepLink(url)
+                        }
+                } else {
+                    OnboardingView {
+                        appState.persistence.onboardingCompleted = true
+                    }
+                    .environmentObject(appState)
                 }
+            }
+            .environment(\.colorScheme, appState.effectiveColorScheme)
+            .preferredColorScheme(appState.preferredColorScheme)
         }
     }
 }
