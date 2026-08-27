@@ -5,6 +5,7 @@ struct DiscoverView: View {
     @ObservedObject var viewModel: DiscoverViewModel
 
     @State private var searchText = ""
+    @State private var selectedWallpaper: Wallpaper?
 
     var body: some View {
         NavigationStack {
@@ -39,16 +40,8 @@ struct DiscoverView: View {
                 viewModel.searchText = newValue
                 Task { await viewModel.search(query: newValue) }
             }
-            .sheet(item: Binding<Wallpaper?>(
-                get: { nil },
-                set: { wallpaper in
-                    if let w = wallpaper {
-                        viewModel.coordinator.rootViewController = getRoot()
-                        viewModel.coordinator.showDetail(for: w)
-                    }
-                }
-            )) { _ in
-                EmptyView()
+            .sheet(item: $selectedWallpaper) { wallpaper in
+                DetailHost(wallpaper: wallpaper, coordinator: viewModel.coordinator)
             }
         }
     }
@@ -135,6 +128,10 @@ struct DiscoverView: View {
         }
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.15), radius: 4, x: 0, y: 2)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            selectedWallpaper = wallpaper
+        }
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Wallpaper by \(wallpaper.photographer)")
         .accessibilityHint("Tap to view and customize")
