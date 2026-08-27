@@ -14,7 +14,14 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Select Xcode
-        run: sudo xcode-select -s /Applications/Xcode_15.4.app || sudo -S -p '' xcode-select -s /Applications/Xcode_15.3.app
+        run: |
+          # Use the newest Xcode available on the runner (no hard pin —
+          # pinned versions like 15.3/15.4 get removed from runners).
+          XCODE_APP=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$XCODE_APP" ]; then
+            sudo xcode-select -s "$XCODE_APP"
+          fi
+          xcodebuild -version
 
       - name: Cache SPM
         uses: actions/cache@v4
@@ -44,7 +51,7 @@ jobs:
         run: |
           mkdir -p $PWD/build/export
 
-          cat > $PWD/build/export/ExportOptions.plist << PLIST
+          cat > $PWD/build/export/ExportOptions.plist <<PLIST
           <?xml version="1.0" encoding="UTF-8"?>
           <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
           <plist version="1.0">

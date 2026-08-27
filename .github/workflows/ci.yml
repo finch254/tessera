@@ -11,7 +11,34 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Show toolchain
+        run: |
+          xcodebuild -version
+          xcrun simctl list runtimes | head -10
+
       - name: Build
-        run: xcodebuild -project Tessera.xcodeproj -scheme Tessera -destination 'platform=iOS Simulator,name=iPhone 15' build
+        run: |
+          xcodebuild \
+            -project Tessera.xcodeproj \
+            -scheme Tessera \
+            -destination 'generic/platform=iOS Simulator' \
+            build
+
+      - name: Pick available simulator
+        id: sim
+        run: |
+          UDID=$(xcrun simctl list devices available | grep -m1 -oE '\(([0-9A-F-]{36})\)' | tr -d '()')
+          if [ -z "$UDID" ]; then
+            echo "No available simulator found"
+            exit 1
+          fi
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
       - name: Test
-        run: xcodebuild -project Tessera.xcodeproj -scheme Tessera -destination 'platform=iOS Simulator,name=iPhone 15' test
+        run: |
+          xcodebuild \
+            -project Tessera.xcodeproj \
+            -scheme Tessera \
+            -destination "platform=iOS Simulator,id=${{ steps.sim.outputs.udid }}" \
+            test
