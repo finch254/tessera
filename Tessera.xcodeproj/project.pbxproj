@@ -20,6 +20,7 @@
 		34FDE6F56DA543ACA52FB9A0 /* DiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1C87019C1784E77AC0A948C /* DiscoverViewModel.swift */; };
 		0F7EBC7C2A224FEDA30AABFD /* FavoritesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9528A454283A443191B14C29 /* FavoritesView.swift */; };
 		CA59815CCAD84DCD942BF2EE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDB8FA0D7384AC7A6125AF8 /* SettingsView.swift */; };
+		D71B86C91A7C4A26ADE105A3 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E5812824A14474ABF7391D /* OnboardingView.swift */; };
 		C4364F7C9AB0442681D40870 /* PaletteExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E95A8B68454E6EBBD6812A /* PaletteExtractor.swift */; };
 		66B4F839F1B64C9BBC2F83A0 /* UserDefaultsPersistenceStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3A24F1AB5CE4D69BB012A4B /* UserDefaultsPersistenceStore.swift */; };
 		B91BE518A27B4AB490ADD2BF /* FilterEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6241F3BB733C42FB82B2740A /* FilterEngine.swift */; };
@@ -65,6 +66,7 @@
 		D1C87019C1784E77AC0A948C /* DiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Discover/DiscoverViewModel.swift"; sourceTree = "<group>"; };
 		9528A454283A443191B14C29 /* FavoritesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Favorites/FavoritesView.swift"; sourceTree = "<group>"; };
 		9BDB8FA0D7384AC7A6125AF8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Settings/SettingsView.swift"; sourceTree = "<group>"; };
+		D4E5812824A14474ABF7391D /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Onboarding/OnboardingView.swift"; sourceTree = "<group"; };
 		47E95A8B68454E6EBBD6812A /* PaletteExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/ColorExtraction/PaletteExtractor.swift"; sourceTree = "<group>"; };
 		D3A24F1AB5CE4D69BB012A4B /* UserDefaultsPersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Database/UserDefaultsPersistenceStore.swift"; sourceTree = "<group>"; };
 		6241F3BB733C42FB82B2740A /* FilterEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/Filtering/FilterEngine.swift"; sourceTree = "<group>"; };
@@ -293,6 +295,7 @@
 				34FDE6F56DA543ACA52FB9A0 /* DiscoverViewModel.swift in Sources */,
 				0F7EBC7C2A224FEDA30AABFD /* FavoritesView.swift in Sources */,
 				CA59815CCAD84DCD942BF2EE /* SettingsView.swift in Sources */,
+				D71B86C91A7C4A26ADE105A3 /* OnboardingView.swift in Sources */,
 				C4364F7C9AB0442681D40870 /* PaletteExtractor.swift in Sources */,
 				66B4F839F1B64C9BBC2F83A0 /* UserDefaultsPersistenceStore.swift in Sources */,
 				B91BE518A27B4AB490ADD2BF /* FilterEngine.swift in Sources */,

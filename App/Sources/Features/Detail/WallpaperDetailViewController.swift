@@ -455,7 +455,7 @@ final class WallpaperDetailViewController: UIViewController {
         }
 
         // 3. Render to UIImage
-guard let outputCIImage = result.extent.width > 0 ? result : ciImage else { return }
+        let outputCIImage = result.extent.width > 0 ? result : ciImage
         guard let cgImage = ciContext.createCGImage(outputCIImage, from: outputCIImage.extent) else { return }
 
         let uiImage = UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up)
@@ -574,23 +574,20 @@ final class PaletteSwatchesView: UIView {
 extension UIDevice {
     var type: DeviceType { /* classify by model — simplified */ }
     var iconsImage: UIImage {
-        // Build a springboard-style icon grid image from SF Symbols
-        // This is the core of the preview feature
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: 390, height: 844), format: .preferred())
         return renderer.image { ctx in
             let ctxSize = ctx.format.bounds.size
             UIColor.black.setFill()
             UIRectFill(ctx.format.bounds)
 
-            // Draw ~15 SF Symbol app icons in a grid
             let icons = ["clock", "camera", "photos", "settings", "messages",
                          "music", "mail", "safari", "maps", "calendar",
                          "notes", "weather", "appstore", "phone", "faceid"]
             let cols = 4
-            let rows = 4
             let iconSize: CGFloat = 44
             let padding: CGFloat = 8
-            let startX = (ctxSize.width - (cols * iconSize + (cols - 1) * padding)) / 2
+            let totalWidth = CGFloat(cols) * iconSize + CGFloat(cols - 1) * padding
+            let startX = (ctxSize.width - totalWidth) / 2
             let startY = ctxSize.height * 0.45
             let iconColor = UIColor(white: 0.9, alpha: 1)
 
@@ -601,12 +598,14 @@ extension UIDevice {
                 let y = startY + CGFloat(row) * (iconSize + padding)
 
                 let iconRect = CGRect(x: x, y: y, width: iconSize, height: iconSize)
-                let iconView = UIImageView(image: UIImage(systemName: name))
-                iconView.tintColor = iconColor
-                iconView.contentMode = .scaleAspectFit
-                iconView.frame = iconRect
-                iconView.cornerRadius = 8
-                iconView.drawHierarchy(in: iconRect, afterScreenUpdates: true)
+                if let iconImg = UIImage(systemName: name) {
+                    let iconView = UIImageView(image: iconImg)
+                    iconView.tintColor = iconColor
+                    iconView.contentMode = .scaleAspectFit
+                    iconView.frame = iconRect
+                    iconView.cornerRadius = 8
+                    iconView.drawHierarchy(in: iconRect, afterScreenUpdates: true)
+                }
             }
         }
     }
