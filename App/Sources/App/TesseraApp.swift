@@ -99,7 +99,7 @@ final class AppState: ObservableObject {
     }
 
     var effectiveColorScheme: ColorScheme {
-        preferredColorScheme ?? systemColorScheme
+        preferredColorScheme ?? (UITraitCollection.current.userInterfaceStyle == .dark ? .dark : .light)
     }
 
     var preferredColorScheme: ColorScheme? {
@@ -120,7 +120,7 @@ final class AppState: ObservableObject {
         }
 
         // Find the wallpaper in current data
-        let wallpapers = discoverVM.wallpapers + favoritesVM.wallpapers
+        let wallpapers = discoverVM.wallpapers + favoritesVM.favorites
         if let match = wallpapers.first(where: { $0.id == id || "\($0.id)" == id }) {
             detailCoordinator.showDetail(for: match)
         }
@@ -150,7 +150,7 @@ extension Color {
 
 // MARK: - UIImage scale helper
 extension UIScreen {
-    var mainScreenScale: CGFloat {
+    static var mainScreenScale: CGFloat {
         #if targetEnvironment(simulator)
         return 2.0
         #else

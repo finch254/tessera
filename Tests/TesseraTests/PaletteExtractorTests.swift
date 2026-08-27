@@ -16,7 +16,7 @@ final class PaletteExtractorTests: XCTestCase {
             return
         }
 
-        let colors = await PaletteExtractor.extract(from: uiImage, maximumColorCount: 5)
+        let colors = await PaletteExtractor().extract(from: uiImage, maximumColorCount: 5)
         XCTAssertFalse(colors.isEmpty, "Should extract at least one color from a solid image")
         XCTAssertLessThanOrEqual(colors.count, 5, "Should return at most 5 colors")
     }

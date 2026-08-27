@@ -166,7 +166,7 @@ final class WallpaperDetailViewController: UIViewController {
 
     // MARK: - Content
     private func setupContent() {
-        iconsOverlay.image = UIDevice.iconsImage
+        iconsOverlay.image = UIDevice.current.iconsImage
         loadImage()
         refreshCachedBlurMode()
         buildFilterStrip()
@@ -246,6 +246,12 @@ final class WallpaperDetailViewController: UIViewController {
             btn.backgroundColor = idx == currentFilterIndex ? UIColor.white : UIColor.white.withAlphaComponent(0.15)
             btn.setTitleColor(idx == currentFilterIndex ? .black : .white, for: .normal)
         }
+    }
+
+    @objc private func filterTapped(_ sender: UIButton) {
+        currentFilterIndex = sender.tag
+        updateFilterHighlight()
+        applyCurrentFilter()
     }
 
     // MARK: - Model observation
@@ -352,7 +358,7 @@ final class WallpaperDetailViewController: UIViewController {
     private func updatePaletteFromImage(_ ciImage: CIImage) async {
         guard let cgImage = CIContext().createCGImage(ciImage, from: ciImage.extent) else { return }
         let uiImage = UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up)
-        let colors = await PaletteExtractor.extract(from: uiImage, maximumColorCount: 5)
+        let colors = await PaletteExtractor().extract(from: uiImage, maximumColorCount: 5)
         await MainActor.run {
             updatePalette(colors)
         }
@@ -403,7 +409,7 @@ final class WallpaperDetailViewController: UIViewController {
         }
 
         // 3. Render to UIImage
-guard let outputCIImage = result.extent.length.width > 0 ? result : ciImage else { return }
+guard let outputCIImage = result.extent.width > 0 ? result : ciImage else { return }
         guard let cgImage = ciContext.createCGImage(outputCIImage, from: outputCIImage.extent) else { return }
 
         let uiImage = UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up)
@@ -441,7 +447,7 @@ guard let outputCIImage = result.extent.length.width > 0 ? result : ciImage else
     private func updateIconsTint(for image: UIImage) async {
         // Extract average color from palette (async, more accurate)
         guard let cgImage = image.cgImage else { return }
-        let colors = await PaletteExtractor.extract(from: image, maximumColorCount: 1)
+        let colors = await PaletteExtractor().extract(from: image, maximumColorCount: 1)
         let tint: UIColor = colors.first?.color ?? .white
         let textColor: UIColor = tint.luminance() > 0.5 ? .black : .white
         iconsButton.backgroundColor = tint
@@ -453,6 +459,14 @@ guard let outputCIImage = result.extent.length.width > 0 ? result : ciImage else
         let extracted = colors ?? []
         paletteView.colors = extracted
         paletteView.isHidden = extracted.isEmpty
+    }
+}
+
+// MARK: - UIView corner radius helper
+extension UIView {
+    var cornerRadius: CGFloat {
+        get { layer.cornerRadius }
+        set { layer.cornerRadius = newValue }
     }
 }
 
@@ -520,7 +534,7 @@ extension UIDevice {
         return renderer.image { ctx in
             let ctxSize = ctx.format.bounds.size
             UIColor.black.setFill()
-            ctx.format.bounds.fill()
+            UIRectFill(ctx.format.bounds)
 
             // Draw ~15 SF Symbol app icons in a grid
             let icons = ["clock", "camera", "photos", "settings", "messages",
@@ -532,7 +546,7 @@ extension UIDevice {
             let padding: CGFloat = 8
             let startX = (ctxSize.width - (cols * iconSize + (cols - 1) * padding)) / 2
             let startY = ctxSize.height * 0.45
-            let iconColor = #colorLiteral(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+            let iconColor = UIColor(white: 0.9, alpha: 1)
 
             for (index, name) in icons.enumerated() {
                 let col = index % cols
@@ -576,7 +590,7 @@ extension UIDevice {
         let machineMirror = Mirror(reflecting: systemInfo.machine)
         let identifier = machineMirror.children.reduce("") { identifier, element in
             guard let value = element.value as? Int8, value != 0 else { return identifier }
-            return identifier + String(UnicodeScalar(byteValue: value))
+            return identifier + String(UnicodeScalar(UInt8(bitPattern: value)))
         }
         return identifier
     }

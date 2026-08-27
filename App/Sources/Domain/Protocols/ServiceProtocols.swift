@@ -25,12 +25,13 @@ struct PaginatedResponse<T: Sendable> {
 }
 
 // MARK: - Persistence protocol (favorites + settings)
-protocol PersistenceStore {
+protocol PersistenceStore: AnyObject {
     var favorites: Set<String> { get async }
     var hasFavorited: (_ id: String) -> Bool { get }
     func toggleFavorite(_ id: String)
     var selectedTheme: AppTheme { get set }
     var blurMode: BlurMode { get set }
+    var lastDailyWallpaperID: String? { get set }
 }
 
 // MARK: - Theme

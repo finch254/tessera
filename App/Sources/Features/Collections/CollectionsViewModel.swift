@@ -1,4 +1,5 @@
 import SwiftUI
+import Combine
 
 @MainActor
 final class CollectionsViewModel: ObservableObject {
@@ -11,7 +12,7 @@ final class CollectionsViewModel: ObservableObject {
     let persistence: PersistenceStore
 
     private var dailyTask: Task<Void, Never>?
-    private var dailyTimer: Timer.TimerPublisher?
+    private var dailyTimerCancellable: AnyCancellable?
 
     init(network: WallpaperNetworkService, persistence: PersistenceStore) {
         self.network = network
@@ -21,7 +22,7 @@ final class CollectionsViewModel: ObservableObject {
     }
 
     deinit {
-        dailyTimer?.upstream.connect().cancel()
+        dailyTimerCancellable?.cancel()
         dailyTask?.cancel()
     }
 
@@ -125,9 +126,11 @@ final class CollectionsViewModel: ObservableObject {
 
     private func startDailyCheck() {
         // Check for new daily wallpaper every hour
-        dailyTimer = Timer.publish(every: 3600, on: .main, in: .common)
-        dailyTimer?.upstream.connect()
-            .store(in: &$daily)
+        dailyTimerCancellable = Timer.publish(every: 3600, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                self?.loadDaily()
+            }
     }
 
     // MARK: - Actions
