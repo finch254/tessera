@@ -1,0 +1,6 @@
+name = "tessera-telegram-sync"
+main = "worker.js"
+compatibility_date = "2024-09-01"
+
+[vars]
+CHANNEL = "@tessera_wallpapers"

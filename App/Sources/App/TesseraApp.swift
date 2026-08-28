@@ -111,7 +111,7 @@ final class AppState: ObservableObject {
 
         imageLoader = KingfisherImageLoader()
 
-        discoverVM = DiscoverViewModel(network: network, imageLoader: imageLoader, persistence: persistence, coordinator: detailCoordinator)
+        discoverVM = DiscoverViewModel(network: network, imageLoader: imageLoader, persistence: persistence, coordinator: detailCoordinator, telegram: telegramSync)
         favoritesVM = FavoritesViewModel(persistence: persistence, imageLoader: imageLoader, network: network)
         collectionsVM = CollectionsViewModel(network: network, persistence: persistence)
         settingsVM = SettingsViewModel(persistence: persistence, cache: filterCache)

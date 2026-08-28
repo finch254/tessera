@@ -4,7 +4,12 @@ import Combine
 // MARK: - Discover view model
 @MainActor
 final class DiscoverViewModel: ObservableObject {
+    /// Slug used for the Telegram-synced folder. Selecting this category
+    /// fetches from the Telegram channel instead of the primary network source.
+    static let telegramSlug = "telegram"
+
     let network: WallpaperNetworkService
+    let telegram: WallpaperNetworkService?
     let imageLoader: ImageLoadingService
     let persistence: PersistenceStore
     let coordinator: WallpaperDetailCoordinator
@@ -27,8 +32,10 @@ final class DiscoverViewModel: ObservableObject {
     init(network: WallpaperNetworkService,
          imageLoader: ImageLoadingService,
          persistence: PersistenceStore,
-         coordinator: WallpaperDetailCoordinator) {
+         coordinator: WallpaperDetailCoordinator,
+         telegram: WallpaperNetworkService? = nil) {
         self.network = network
+        self.telegram = telegram
         self.imageLoader = imageLoader
         self.persistence = persistence
         self.coordinator = coordinator
@@ -80,7 +87,15 @@ final class DiscoverViewModel: ObservableObject {
             .init(id: "textures", name: "Textures", slug: "textures",
                   imageUrl: URL(string: "https://images.pexels.com/photos/5318361/pexels-photo-5318361.jpeg")),
         ]
-        categories = defaultCategories
+        var all = defaultCategories
+        // Telegram-synced folder: wallpapers posted to the @tessera_wallpapers channel
+        if telegram != nil {
+            all.append(
+                .init(id: Self.telegramSlug, name: "Telegram", slug: Self.telegramSlug,
+                      imageUrl: URL(string: "https://images.pexels.com/photos/1105731/pexels-photo-1105731.jpeg"))
+            )
+        }
+        categories = all
     }
 
     // MARK: - Browse
@@ -164,7 +179,10 @@ final class DiscoverViewModel: ObservableObject {
 
         do {
             let response: PaginatedResponse<Wallpaper>
-            if let cat = selectedCategory {
+            if let cat = selectedCategory, cat.slug == Self.telegramSlug, let telegram {
+                // Telegram-synced folder: fetch from the Telegram channel worker
+                response = try await telegram.fetchCategory(slug: cat.slug, page: currentPage, perPage: 40)
+            } else if let cat = selectedCategory {
                 response = try await network.fetchCategory(slug: cat.slug, page: currentPage, perPage: 40)
             } else if let q = searchQuery, !q.isEmpty {
                 response = try await network.fetchSearch(query: q, page: currentPage, perPage: 40)
