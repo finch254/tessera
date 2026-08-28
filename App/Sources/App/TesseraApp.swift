@@ -41,6 +41,12 @@ struct RootView: View {
                 }
                 .accessibilityLabel("Explore tab")
 
+            VideoDiscoverView(viewModel: appState.videoDiscoverVM)
+                .tabItem {
+                    Label("Videos", systemImage: "film")
+                }
+                .accessibilityLabel("Videos tab")
+
             FavoritesView(viewModel: appState.favoritesVM)
                 .tabItem {
                     Label("Favorites", systemImage: "heart")
@@ -80,11 +86,18 @@ final class AppState: ObservableObject {
     let detailCoordinator: WallpaperDetailCoordinator
 
     let discoverVM: DiscoverViewModel
+    let videoDiscoverVM: VideoDiscoverViewModel
     let favoritesVM: FavoritesViewModel
     let collectionsVM: CollectionsViewModel
     let telegramSync: TelegramSyncService
 
     let settingsVM: SettingsViewModel
+
+    let videoNetwork: WallpaperVideoNetworkService
+    let livePhotoConverter: LivePhotoConverter
+    #if POSTERBOARD
+    let posterApplyService: PosterBoardApplyService
+    #endif
 
     @Published var onboardingCompleted: Bool
 
@@ -110,8 +123,14 @@ final class AppState: ObservableObject {
         telegramSync = TelegramSyncService()
 
         imageLoader = KingfisherImageLoader()
+        videoNetwork = PexelsVideoService()
+        livePhotoConverter = LivePhotoConverter()
+        #if POSTERBOARD
+        posterApplyService = PosterBoardApplyService()
+        #endif
 
         discoverVM = DiscoverViewModel(network: network, imageLoader: imageLoader, persistence: persistence, coordinator: detailCoordinator, telegram: telegramSync)
+        videoDiscoverVM = VideoDiscoverViewModel(videoNetwork: videoNetwork, imageLoader: imageLoader, persistence: persistence, coordinator: detailCoordinator)
         favoritesVM = FavoritesViewModel(persistence: persistence, imageLoader: imageLoader, network: network)
         collectionsVM = CollectionsViewModel(network: network, persistence: persistence)
         settingsVM = SettingsViewModel(persistence: persistence, cache: filterCache)

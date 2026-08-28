@@ -1,12 +1,18 @@
+import AVFoundation
 import UIKit
 import CoreImage
 import SnapKit
 
-// MARK: - Detail view controller (port from wallpaper-ios, modern Swift)
+// MARK: - Detail view controller
+/// Handles both static image wallpapers (from Pexels Photos) and video
+/// wallpapers (from Pexels Videos). Video wallpapers can be:
+/// - Saved as Live Photos (Version A build)
+/// - Applied directly to the lock screen via PosterBoard symlink trick (Version B build)
 final class WallpaperDetailViewController: UIViewController {
 
     // MARK: - UI elements
     private var displayedImage: UIImageView!
+    private var playerLayer: AVPlayerLayer?
     private var iconsOverlay: UIImageView!
     private var blurSlider: UISlider!
     private var iconsButton: UIButton!
@@ -17,8 +23,12 @@ final class WallpaperDetailViewController: UIViewController {
     private var closeButton: UIBarButtonItem!
     private var favoriteButton: UIBarButtonItem!
     private var applyButton: UIBarButtonItem!
+    private var livePhotoButton: UIBarButtonItem!
     private var shareButton: UIBarButtonItem!
+    private var playButton: UIBarButtonItem!
     private var attributionView: UITextView!
+    private var videoProgressView: UIProgressView!
+    private var videoStatusLabel: UILabel!
 
     // MARK: - State
     private var model: WallpaperDetailModel!
@@ -30,6 +40,8 @@ final class WallpaperDetailViewController: UIViewController {
         CIContext(options: [.cacheIntermediates: false,
                             .workingColorSpace: CGColorSpace(name: CGColorSpace.sRGB)!])
     }()
+    private var videoPlayer: AVPlayer?
+    private var isVideo: Bool { model.isVideo }
 
     // MARK: - Init
     static func create(model: WallpaperDetailModel) -> WallpaperDetailViewController {
@@ -49,6 +61,14 @@ final class WallpaperDetailViewController: UIViewController {
         observeModel()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        videoPlayer?.pause()
+        playerLayer?.removeFromSuperlayer()
+        playerLayer = nil
+        videoPlayer = nil
+    }
+
     // MARK: - Navigation
     private func setupNavigation() {
         closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(closeTapped))
@@ -63,17 +83,38 @@ final class WallpaperDetailViewController: UIViewController {
         favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favoriteTapped))
         favoriteButton.accessibilityLabel = "Add wallpaper to favorites"
 
-        applyButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(applyTapped))
-        applyButton.accessibilityLabel = "Save wallpaper"
+        var rightItems: [UIBarButtonItem] = [shareButton, favoriteButton, saveButton]
+        if isVideo {
+            // Add live photo save
+            livePhotoButton = UIBarButtonItem(title: "Live", style: .plain, target: self, action: #selector(saveLivePhotoTapped))
+            livePhotoButton.accessibilityLabel = "Save as Live Photo"
+            rightItems.insert(livePhotoButton, at: rightItems.count - 1)
 
+            // Add play/pause toggle
+            playButton = UIBarButtonItem(image: UIImage(systemName: "play.circle"), style: .plain, target: self, action: #selector(toggleVideoPlayback))
+            playButton.accessibilityLabel = "Play / pause video preview"
+            rightItems.insert(playButton, at: 0)
+
+            // Version B: PosterBoard apply button (sideloaded only)
+            #if POSTERBOARD
+            applyButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle.fill"), style: .plain, target: self, action: #selector(applyPosterBoardTapped))
+            applyButton.accessibilityLabel = "Set as live lock-screen wallpaper"
+            rightItems.insert(applyButton, at: rightItems.count - 1)
+            #endif
+        } else {
+            applyButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(applyTapped))
+            applyButton.accessibilityLabel = "Save wallpaper"
+            rightItems.insert(applyButton, at: 0)
+        }
+
+        rightItems.forEach { $0.tintColor = .white }
         navigationItem.leftBarButtonItem = closeButton
-        navigationItem.rightBarButtonItems = [shareButton, applyButton, favoriteButton, saveButton]
-        navigationItem.rightBarButtonItems?.forEach { $0.tintColor = .white }
+        navigationItem.rightBarButtonItems = rightItems
     }
 
     // MARK: - UI Setup
     private func setupUI() {
-        // Main image
+        // Main image / video view
         displayedImage = UIImageView()
         displayedImage.contentMode = .scaleAspectFill
         displayedImage.isUserInteractionEnabled = true
@@ -120,6 +161,23 @@ final class WallpaperDetailViewController: UIViewController {
         paletteView.backgroundColor = UIColor.black.withAlphaComponent(0.5).withAlphaComponent(0.7)
         paletteView.layer.cornerRadius = 12
         view.addSubview(paletteView)
+
+        // Video progress bar (only shown for video wallpapers)
+        if isVideo {
+            videoProgressView = UIProgressView(progressViewStyle: .bar)
+            videoProgressView.progressTintColor = .white
+            videoProgressView.trackTintColor = .white.withAlphaComponent(0.3)
+            videoProgressView.progress = 0
+            videoProgressView.alpha = 0.7
+            view.addSubview(videoProgressView)
+
+            videoStatusLabel = UILabel()
+            videoStatusLabel.font = .systemFont(ofSize: 12, weight: .medium)
+            videoStatusLabel.textColor = .white
+            videoStatusLabel.textAlignment = .center
+            videoStatusLabel.text = "Tap Live to save as Live Photo"
+            view.addSubview(videoStatusLabel)
+        }
 
         // Tap gesture to hide/show controls
         let tap = UITapGestureRecognizer(target: self, action: #selector(screenTapped))
@@ -172,6 +230,20 @@ final class WallpaperDetailViewController: UIViewController {
             make.width.lessThanOrEqualTo(140)
         }
 
+        if isVideo {
+            videoProgressView.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-16)
+                make.height.equalTo(2)
+            }
+
+            videoStatusLabel.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(16)
+                make.bottom.equalTo(videoProgressView.snp.top).offset(-4)
+                make.height.equalTo(16)
+            }
+        }
+
         attributionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)
             make.bottom.equalTo(view.safeAreaLayoutGuide).offset(16)
@@ -183,9 +255,54 @@ final class WallpaperDetailViewController: UIViewController {
     private func setupContent() {
         iconsOverlay.image = UIDevice.current.iconsImage
         loadImage()
+        loadVideoPreview()
         refreshCachedBlurMode()
         buildFilterStrip()
         updatePalette(nil)
+    }
+
+    private func loadVideoPreview() {
+        guard isVideo, let file = model.bestVideoFile else { return }
+        let url = file.link
+        let player = AVPlayer(url: url)
+        videoPlayer = player
+        let layer = AVPlayerLayer(player: player)
+        layer.frame = view.bounds
+        layer.videoGravity = .resizeAspectFill
+        view.layer.insertSublayer(layer, below: displayedImage.layer)
+        playerLayer = layer
+        // Hide the static image so the video plays on top
+        displayedImage.isHidden = true
+        player.play()
+
+        // Loop video
+        NotificationCenter.default.addObserver(
+            forName: .AVPlayerItemDidPlayToEndTime,
+            object: player.currentItem,
+            queue: .main
+        ) { [weak self] _ in
+            player.seek(to: .zero)
+            player.play()
+        }
+
+        updatePlayButtonIcon(isPlaying: true)
+    }
+
+    private func updatePlayButtonIcon(isPlaying: Bool) {
+        guard let playBtn = playButton else { return }
+        let name = isPlaying ? "pause.circle" : "play.circle"
+        playBtn.image = UIImage(systemName: name)
+    }
+
+    @objc private func toggleVideoPlayback() {
+        guard let player = videoPlayer else { return }
+        if player.timeControlStatus == .playing {
+            player.pause()
+            updatePlayButtonIcon(isPlaying: false)
+        } else {
+            player.play()
+            updatePlayButtonIcon(isPlaying: true)
+        }
     }
 
     private func refreshCachedBlurMode() {
@@ -207,7 +324,6 @@ final class WallpaperDetailViewController: UIViewController {
                 }
             } catch {
                 await MainActor.run {
-                    // Show error state
                     let label = UILabel()
                     label.text = "Failed to load image"
                     label.textColor = .white
@@ -275,7 +391,6 @@ final class WallpaperDetailViewController: UIViewController {
     private var favoriteUpdateTask: Task<Void, Never>?
 
     private func observeModel() {
-        // Refresh favorite button when model changes (e.g. toggled from another tab)
         favoriteUpdateTask = Task { [weak self] in
             while !Task.isCancelled {
                 await MainActor.run {
@@ -288,6 +403,7 @@ final class WallpaperDetailViewController: UIViewController {
 
     deinit {
         favoriteUpdateTask?.cancel()
+        videoPlayer?.pause()
     }
 
     private func updateFavoriteButton() {
@@ -301,9 +417,9 @@ final class WallpaperDetailViewController: UIViewController {
         dismiss(animated: true)
     }
 
+    // MARK: - Save static image
     @objc private func saveTapped() {
-        guard let ciImage = ciImage else { return }
-        // removed unused ctx
+        guard !isVideo, let ciImage = ciImage else { return }
         guard let cgImage = ciContext.createCGImage(ciImage, from: ciImage.extent) else { return }
 
         UIImageWriteToSavedPhotosAlbum(
@@ -316,25 +432,103 @@ final class WallpaperDetailViewController: UIViewController {
 
     @objc private func savedImage(_ image: UIImage?, error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
-            // toast in production
+            showToast(message: error.localizedDescription)
             return
         }
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
+        showToast(message: "Saved to Photos")
     }
+
+    // MARK: - Save as Live Photo (Version A)
+    @objc private func saveLivePhotoTapped() {
+        guard isVideo, let file = model.bestVideoFile else { return }
+        guard let url = file.link as URL? else {
+            showToast(message: "Invalid video URL")
+            return
+        }
+
+        videoStatusLabel.text = "Downloading video…"
+        videoProgressView.progress = 0
+        livePhotoButton.isEnabled = false
+
+        Task { [weak self] in
+            do {
+                // Download the video
+                let localURL = try await VideoDownloader.shared.download(file) { progress in
+                    Task { @MainActor in
+                        self?.videoProgressView.progress = progress
+                    }
+                }
+
+                self?.videoStatusLabel.text = "Converting to Live Photo…"
+
+                // Convert and save
+                try await LivePhotoConverter.shared.convertToLivePhoto(videoURL: localURL)
+
+                await MainActor.run {
+                    self?.videoStatusLabel.text = "Live Photo saved!"
+                    self?.showToast(message: "Live Photo saved to Photos")
+                    self?.videoProgressView.progress = 1.0
+                    self?.livePhotoButton.isEnabled = true
+                }
+            } catch {
+                await MainActor.run {
+                    self?.videoStatusLabel.text = "Failed: \(error.localizedDescription)"
+                    self?.showToast(message: "Live Photo error: \(error.localizedDescription)")
+                    self?.livePhotoButton.isEnabled = true
+                }
+            }
+        }
+    }
+
+    // MARK: - Apply via PosterBoard (Version B)
+    #if POSTERBOARD
+    @objc private func applyPosterBoardTapped() {
+        guard isVideo, let file = model.bestVideoFile, let url = file.link as URL? else { return }
+
+        applyButton.isEnabled = false
+        videoStatusLabel.text = "Preparing wallpaper…"
+        videoProgressView.progress = 0
+
+        Task { [weak self] in
+            do {
+                // Download the video
+                let localURL = try await VideoDownloader.shared.download(file) { progress in
+                    Task { @MainActor in
+                        self?.videoProgressView.progress = progress
+                    }
+                }
+
+                self?.videoStatusLabel.text = "Generating frames…"
+
+                try await PosterBoardApplyService.shared.applyVideoWallpaper(videoURL: localURL) { frame, total in
+                    Task { @MainActor in
+                        self?.videoProgressView.progress = Double(frame) / Double(max(total, 1))
+                        self?.videoStatusLabel.text = "Frame \(frame)/\(total)"
+                    }
+                }
+
+                await MainActor.run {
+                    self?.videoStatusLabel.text = "Wallpaper applied! Check your lock screen."
+                    self?.showToast(message: "Opening PosterBoard…")
+                    self?.applyButton.isEnabled = true
+                }
+            } catch {
+                await MainActor.run {
+                    let msg = error.localizedDescription
+                    self?.videoStatusLabel.text = "Error: \(msg)"
+                    self?.showToast(message: msg)
+                    self?.applyButton.isEnabled = true
+                }
+            }
+        }
+    }
+    #endif
 
     @objc private func favoriteTapped() {
         model.toggleFavorite()
         updateFavoriteButton()
-    }
-
-    @objc private func applyTapped() {
-        // Save to Photos as the primary "apply" — iOS wallpaper APIs are limited.
-        // For iOS 16+, you could use the Intents/Wallpaper intent to set lock screen
-        // wallpaper programmatically, but that requires entitlements and user consent.
-        // Best approach on public App Store: save to Photos and provide a system
-        // Settings deep link / guide. For enterprise/MDM you have more options.
-        saveTapped()
     }
 
     @objc private func shareTapped() {
@@ -361,7 +555,6 @@ final class WallpaperDetailViewController: UIViewController {
         let renderer = UIGraphicsImageRenderer(size: base.size)
         return renderer.image { context in
             base.draw(in: CGRect(origin: .zero, size: base.size))
-            // Scale icons image to match base image size
             icons.draw(in: CGRect(origin: .zero, size: base.size), blendMode: .normal, alpha: 0.85)
         }
     }
@@ -386,6 +579,8 @@ final class WallpaperDetailViewController: UIViewController {
             self.iconsButton.alpha = hide ? 0 : 1
             self.filterStrip.alpha = hide ? 0 : 1
             self.paletteView.alpha = hide ? 0 : 1
+            if let vp = self.videoProgressView { vp.alpha = hide ? 0 : 0.7 }
+            if let vs = self.videoStatusLabel { vs.alpha = hide ? 0 : 1 }
             self.attributionView.alpha = hide ? 0 : 1
             self.navigationItem.rightBarButtonItems?.forEach {
                 $0.isEnabled = !hide
@@ -459,14 +654,16 @@ final class WallpaperDetailViewController: UIViewController {
         guard let cgImage = ciContext.createCGImage(outputCIImage, from: outputCIImage.extent) else { return }
 
         let uiImage = UIImage(cgImage: cgImage, scale: UIScreen.mainScreenScale, orientation: .up)
+
+        // Only update the static image view; don't touch the video player layer
         displayedImage.image = uiImage
+        displayedImage.isHidden = false
 
         // Update icons overlay tint to match
         updateIconsTintSync(for: uiImage)
     }
 
     private func updateIconsTintSync(for image: UIImage) {
-        // Simple luminance-based tint from the center pixel (sync, no palette extraction)
         guard let cgImage = image.cgImage else { return }
         let width = min(cgImage.width, 1)
         let height = min(cgImage.height, 1)
@@ -491,7 +688,6 @@ final class WallpaperDetailViewController: UIViewController {
     }
 
     private func updateIconsTint(for image: UIImage) async {
-        // Extract average color from palette (async, more accurate)
         guard let cgImage = image.cgImage else { return }
         let colors = await PaletteExtractor().extract(from: image, maximumColorCount: 1)
         let tint: UIColor = colors.first?.color ?? .white
@@ -505,6 +701,39 @@ final class WallpaperDetailViewController: UIViewController {
         let extracted = colors ?? []
         paletteView.colors = extracted
         paletteView.isHidden = extracted.isEmpty
+    }
+
+    // MARK: - Toast
+    private func showToast(message: String) {
+        let toast = UILabel()
+        toast.text = message
+        toast.textColor = .white
+        toast.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        toast.textAlignment = .center
+        toast.font = .systemFont(ofSize: 13, weight: .medium)
+        toast.alpha = 0
+        toast.layer.cornerRadius = 12
+        toast.clipsToBounds = true
+        view.addSubview(toast)
+
+        let padding: CGFloat = 20
+        toast.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(isVideo ? -60 : -16)
+            make.leading.greaterThanOrEqualTo(view.snp.leading).offset(padding)
+            make.trailing.lessThanOrEqualTo(view.snp.trailing).offset(-padding)
+            make.height.greaterThanOrEqualTo(32)
+        }
+
+        UIView.animate(withDuration: 0.3, animations: {
+            toast.alpha = 1
+        }) { _ in
+            UIView.animate(withDuration: 0.3, delay: 2, options: .curveEaseOut, animations: {
+                toast.alpha = 0
+            }) { _ in
+                toast.removeFromSuperview()
+            }
+        }
     }
 }
 
@@ -570,7 +799,7 @@ final class PaletteSwatchesView: UIView {
     }
 }
 
-// MARK: - Device icons image (port from wallpaper-ios UIDevice+Model)
+// MARK: - Device icons image
 extension UIDevice {
     var type: DeviceType { .iPhone }
     var iconsImage: UIImage {
@@ -611,7 +840,7 @@ extension UIDevice {
     }
 }
 
-// MARK: - Device type helper (simplified)
+// MARK: - Device type helper
 enum DeviceType {
     case iPhone
     case iPad

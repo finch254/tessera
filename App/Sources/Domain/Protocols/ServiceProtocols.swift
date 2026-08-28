@@ -15,6 +15,12 @@ protocol WallpaperNetworkService {
     func fetchCategory(slug: String, page: Int, perPage: Int) async throws -> PaginatedResponse<Wallpaper>
 }
 
+// MARK: - Video network service protocol
+protocol WallpaperVideoNetworkService {
+    func fetchPopularVideos(page: Int, perPage: Int) async throws -> PexelsVideoResponse
+    func fetchVideoSearch(query: String, page: Int, perPage: Int) async throws -> PexelsVideoResponse
+}
+
 // MARK: - Pagination
 struct PaginatedResponse<T: Sendable> {
     let totalResults: Int

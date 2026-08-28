@@ -21,6 +21,24 @@ final class WallpaperDetailCoordinator: ObservableObject {
         )
         let vc = WallpaperDetailViewController.create(model: model)
         vc.modalPresentationStyle = .fullScreen
-        rootViewController?.present(vc, animated: true)
+        // Wrap in UINavigationController so nav bar / gestures work (fixes
+        // the "tap does nothing" bug from the original wallpaper-ios port).
+        rootViewController?.present(vc.embedInNavigationController(), animated: true)
+    }
+
+    func showVideoDetail(for video: VideoWallpaper) {
+        let model = WallpaperDetailModel(videoWallpaper: video, imageLoader: imageLoader, persistence: persistence)
+        let vc = WallpaperDetailViewController.create(model: model)
+        vc.modalPresentationStyle = .fullScreen
+        rootViewController?.present(vc.embedInNavigationController(), animated: true)
+    }
+}
+
+// MARK: - UINavigationController helper
+private extension UIViewController {
+    func embedInNavigationController() -> UINavigationController {
+        let nav = UINavigationController(rootViewController: self)
+        nav.isNavigationBarHidden = false
+        return nav
     }
 }
