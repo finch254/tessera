@@ -7,7 +7,7 @@ protocol VideoNetworkService {
 }
 
 final class PexelsVideoService: VideoNetworkService {
-    private static let apiKey: *** = {
+    private static let apiKey: String = {
         if let key = ProcessInfo.processInfo.environment["PEXELS_API_KEY"] {
             return key
         }
