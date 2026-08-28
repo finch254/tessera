@@ -82,7 +82,7 @@ export default {
 
       const body = JSON.stringify({
         source: "telegram",
-        channel: channel,
+        channel: `@${channel}`,
         count: wallpapers.length,
         wallpapers,
       });
