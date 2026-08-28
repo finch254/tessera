@@ -39,7 +39,7 @@
 		E38C /* PosterBoardApplyService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E38C589D6696494E9D9E6AE0 /* PosterBoardApplyService.swift */; };
 		EB56 /* VideoDiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB56A3B977BA4636938B9E20 /* VideoDiscoverView.swift */; };
 		6765 /* VideoDiscoverViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 676507844FBA4B6A8D0363AE /* VideoDiscoverViewModel.swift */; };
-	6D77290A60174CBA9D70CBB5 /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE59F45E9C54E5B950AAE0C /* TelegramSyncService.swift */; };
+6D77290A60174CBA9D70CBB5 /* TelegramSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE59F45E9C54E5B950AAE0C /* TelegramSyncService.swift */; };
 		60D766E475884CCA84B90B39 /* DiscoverViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCF6357D4DC4174BE4F44A6 /* DiscoverViewModelTests.swift */; };
 		21A622CD66EB440E871C63B5 /* FilterEngineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B07951131A2641CFA475FD82 /* FilterEngineTests.swift */; };
 		70DB20035FEF4D6B857CCAAA /* PaletteExtractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDBB488A3C2E4D30A57C32BF /* PaletteExtractorTests.swift */; };
@@ -93,7 +93,7 @@
 		E38C589D6696494E9D9E6AE0 /* PosterBoardApplyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/PosterBoard/PosterBoardApplyService.swift"; sourceTree = "<group>"; };
 		EB56A3B977BA4636938B9E20 /* VideoDiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Discover/VideoDiscoverView.swift"; sourceTree = "<group>"; };
 		676507844FBA4B6A8D0363AE /* VideoDiscoverViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Features/Discover/VideoDiscoverViewModel.swift"; sourceTree = "<group>"; };
-	FCE59F45E9C54E5B950AAE0C /* TelegramSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/TelegramSync/TelegramSyncService.swift"; sourceTree = "<group>"; };
+FCE59F45E9C54E5B950AAE0C /* TelegramSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "App/Sources/Infrastructure/TelegramSync/TelegramSyncService.swift"; sourceTree = "<group>"; };
 		4BCF6357D4DC4174BE4F44A6 /* DiscoverViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/DiscoverViewModelTests.swift"; sourceTree = "<group>"; };
 		B07951131A2641CFA475FD82 /* FilterEngineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/FilterEngineTests.swift"; sourceTree = "<group>"; };
 		FDBB488A3C2E4D30A57C32BF /* PaletteExtractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Tests/TesseraTests/PaletteExtractorTests.swift"; sourceTree = "<group>"; };
@@ -170,7 +170,7 @@
 			E38C589D6696494E9D9E6AE0 /* PosterBoardApplyService.swift */,
 			EB56A3B977BA4636938B9E20 /* VideoDiscoverView.swift */,
 			676507844FBA4B6A8D0363AE /* VideoDiscoverViewModel.swift */,
-			FCE59F45E9C54E5B950AAE0C /* TelegramSyncService.swift */,
+FCE59F45E9C54E5B950AAE0C /* TelegramSyncService.swift */,
 			);
 			name = "App Sources";
 			sourceTree = "<group>";
@@ -338,7 +338,7 @@
 				E38C /* PosterBoardApplyService.swift in Sources */,
 				EB56 /* VideoDiscoverView.swift in Sources */,
 				6765 /* VideoDiscoverViewModel.swift in Sources */,
-				6D77290A60174CBA9D70CBB5 /* TelegramSyncService.swift in Sources */,
+6D77290A60174CBA9D70CBB5 /* TelegramSyncService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
