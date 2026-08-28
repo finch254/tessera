@@ -1,12 +1,12 @@
 import Foundation
 
 // MARK: - Pexels Videos API client
-protocol VideoNetworkService {
+protocol WallpaperVideoNetworkService {
     func fetchPopularVideos(page: Int, perPage: Int) async throws -> PexelsVideoResponse
     func fetchVideoSearch(query: String, page: Int, perPage: Int) async throws -> PexelsVideoResponse
 }
 
-final class PexelsVideoService: VideoNetworkService {
+final class PexelsVideoService: WallpaperVideoNetworkService {
     private static let apiKey: String = {
         if let key = ProcessInfo.processInfo.environment["PEXELS_API_KEY"] {
             return key

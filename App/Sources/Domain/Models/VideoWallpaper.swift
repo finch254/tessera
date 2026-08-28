@@ -20,7 +20,7 @@ struct VideoWallpaper: Codable, Identifiable, Equatable {
     let width: Int
     let height: Int
     let duration: Int
-    let image: URL
+    let image: URL?
     let videoFiles: [VideoFile]
     let user: PexelsUser?
 

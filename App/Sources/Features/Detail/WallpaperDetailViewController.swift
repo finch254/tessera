@@ -102,7 +102,7 @@ final class WallpaperDetailViewController: UIViewController {
             rightItems.insert(applyButton, at: rightItems.count - 1)
             #endif
         } else {
-            applyButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(applyTapped))
+            applyButton = UIBarButtonItem(image: UIImage(systemName: "checkmark.circle"), style: .plain, target: self, action: #selector(saveTapped))
             applyButton.accessibilityLabel = "Save wallpaper"
             rightItems.insert(applyButton, at: 0)
         }
@@ -457,7 +457,7 @@ final class WallpaperDetailViewController: UIViewController {
                 // Download the video
                 let localURL = try await VideoDownloader.shared.download(file) { progress in
                     Task { @MainActor in
-                        self?.videoProgressView.progress = progress
+                        self?.videoProgressView.progress = Float(progress)
                     }
                 }
 
@@ -496,7 +496,7 @@ final class WallpaperDetailViewController: UIViewController {
                 // Download the video
                 let localURL = try await VideoDownloader.shared.download(file) { progress in
                     Task { @MainActor in
-                        self?.videoProgressView.progress = progress
+                        self?.videoProgressView.progress = Float(progress)
                     }
                 }
 
