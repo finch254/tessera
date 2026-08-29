@@ -17,8 +17,6 @@ jobs:
 
       - name: Select Xcode
         run: |
-          # Use the newest Xcode available on the runner (no hard pin —
-          # pinned versions like 15.3/15.4 get removed from runners).
           XCODE_APP=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
           if [ -n "$XCODE_APP" ]; then
             sudo xcode-select -s "$XCODE_APP"
@@ -127,4 +125,111 @@ jobs:
         with:
           name: Tessera-Debug
           path: build/unsigned/Tessera-Debug.ipa
+          retention-days: 7
+
+  build-posterboard:
+    runs-on: macos-latest
+    env:
+      DEVELOPMENT_TEAM: ${{ secrets.DEVELOPMENT_TEAM }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: |
+          XCODE_APP=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$XCODE_APP" ]; then
+            sudo xcode-select -s "$XCODE_APP"
+          fi
+          xcodebuild -version
+
+      - name: Cache SPM
+        uses: actions/cache@v4
+        with:
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.swift') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Resolve packages
+        run: xcodebuild -resolvePackageDependencies -project Tessera.xcodeproj -scheme Tessera
+
+      - name: Compile check (POSTERBOARD)
+        run: |
+          xcodebuild \
+            -project Tessera.xcodeproj \
+            -scheme Tessera \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            -destination 'generic/platform=iOS Simulator' \
+            OTHER_SWIFT_FLAGS='-DPOSTERBOARD' \
+            CODE_SIGNING_ALLOWED=NO \
+            build
+
+      # --- Signed path (when DEVELOPMENT_TEAM is set) ---
+      - name: Archive (signed)
+        if: ${{ env.DEVELOPMENT_TEAM != '' }}
+        run: |
+          xcodebuild \
+            -project Tessera.xcodeproj \
+            -scheme Tessera \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            -allowProvisioningUpdates \
+            DEVELOPMENT_TEAM="$DEVELOPMENT_TEAM" \
+            CODE_SIGN_STYLE=Automatic \
+            OTHER_SWIFT_FLAGS='-DPOSTERBOARD' \
+            archive \
+            -archivePath $PWD/build/Tessera-PosterBoard.xcarchive
+
+      - name: Export IPA (signed)
+        if: ${{ env.DEVELOPMENT_TEAM != '' }}
+        run: |
+          mkdir -p $PWD/build/export
+          cat > $PWD/build/export/ExportOptions.plist <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+              <key>method</key>
+              <string>ad-hoc</string>
+              <key>signingStyle</key>
+              <string>automatic</string>
+              <key>teamID</key>
+              <string>$DEVELOPMENT_TEAM</string>
+          </dict>
+          </plist>
+          PLIST
+          xcodebuild -exportArchive \
+            -archivePath $PWD/build/Tessera-PosterBoard.xcarchive \
+            -exportOptionsPlist $PWD/build/export/ExportOptions.plist \
+            -exportPath $PWD/build/export
+          ls -la $PWD/build/export/*.ipa
+
+      # --- Unsigned path (no DEVELOPMENT_TEAM) ---
+      - name: Package unsigned IPA
+        if: ${{ env.DEVELOPMENT_TEAM == '' }}
+        run: |
+          APP_PATH="build/unsigned/Tessera.xcarchive/Products/Applications/Tessera.app"
+          echo "Found app at: $APP_PATH"
+          ls -la "$APP_PATH"
+          mkdir -p build/unsigned/Payload
+          cp -r "$APP_PATH" build/unsigned/Payload/Tessera.app
+          cd build/unsigned
+          mv Tessera-Debug.ipa Tessera-PosterBoard.ipa 2>/dev/null || \
+            (zip -r Tessera-PosterBoard.ipa Payload && ls -la Tessera-PosterBoard.ipa)
+
+      - name: Upload unsigned IPA
+        if: ${{ env.DEVELOPMENT_TEAM == '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tessera-PosterBoard
+          path: build/unsigned/Tessera-PosterBoard.ipa
+          retention-days: 7
+
+      - name: Upload signed IPA
+        if: ${{ env.DEVELOPMENT_TEAM != '' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Tessera-PosterBoard
+          path: build/export/*.ipa
           retention-days: 7
