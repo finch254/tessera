@@ -206,17 +206,32 @@ jobs:
           ls -la $PWD/build/export/*.ipa
 
       # --- Unsigned path (no DEVELOPMENT_TEAM) ---
+      - name: Archive unsigned app
+        if: ${{ env.DEVELOPMENT_TEAM == '' }}
+        run: |
+          mkdir -p build/unsigned
+          xcodebuild \
+            -project Tessera.xcodeproj \
+            -scheme Tessera \
+            -configuration Debug \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath build/unsigned/DerivedData \
+            CODE_SIGNING_ALLOWED=NO \
+            OTHER_SWIFT_FLAGS='-DPOSTERBOARD' \
+            archive \
+            -archivePath $PWD/build/unsigned/Tessera-PosterBoard.xcarchive
+
       - name: Package unsigned IPA
         if: ${{ env.DEVELOPMENT_TEAM == '' }}
         run: |
-          APP_PATH="build/unsigned/Tessera.xcarchive/Products/Applications/Tessera.app"
+          APP_PATH="build/unsigned/Tessera-PosterBoard.xcarchive/Products/Applications/Tessera.app"
           echo "Found app at: $APP_PATH"
           ls -la "$APP_PATH"
           mkdir -p build/unsigned/Payload
           cp -r "$APP_PATH" build/unsigned/Payload/Tessera.app
           cd build/unsigned
-          mv Tessera-Debug.ipa Tessera-PosterBoard.ipa 2>/dev/null || \
-            (zip -r Tessera-PosterBoard.ipa Payload && ls -la Tessera-PosterBoard.ipa)
+          zip -r Tessera-PosterBoard.ipa Payload
+          ls -la Tessera-PosterBoard.ipa
 
       - name: Upload unsigned IPA
         if: ${{ env.DEVELOPMENT_TEAM == '' }}
