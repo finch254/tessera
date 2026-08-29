@@ -504,7 +504,7 @@ final class WallpaperDetailViewController: UIViewController {
 
                 try await PosterBoardApplyService.shared.applyVideoWallpaper(videoURL: localURL) { frame, total in
                     Task { @MainActor in
-                        self?.videoProgressView.progress = Double(frame) / Double(max(total, 1))
+                        self?.videoProgressView.progress = Float(Double(frame) / Double(max(total, 1)))
                         self?.videoStatusLabel.text = "Frame \(frame)/\(total)"
                     }
                 }
@@ -664,7 +664,7 @@ final class WallpaperDetailViewController: UIViewController {
     }
 
     private func updateIconsTintSync(for image: UIImage) {
-        guard let cgImage = image.cgImage else { return }
+        guard image.cgImage != nil else { return }
         let width = min(cgImage.width, 1)
         let height = min(cgImage.height, 1)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
@@ -688,7 +688,7 @@ final class WallpaperDetailViewController: UIViewController {
     }
 
     private func updateIconsTint(for image: UIImage) async {
-        guard let cgImage = image.cgImage else { return }
+        guard image.cgImage != nil else { return }
         let colors = await PaletteExtractor().extract(from: image, maximumColorCount: 1)
         let tint: UIColor = colors.first?.color ?? .white
         let textColor: UIColor = tint.luminance() > 0.5 ? .black : .white
