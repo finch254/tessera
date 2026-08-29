@@ -664,7 +664,7 @@ final class WallpaperDetailViewController: UIViewController {
     }
 
     private func updateIconsTintSync(for image: UIImage) {
-        guard image.cgImage != nil else { return }
+        guard let cgImage = image.cgImage else { return }
         let width = min(cgImage.width, 1)
         let height = min(cgImage.height, 1)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
@@ -688,7 +688,7 @@ final class WallpaperDetailViewController: UIViewController {
     }
 
     private func updateIconsTint(for image: UIImage) async {
-        guard image.cgImage != nil else { return }
+        guard let cgImage = image.cgImage else { return }
         let colors = await PaletteExtractor().extract(from: image, maximumColorCount: 1)
         let tint: UIColor = colors.first?.color ?? .white
         let textColor: UIColor = tint.luminance() > 0.5 ? .black : .white
